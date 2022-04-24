@@ -3,37 +3,50 @@
 pragma solidity ^0.8.13;
 
 contract SubProject {
-    uint256 public count;
+    uint256 count;
 
     struct SubProjectInfo {
+        uint256 id;
         string name;
         string description;
-        uint projectId;
+        uint256 projectId;
         uint256 estimatedDuration;
+        uint256 createdAt;
     }
 
-    mapping(uint256 => SubProjectInfo) subprojects;
+    mapping(uint256 => SubProjectInfo) public subprojects;
 
     event AddedSubProject(
-        string name,
+        uint256 indexed id;
+        string indexed name,
         string description,
-        uint projectId,
-        uint256 estimatedDuration
+        uint256 indexed projectId,
+        uint256 estimatedDuration,
+        uint256 createdAt
     );
 
     function addSubProject(
         string memory name,
         string memory description,
-        uint projectId,
-        uint256 estimatedDuration
+        uint256 projectId,
+        uint256 estimatedDuration,
+        uint256 createdAt
     ) external {
         subprojects[++count] = SubProjectInfo(
+            count,
             name,
             description,
             projectId,
-            estimatedDuration
+            estimatedDuration,
+            createdAt
         );
-        emit AddedSubProject(name, description, projectId, estimatedDuration);
+        emit AddedSubProject(
+            name,
+            description,
+            projectId,
+            estimatedDuration,
+            createdAt
+        );
     }
 
     function deleteProject(uint256 id) external {

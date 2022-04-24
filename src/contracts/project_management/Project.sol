@@ -3,7 +3,15 @@
 pragma solidity ^0.8.13;
 
 contract Project {
-    uint256 public count;
+    uint256 count;
+
+    enum ProjectStatus {
+        PENDING,
+        STARTED,
+        COMPLETED,
+        CANCELLED,
+        PAUSED
+    }
 
     struct ProjectInfo {
         uint256 id;
@@ -11,30 +19,34 @@ contract Project {
         string description;
         string location;
         uint256 estimatedBudget;
+        uint256 fundedMoney;
         uint256 estimatedDuration;
+        uint256 createdAt;
         string companyId;
         string accountNumber;
-        bool status;
-        address financialOfficerAddress;
-        address projectManagerAddress;
-        address budgetAndProcurementManagerAddress;
-        address externalAuditorAddress;
+        ProjectStatus status;
+        string financialOfficerUsername,
+        string projectManagerUsernmae,
+        string budgetAndProcurementManagerUsername,
+        string externalAuditorUsername
     }
 
     event AddedProject(
         uint256 indexed id,
-        string name,
+        string indexed name,
         string description,
-        string location,
+        string indexed location,
         uint256 estimatedBudget,
         uint256 estimatedDuration,
+        uint256 fundedMoney,
+        uint256 createdAt,
         string indexed companyId,
         string accountNumber,
-        bool status,
-        address financialOfficerAddress,
-        address projectManagerAddress,
-        address budgetAndProcurementManagerAddress,
-        address externalAuditorAddress
+        ProjectStatus status,
+        string financialOfficerUsername,
+        string projectManagerUsernmae,
+        string budgetAndProcurementManagerUsername,
+        string externalAuditorUsername
     );
 
     event DeletedProject(
@@ -44,16 +56,18 @@ contract Project {
         string location,
         uint256 estimatedBudget,
         uint256 estimatedDuration,
+        uint256 fundedMoney,
+        uint256 createdAt,
         string indexed companyId,
         string accountNumber,
-        bool status,
-        address financialOfficerAddress,
-        address projectManagerAddress,
-        address budgetAndProcurementManagerAddress,
-        address externalAuditorAddress
+        ProjectStatus status,
+        string financialOfficerUsername,
+        string projectManagerUsernmae,
+        string budgetAndProcurementManagerUsername,
+        string externalAuditorUsername
     );
 
-    mapping(uint256 => ProjectInfo) projects;
+    mapping(uint256 => ProjectInfo) public projects;
 
     //add onlyTechnicalAdmin modifier to it
     function addProject(
@@ -62,13 +76,15 @@ contract Project {
         string memory location,
         uint256 estimatedBudget,
         uint256 estimatedDuration,
+        uint256 fundedMoney,
+        uint256 createdAt,
         string memory companyId,
         string memory accountNumber,
-        bool status,
-        address financialOfficerAddress,
-        address projectManagerAddress,
-        address budgetAndProcurementManagerAddress,
-        address externalAuditorAddress
+        ProjectStatus status,
+        string memory financialOfficerUsername,
+        string memory projectManagerUsernmae,
+        string memory budgetAndProcurementManagerUsername,
+        string memory externalAuditorUsername
     ) external {
         projects[++count] = ProjectInfo(
             count,
@@ -77,13 +93,15 @@ contract Project {
             location,
             estimatedBudget,
             estimatedDuration,
+            fundedMoney,
+            createdAt,
             companyId,
             accountNumber,
             status,
-            financialOfficerAddress,
-            projectManagerAddress,
-            budgetAndProcurementManagerAddress,
-            externalAuditorAddress
+            financialOfficerUsername,
+            projectManagerUsernmae,
+            budgetAndProcurementManagerUsername,
+            externalAuditorUsername
         );
 
         emit AddedProject(
@@ -93,17 +111,20 @@ contract Project {
             location,
             estimatedBudget,
             estimatedDuration,
+            fundedMoney,
+            createdAt,
             companyId,
             accountNumber,
             status,
-            financialOfficerAddress,
-            projectManagerAddress,
-            budgetAndProcurementManagerAddress,
-            externalAuditorAddress
+            financialOfficerUsername,
+            projectManagerUsernmae,
+            budgetAndProcurementManagerUsername,
+            externalAuditorUsername
         );
     }
 
     function deleteProject(uint256 _id) external {
         delete projects[_id];
+        //TODO emit deleted project event after arranging the project struct
     }
 }
