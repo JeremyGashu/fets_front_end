@@ -1,10 +1,10 @@
-import LoginPage from "./pages/login/LoginPage"
 import './App.css'
+import TechnicalAdminDashboard from "./pages/dashboard/TechnicalAdmin";
 
 const App = () => {
   return (
     <>
-      <LoginPage />
+      <TechnicalAdminDashboard />
     </>
   )
 }
