@@ -1,6 +1,6 @@
 // SPDX-License-Identifier: MIT
 
-pragma solidity ^0.8.13;
+pragma solidity ^0.8.9;
 
 contract Task {
     uint256 count;
@@ -33,22 +33,22 @@ contract Task {
     mapping(uint256 => TaskInfo) public tasks;
 
     event AddedTask(
-        uint256 indexed id;
+        uint256 indexed id,
         string indexed name,
         string description,
         uint256 indexed projectId,
-        uint256 indexed subProjectId,
+        uint256 subProjectId,
         uint256 estimatedDuration,
-        string indexed status,
+        string status,
         uint256 allocatedBudget
     );
 
     event ChangeedTaskStatus(
-        uint256 indexed taskid;
-        TaskStatus indexed from;
-        TaskStatus indexed to;
-        uint256 indexed date;
-        address changedBy;
+        uint256 indexed taskid,
+        TaskStatus from,
+        TaskStatus to,
+        uint256 indexed date,
+        address indexed changedBy
     );
 
     modifier statusIs(TaskInfo memory status, uint256 id) {
@@ -77,6 +77,7 @@ contract Task {
             ''
         );
         emit AddedTask(
+            count,
             name,
             description,
             projectId,
@@ -91,18 +92,18 @@ contract Task {
     //TODO add modifier to check wheather the money is valid or not
     function financialManagerSubmitBudgetAllocation(
         uint256 taskid,
-        uint256 allocatedBufget
+        uint256 allocatedBudget
     ) external {
         tasks[taskid].allocatedBudget = allocatedBudget;
         tasks[taskid].status = TaskStatus.ALLOCATED_BY_FINANCIAL_MANAGER;
-        emit ChangeedTaskStatus(taskid ,TaskStatus.CREATED, TaskStatus.ALLOCATED_BY_FINANCIAL_MANAGER, block.timestamp, sender.address);
+        emit ChangeedTaskStatus(taskid ,TaskStatus.CREATED, TaskStatus.ALLOCATED_BY_FINANCIAL_MANAGER, block.timestamp, msg.sender);
     }
 
     function budgetAndProcurementManagerApproveTaskCompletion(uint256 taskid)
         external
     {
         tasks[taskid].status = TaskStatus.APPROVED_BY_BUDGET_AND_PROCUREMENT_MANAGER;
-        emit ChangeedTaskStatus(taskid ,TaskStatus.CREATED, TaskStatus.ALLOCATED_BY_FINANCIAL_MANAGER, block.timestamp);
+        emit ChangeedTaskStatus(taskid ,TaskStatus.CREATED, TaskStatus.ALLOCATED_BY_FINANCIAL_MANAGER, block.timestamp, msg.sender);
     }
 
     function projectManagerApproveTaskCompletion(uint256 taskid) external {}

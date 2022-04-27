@@ -1,6 +1,8 @@
 // SPDX-License-Identifier: MIT
 
-pragma solidity ^0.8.13;
+pragma solidity ^0.8.9;
+
+import './Project.sol';
 
 contract SubProject {
     uint256 count;
@@ -17,7 +19,7 @@ contract SubProject {
     mapping(uint256 => SubProjectInfo) public subprojects;
 
     event AddedSubProject(
-        uint256 indexed id;
+        uint256 indexed id,
         string indexed name,
         string description,
         uint256 indexed projectId,
@@ -41,6 +43,7 @@ contract SubProject {
             createdAt
         );
         emit AddedSubProject(
+            count,
             name,
             description,
             projectId,

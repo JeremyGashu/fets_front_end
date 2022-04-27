@@ -1,9 +1,10 @@
 // SPDX-License-Identifier: MIT
 
-pragma solidity ^0.8.13;
+pragma solidity ^0.8.9;
+pragma experimental ABIEncoderV2;
 
 contract Project {
-    uint256 count;
+    uint256 public count;
 
     enum ProjectStatus {
         PENDING,
@@ -25,33 +26,11 @@ contract Project {
         string companyId;
         string accountNumber;
         ProjectStatus status;
-        string financialOfficerUsername,
-        string projectManagerUsernmae,
-        string budgetAndProcurementManagerUsername,
-        string externalAuditorUsername
     }
 
     event AddedProject(
         uint256 indexed id,
         string indexed name,
-        string description,
-        string indexed location,
-        uint256 estimatedBudget,
-        uint256 estimatedDuration,
-        uint256 fundedMoney,
-        uint256 createdAt,
-        string indexed companyId,
-        string accountNumber,
-        ProjectStatus status,
-        string financialOfficerUsername,
-        string projectManagerUsernmae,
-        string budgetAndProcurementManagerUsername,
-        string externalAuditorUsername
-    );
-
-    event DeletedProject(
-        uint256 indexed id,
-        string name,
         string description,
         string location,
         uint256 estimatedBudget,
@@ -60,16 +39,26 @@ contract Project {
         uint256 createdAt,
         string indexed companyId,
         string accountNumber,
-        ProjectStatus status,
-        string financialOfficerUsername,
-        string projectManagerUsernmae,
-        string budgetAndProcurementManagerUsername,
-        string externalAuditorUsername
+        ProjectStatus status
+    );
+
+    event DeletedProject(
+        uint256 indexed id,
+        string indexed name,
+        string description,
+        string location,
+        uint256 estimatedBudget,
+        uint256 estimatedDuration,
+        uint256 fundedMoney,
+        uint256 createdAt,
+        string indexed companyId,
+        string accountNumber,
+        ProjectStatus status
     );
 
     mapping(uint256 => ProjectInfo) public projects;
 
-    //add onlyTechnicalAdmin modifier to it
+    // add onlyTechnicalAdmin modifier to it
     function addProject(
         string memory name,
         string memory description,
@@ -80,11 +69,7 @@ contract Project {
         uint256 createdAt,
         string memory companyId,
         string memory accountNumber,
-        ProjectStatus status,
-        string memory financialOfficerUsername,
-        string memory projectManagerUsernmae,
-        string memory budgetAndProcurementManagerUsername,
-        string memory externalAuditorUsername
+        ProjectStatus status
     ) external {
         projects[++count] = ProjectInfo(
             count,
@@ -97,11 +82,7 @@ contract Project {
             createdAt,
             companyId,
             accountNumber,
-            status,
-            financialOfficerUsername,
-            projectManagerUsernmae,
-            budgetAndProcurementManagerUsername,
-            externalAuditorUsername
+            status
         );
 
         emit AddedProject(
@@ -115,16 +96,16 @@ contract Project {
             createdAt,
             companyId,
             accountNumber,
-            status,
-            financialOfficerUsername,
-            projectManagerUsernmae,
-            budgetAndProcurementManagerUsername,
-            externalAuditorUsername
+            status
         );
     }
 
     function deleteProject(uint256 _id) external {
         delete projects[_id];
-        //TODO emit deleted project event after arranging the project struct
+    }
+
+    //todo when a user asks for projects return subproject and tasks tied
+    function getProjectById(uint256 _id) external returns (ProjectInfo memory) {
+        return projects[_id];
     }
 }

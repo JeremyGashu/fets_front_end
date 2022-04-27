@@ -1,0 +1,119 @@
+{
+  "contractName": "User",
+  "abi": [],
+  "metadata": "{\"compiler\":{\"version\":\"0.8.9+commit.e5eed63a\"},\"language\":\"Solidity\",\"output\":{\"abi\":[],\"devdoc\":{\"kind\":\"dev\",\"methods\":{},\"version\":1},\"userdoc\":{\"kind\":\"user\",\"methods\":{},\"version\":1}},\"settings\":{\"compilationTarget\":{\"project:/src/contracts/users/User.sol\":\"User\"},\"evmVersion\":\"london\",\"libraries\":{},\"metadata\":{\"bytecodeHash\":\"ipfs\"},\"optimizer\":{\"enabled\":false,\"runs\":200},\"remappings\":[]},\"sources\":{\"project:/src/contracts/users/User.sol\":{\"keccak256\":\"0x1ab1c223d47b300532cc02dc99a4ad089da50673773460811351947ccc9d2a45\",\"license\":\"MIT\",\"urls\":[\"bzz-raw://7aa844df9071966ec3b62658054e0f435cfd906792f12f2dfb1701db1d3831a7\",\"dweb:/ipfs/QmPmzPFZ1ZLf4jHfyN4mGeQiSiSU9z6VyQHyALxJ17Lp7E\"]}},\"version\":1}",
+  "bytecode": "0x6080604052348015600f57600080fd5b50603f80601d6000396000f3fe6080604052600080fdfea2646970667358221220f842dfb4503a3ec3a56ac7304aeb3415ac11afddf73896380fc7f5b38e53a68564736f6c63430008090033",
+  "deployedBytecode": "0x6080604052600080fdfea2646970667358221220f842dfb4503a3ec3a56ac7304aeb3415ac11afddf73896380fc7f5b38e53a68564736f6c63430008090033",
+  "immutableReferences": {},
+  "generatedSources": [],
+  "deployedGeneratedSources": [],
+  "sourceMap": "58:399:6:-:0;;;;;;;;;;;;;;;;;;;",
+  "deployedSourceMap": "58:399:6:-:0;;;;;",
+  "source": "//SPDX-License-Identifier: MIT\n\npragma solidity ^0.8.9;\n\n\ncontract User {\n\n    // struct UserInfo {\n    //     string name;\n    //     string email;\n    //     string phoneNumber;\n    //     string role;\n    //     string companyId;\n    // }\n\n    // mapping(address => UserInfo) public users;\n\n    // // event \n\n    // function addUser(string memory name, string memory phoneNumber, string memory role, sting memory companyId) external {\n        \n    // }\n}",
+  "sourcePath": "/home/jeremy/Desktop/fets_front_end/src/contracts/users/User.sol",
+  "ast": {
+    "absolutePath": "project:/src/contracts/users/User.sol",
+    "exportedSymbols": {
+      "User": [
+        524
+      ]
+    },
+    "id": 525,
+    "license": "MIT",
+    "nodeType": "SourceUnit",
+    "nodes": [
+      {
+        "id": 523,
+        "literals": [
+          "solidity",
+          "^",
+          "0.8",
+          ".9"
+        ],
+        "nodeType": "PragmaDirective",
+        "src": "32:23:6"
+      },
+      {
+        "abstract": false,
+        "baseContracts": [],
+        "canonicalName": "User",
+        "contractDependencies": [],
+        "contractKind": "contract",
+        "fullyImplemented": true,
+        "id": 524,
+        "linearizedBaseContracts": [
+          524
+        ],
+        "name": "User",
+        "nameLocation": "67:4:6",
+        "nodeType": "ContractDefinition",
+        "nodes": [],
+        "scope": 525,
+        "src": "58:399:6",
+        "usedErrors": []
+      }
+    ],
+    "src": "32:425:6"
+  },
+  "legacyAST": {
+    "absolutePath": "project:/src/contracts/users/User.sol",
+    "exportedSymbols": {
+      "User": [
+        524
+      ]
+    },
+    "id": 525,
+    "license": "MIT",
+    "nodeType": "SourceUnit",
+    "nodes": [
+      {
+        "id": 523,
+        "literals": [
+          "solidity",
+          "^",
+          "0.8",
+          ".9"
+        ],
+        "nodeType": "PragmaDirective",
+        "src": "32:23:6"
+      },
+      {
+        "abstract": false,
+        "baseContracts": [],
+        "canonicalName": "User",
+        "contractDependencies": [],
+        "contractKind": "contract",
+        "fullyImplemented": true,
+        "id": 524,
+        "linearizedBaseContracts": [
+          524
+        ],
+        "name": "User",
+        "nameLocation": "67:4:6",
+        "nodeType": "ContractDefinition",
+        "nodes": [],
+        "scope": 525,
+        "src": "58:399:6",
+        "usedErrors": []
+      }
+    ],
+    "src": "32:425:6"
+  },
+  "compiler": {
+    "name": "solc",
+    "version": "0.8.9+commit.e5eed63a.Emscripten.clang"
+  },
+  "networks": {},
+  "schemaVersion": "3.4.3",
+  "updatedAt": "2022-04-25T06:43:35.319Z",
+  "devdoc": {
+    "kind": "dev",
+    "methods": {},
+    "version": 1
+  },
+  "userdoc": {
+    "kind": "user",
+    "methods": {},
+    "version": 1
+  }
+}

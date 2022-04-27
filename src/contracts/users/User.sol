@@ -1,23 +1,23 @@
 //SPDX-License-Identifier: MIT
 
-pragma solidity ^0.8.13;
+pragma solidity ^0.8.9;
 
 
-// contract User {
+contract User {
 
-//     struct UserInfo {
-//         string name;
-//         string email;
-//         string phoneNumber;
-//         string role;
-//         string companyId;
-//     }
+    // struct UserInfo {
+    //     string name;
+    //     string email;
+    //     string phoneNumber;
+    //     string role;
+    //     string companyId;
+    // }
 
-//     mapping(address => UserInfo) public users;
+    // mapping(address => UserInfo) public users;
 
-//     // event 
+    // // event 
 
-//     function addUser(string memory name, string memory phoneNumber, string memory role, sting memory companyId) external {
+    // function addUser(string memory name, string memory phoneNumber, string memory role, sting memory companyId) external {
         
-//     }
-// }
+    // }
+}
