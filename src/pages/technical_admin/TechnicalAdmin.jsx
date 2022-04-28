@@ -14,6 +14,8 @@ import React, { useState } from 'react'
 import { Avatar, Badge, Divider, Grid, Menu, MenuItem, Tooltip } from '@mui/material';
 import { Dashboard, EditOutlined, GraphicEqOutlined, GroupOutlined, HouseOutlined, Logout, Notifications, } from '@mui/icons-material';
 import { mainColor } from '../../themes/color';
+import company_logo from '../../assets/company_logo.png'
+import DashboardPage from './Dashboard';
 
 
 
@@ -21,7 +23,7 @@ import { mainColor } from '../../themes/color';
 
 const drawerWidth = 250;
 
-const TechnicalAdminDashboard = (props) => {
+const TechnicalAdminSidebar = (props) => {
     const { window } = props;
     const [mobileOpen, setMobileOpen] = useState(false)
     const [selectedIndex, setSelectedIndex] = useState(0)
@@ -46,7 +48,7 @@ const TechnicalAdminDashboard = (props) => {
     const dashboardElement = [
         {
             name: 'Dashboard',
-            component: <Typography>Dashboard</Typography>,
+            component: <DashboardPage />,
             icon: <Dashboard sx={{ color: selectedIndex === 0 ? 'white' : '#444' }} />
 
         },
@@ -76,11 +78,12 @@ const TechnicalAdminDashboard = (props) => {
 
     const drawer = (
         <Box>
-            <Typography sx={{ fontWeight: 'bold', fontSize: 20, p: 2 }}>FETS Logo</Typography>
+            {/* <Typography sx={{ fontWeight: 'bold', fontSize: 20, p: 2 }}>FETS Logo</Typography> */}
+            <img style={{ maxWidth: 165, margin: 10, marginLeft: 35 }} src={company_logo} alt="Logo" />
             {/* <img height={50} style={{ padding: 5, margin: 3, textAlign: 'center', cursor: 'pointer' }} src={cncm_logo} alt='CNCM Logo' /> */}
             <Divider />
-            <Grid container alignItems='center' justifyContent='space-evenly' sx={{ m: 2 }}>
-                <Box sx={{ width: 50, height: 50, borderRadius: '10px', backgroundColor: '#AAAAAA' }}>
+            <Grid container alignItems='center' justifyContent='space-around' sx={{ m: 1, mt: 3 }}>
+                <Box sx={{ width: 40, height: 40, borderRadius: '8px', backgroundColor: '#AAAAAA' }}>
 
                 </Box>
                 <Grid item>
@@ -93,20 +96,22 @@ const TechnicalAdminDashboard = (props) => {
                 </Grid>
 
             </Grid>
-            <Divider sx={{ m: 3 }} />
+            <Divider sx={{ m: 2, p: 1, mt: 1 }} />
             <List>
                 {dashboardElement.map((menu, index) => (
-                    <ListItem onClick={() => {
-                        // navigate('/dashboard')
-                        setSelectedIndex(index)
-                    }} button key={menu.name} sx={{ backgroundColor: selectedIndex === index ? mainColor : 'white', my: 0, py: 1, '&:hover': { backgroundColor: selectedIndex === index ? mainColor : 'white', } }}>
-                        <ListItemIcon>
-                            {
-                                menu.icon
-                            }
-                        </ListItemIcon>
-                        <ListItemText disableTypography primary={<Typography sx={{ color: selectedIndex === index ? 'white' : '#444', fontSize: 12, fontWeight: 'bold' }}>{menu.name}</Typography>} />
-                    </ListItem>
+                    <Box sx={{ m: 1 }}>
+                        <ListItem style={{ borderRadius: 7 }} onClick={() => {
+                            // navigate('/dashboard')
+                            setSelectedIndex(index)
+                        }} button key={menu.name} sx={{ backgroundColor: selectedIndex === index ? mainColor : 'white', my: 0, py: 1, '&:hover': { backgroundColor: selectedIndex === index ? mainColor : 'white', } }}>
+                            <ListItemIcon>
+                                {
+                                    menu.icon
+                                }
+                            </ListItemIcon>
+                            <ListItemText disableTypography primary={<Typography sx={{ color: selectedIndex === index ? 'white' : '#444', fontSize: 12, fontWeight: 'bold' }}>{menu.name}</Typography>} />
+                        </ListItem>
+                    </Box>
                 ))}
 
 
@@ -137,7 +142,7 @@ const TechnicalAdminDashboard = (props) => {
                             aria-label="open drawer"
                             edge="start"
                             onClick={handleDrawerToggle}
-                            sx={{ mr: 2, display: { sm: 'none' } }}
+                            sx={{ mr: 2, color: mainColor, display: { sm: 'none' } }}
                         >
                             <MenuIcon />
                         </IconButton>
@@ -204,9 +209,9 @@ const TechnicalAdminDashboard = (props) => {
                                     >
                                         <MenuItem>
                                             <ListItemIcon>
-                                                <Logout fontSize="small" sx={{color : mainColor, fontSize : 14}}/>
+                                                <Logout fontSize="small" sx={{ color: mainColor, fontSize: 14 }} />
                                             </ListItemIcon>
-                                            <Typography sx={{fontSize : 14}}>Logout</Typography>
+                                            <Typography sx={{ fontSize: 14 }}>Logout</Typography>
                                         </MenuItem>
                                     </Menu>
                                 </Grid>
@@ -263,4 +268,4 @@ const TechnicalAdminDashboard = (props) => {
 }
 
 
-export default TechnicalAdminDashboard
+export default TechnicalAdminSidebar
