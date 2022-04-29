@@ -4,3 +4,17 @@
 *{
     font-family: 'Poppins', sans-serif;
 }
+
+.project-list-item {
+    transition: 0.4s all ease;
+    cursor: pointer;
+}
+
+.project-list-item:hover {
+    box-shadow: 2px 2px 2px 2px rgb(210, 210, 210);;
+}
+
+
+.project-list-container::-webkit-scrollbar {
+        display: none;
+      }

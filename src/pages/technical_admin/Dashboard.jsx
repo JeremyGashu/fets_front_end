@@ -2,8 +2,8 @@ import { Check, LocalDiningOutlined, MoneyOutlined, PersonPin } from "@mui/icons
 import { Box, Divider, Grid, LinearProgress, Typography } from "@mui/material"
 import { lightGreen } from "@mui/material/colors"
 import { DataGrid } from "@mui/x-data-grid"
-import LineChart from "../../components/LineChartProject"
-import TechnicalAdminDashboardCard from "../../components/TechnicalAdminDashboardCard"
+import LineChart from "../../components/technical_admin/LineChartProject"
+import TechnicalAdminDashboardCard from "../../components/technical_admin/TechnicalAdminDashboardCard"
 import { dashboardColor1, dashboardColor2, dashboardColor3, dashboardColor4, lightGreenBg, lightRedBg, lightRedText, lightYellowGg, lightYellowText } from "../../themes/color"
 
 const DashboardPage = () => {
@@ -147,7 +147,7 @@ const DashboardPage = () => {
             width: 150,
             renderCell: (cellValue) => {
                 return (
-                    <Box sx={{ display : 'flex',alignItems : 'center',justifyContent : 'center',width: 120, borderRadius: 2, px: 2, py: 1, backgroundColor: getBackgroundColorFromStatus(cellValue['row']['status']) }}>
+                    <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'center', width: 120, borderRadius: 2, px: 2, py: 1, backgroundColor: getBackgroundColorFromStatus(cellValue['row']['status']) }}>
                         <Typography sx={{ fontWeight: 'bold', fontSize: 13, color: getTextColorFromStatus(cellValue['row']['status']) }}>{`${cellValue['row']['status']}`}</Typography>
                     </Box>
 

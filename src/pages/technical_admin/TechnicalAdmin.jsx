@@ -16,6 +16,7 @@ import { Dashboard, EditOutlined, GraphicEqOutlined, GroupOutlined, HouseOutline
 import { mainColor } from '../../themes/color';
 import company_logo from '../../assets/company_logo.png'
 import DashboardPage from './Dashboard';
+import CompanyPage from './Company';
 
 
 
@@ -65,7 +66,7 @@ const TechnicalAdminSidebar = (props) => {
         },
         {
             name: 'Companies',
-            component: <Typography>Companies</Typography>,
+            component: <CompanyPage />,
             icon: <HouseOutlined sx={{ color: selectedIndex === 3 ? 'white' : '#444' }} />
         },
         {
