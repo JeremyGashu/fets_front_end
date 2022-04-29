@@ -59,7 +59,7 @@ const DashboardPage = () => {
 
         {
             id: 3,
-            name: 'Bishoftu Rizort',
+            name: 'Bishoftu Resort',
             progress: 80,
             budget: 22500000,
             status: 'Canceled',
@@ -97,7 +97,7 @@ const DashboardPage = () => {
         {
             field: 'id',
             headerName: 'NO',
-            width: 150,
+            width: 70,
             renderCell: (cellValue) => {
                 return (
                     <Typography sx={{ fontSize: 13, }}>{cellValue['row']['id']}</Typography>

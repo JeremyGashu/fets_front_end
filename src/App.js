@@ -1,10 +1,12 @@
 import './App.css'
-import TechnicalAdminSidebar from "./pages/technical_admin/TechnicalAdmin";
+import ProjectManagerSidebar from './pages/project_manager/ProjectManager';
+// import TechnicalAdminSidebar from "./pages/technical_admin/TechnicalAdmin";
 
 const App = () => {
   return (
     <>
-      <TechnicalAdminSidebar />
+      {/* <TechnicalAdminSidebar /> */}
+      <ProjectManagerSidebar />
     </>
   )
 }

@@ -17,4 +17,17 @@
 
 .project-list-container::-webkit-scrollbar {
         display: none;
-      }
+}
+
+
+.sidebar-project-list {
+    transition: 0.3s all ease;
+}
+
+.sidebar-project-list:hover {
+    color: red;
+}
+
+.grid-display-scroll-none::-webkit-scrollbar {
+    display: none;
+}

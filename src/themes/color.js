@@ -1,5 +1,5 @@
 export const mainColor = '#7349F7'
-export const backgroundColor = '#DFDFFF'
+export const backgroundColor = '#F4F5FF'
 export const dashboardColor1 = '#7349F7'
 export const dashboardColor2 = '#00C9A4'
 export const dashboardColor3 = '#882CDC'
