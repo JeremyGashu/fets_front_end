@@ -13,10 +13,11 @@ import Typography from '@mui/material/Typography';
 import React, { useState } from 'react'
 import { Avatar, Badge, Divider, Grid, Menu, MenuItem, Tooltip } from '@mui/material';
 import { Dashboard, EditOutlined, GraphicEqOutlined, GroupOutlined, HouseOutlined, Logout, Notifications, } from '@mui/icons-material';
-import { mainColor } from '../../themes/color';
+import { mainColor, backgroundColor } from '../../themes/color';
 import company_logo from '../../assets/company_logo.png'
 import DashboardPage from './Dashboard';
 import CompanyPage from './Company';
+import CreateProject from './create/CreateProject';
 
 
 
@@ -58,7 +59,6 @@ const TechnicalAdminSidebar = (props) => {
             component: <Typography>Projects</Typography>,
             icon: <GraphicEqOutlined sx={{ color: selectedIndex === 1 ? 'white' : '#444' }} />
         },
-
         {
             name: 'Users',
             component: <Typography>Users</Typography>,
@@ -73,6 +73,12 @@ const TechnicalAdminSidebar = (props) => {
             name: 'Feeds',
             component: <Typography>Feeds</Typography>,
             icon: <EditOutlined sx={{ color: selectedIndex === 4 ? 'white' : '#444' }} />
+        },
+
+        {
+            name: 'Add Project',
+            component: <CreateProject></CreateProject>,
+            icon: <GraphicEqOutlined sx={{ color: selectedIndex === 5 ? 'white' : '#444' }} />
         },
     ]
 
@@ -256,10 +262,12 @@ const TechnicalAdminSidebar = (props) => {
                 </Box>
                 <Box
                     component="main"
+                    style={{
+                        backgroundColor: backgroundColor
+                    }}
                     sx={{ flexGrow: 1, p: 3, width: { sm: `calc(100% - ${drawerWidth}px)` } }}
                 >
                     <Toolbar />
-
                     {dashboardElement[selectedIndex]['component']}
                 </Box>
             </Box>
