@@ -130,7 +130,7 @@ const ProjectInformation = () => {
         </Box>
     )
 }
-const CustomTextField = ({ title, required=true }) => {
+export const CustomTextField = ({ title, required=true }) => {
     const PlaceHolder=`Enter ${title} here`
     return (
         <Box

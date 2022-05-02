@@ -13,7 +13,7 @@ import Typography from '@mui/material/Typography';
 import React, { useState } from 'react'
 import { Avatar, Badge, Divider, Grid, Menu, MenuItem, Tooltip } from '@mui/material';
 import { Dashboard, EditOutlined, GraphicEqOutlined, GroupOutlined, HouseOutlined, Logout, Notifications, } from '@mui/icons-material';
-import { mainColor, backgroundColor } from '../../themes/color';
+import { mainColor, backgroundColor, borderColor } from '../../themes/color';
 import company_logo from '../../assets/company_logo.png'
 import DashboardPage from './Dashboard';
 import CompanyPage from './Company';
@@ -153,10 +153,13 @@ const TechnicalAdminSidebar = (props) => {
                         >
                             <MenuIcon />
                         </IconButton>
+                        <Grid item>
+                            <input type="text" placeholder="Search" name="search"
+                                style={{ width: "250%", outline: 'none', border: `1px solid ${borderColor}`, borderRadius: 5, padding: '8px 15px', color: '#444' }} />
+                        </Grid>
                         {/* <Divider /> */}
                         <Grid container justifyContent='flex-end' alignItems='center'>
                             <Grid item>
-
                                 <Grid container>
                                     <Grid item>
                                         <IconButton sx={{ mr: 1 }}>
