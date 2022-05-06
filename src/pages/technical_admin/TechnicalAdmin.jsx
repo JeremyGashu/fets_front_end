@@ -18,6 +18,11 @@ import company_logo from '../../assets/company_logo.png'
 import DashboardPage from './Dashboard';
 import CompanyPage from './Company';
 import CreateProject from './create/CreateProject';
+import CreateUser from './create/CreateUser';
+import CreateFeed from './create/CreateFeed';
+import CreateCompany from './create/CreateCompany';
+
+
 
 
 
@@ -80,6 +85,21 @@ const TechnicalAdminSidebar = (props) => {
             component: <CreateProject></CreateProject>,
             icon: <GraphicEqOutlined sx={{ color: selectedIndex === 5 ? 'white' : '#444' }} />
         },
+        {
+            name: 'Add User',
+            component: <CreateUser/>,
+            icon: <GraphicEqOutlined sx={{ color: selectedIndex === 6 ? 'white' : '#444' }} />
+        },
+        {
+            name: 'Add Feed',
+            component: <CreateFeed/>,
+            icon: <GraphicEqOutlined sx={{ color: selectedIndex === 7 ? 'white' : '#444' }} />
+        },
+        {
+            name: 'Add Company',
+            component: <CreateCompany/>,
+            icon: <GraphicEqOutlined sx={{ color: selectedIndex === 8 ? 'white' : '#444' }} />
+        }
     ]
 
 
