@@ -11,9 +11,9 @@ import MenuIcon from '@mui/icons-material/Menu';
 import Toolbar from '@mui/material/Toolbar';
 import Typography from '@mui/material/Typography';
 import React, { useState } from 'react'
-import { Avatar, Badge, Divider, Grid, Menu, MenuItem, Tooltip } from '@mui/material';
+import { Avatar, Badge, Divider, Grid, Menu, MenuItem, Tooltip, Stack } from '@mui/material';
 import { Dashboard, EditOutlined, GraphicEqOutlined, GroupOutlined, HouseOutlined, Logout, Notifications, } from '@mui/icons-material';
-import { mainColor, backgroundColor, borderColor } from '../../themes/color';
+import { mainColor, backgroundColor, borderColor, dashboardColor1 } from '../../themes/color';
 import company_logo from '../../assets/company_logo.png'
 import DashboardPage from './Dashboard';
 import CompanyPage from './Company';
@@ -21,6 +21,8 @@ import CreateProject from './create/CreateProject';
 import CreateUser from './create/CreateUser';
 import CreateFeed from './create/CreateFeed';
 import CreateCompany from './create/CreateCompany';
+import ChatBubbleOutlineOutlinedIcon from '@mui/icons-material/ChatBubbleOutlineOutlined';
+import { red } from '@mui/material/colors';
 
 
 
@@ -87,17 +89,17 @@ const TechnicalAdminSidebar = (props) => {
         },
         {
             name: 'Add User',
-            component: <CreateUser/>,
+            component: <CreateUser />,
             icon: <GraphicEqOutlined sx={{ color: selectedIndex === 6 ? 'white' : '#444' }} />
         },
         {
             name: 'Add Feed',
-            component: <CreateFeed/>,
+            component: <CreateFeed />,
             icon: <GraphicEqOutlined sx={{ color: selectedIndex === 7 ? 'white' : '#444' }} />
         },
         {
             name: 'Add Company',
-            component: <CreateCompany/>,
+            component: <CreateCompany />,
             icon: <GraphicEqOutlined sx={{ color: selectedIndex === 8 ? 'white' : '#444' }} />
         }
     ]
@@ -182,25 +184,20 @@ const TechnicalAdminSidebar = (props) => {
                             <Grid item>
                                 <Grid container>
                                     <Grid item>
-                                        <IconButton sx={{ mr: 1 }}>
-                                            <Badge badgeContent={<Typography sx={{ color: mainColor }}>{4}</Typography>}>
-                                                <Notifications sx={{ color: mainColor, fontSize: 25 }} />
+                                        {/* <IconButton sx={{ mr: 1 }}>
+                                            <Badge badgeContent={2}>
+                                                <ChatBubbleOutlineOutlinedIcon sx={{ fontSize: 30 }} />
                                             </Badge>
-                                        </IconButton>
+                                        </IconButton> */}
+                                        <Tooltip title="Notifications">
+
+                                            <Badge max={200} badgeContent={7} color="error" sx={{ marginTop: 1 }}>
+                                                <ChatBubbleOutlineOutlinedIcon color="action" sx={{ fontSize: 33 }} />
+                                            </Badge>
+                                        </Tooltip>
                                     </Grid>
 
-                                    <Tooltip title="Account settings">
-                                        <IconButton
-                                            onClick={handleClick}
-                                            size="small"
-                                            sx={{ ml: 2 }}
-                                            aria-controls={open ? 'account-menu' : undefined}
-                                            aria-haspopup="true"
-                                            aria-expanded={open ? 'true' : undefined}
-                                        >
-                                            <Avatar sx={{ width: 32, height: 32 }}>M</Avatar>
-                                        </IconButton>
-                                    </Tooltip>
+
 
                                     <Menu
                                         anchorEl={anchorEl}
@@ -244,6 +241,32 @@ const TechnicalAdminSidebar = (props) => {
                                             <Typography sx={{ fontSize: 14 }}>Logout</Typography>
                                         </MenuItem>
                                     </Menu>
+                                    <Tooltip title="Account settings">
+                                        <IconButton
+                                            onClick={handleClick}
+                                            size="small"
+                                            sx={{ ml: 2 }}
+                                            aria-controls={open ? 'account-menu' : undefined}
+                                            aria-haspopup="true"
+                                            aria-expanded={open ? 'true' : undefined}
+                                        >
+                                            <Avatar sx={{ width: 37, height: 37, bgcolor: dashboardColor1, fontSize: 12, fontWeight: 600 }}>YK</Avatar>
+                                        </IconButton>
+                                    </Tooltip>
+                                    <Tooltip title="Account">
+
+                                        <Stack sx={{ flexDirection: "column", marginTop: 0.5 }}>
+
+                                            <Typography variant='body1' component='body1' color="#222222" fontWeight={600} fontSize={14}>
+                                                Yididiya Kebede
+                                            </Typography>
+
+
+                                            <Typography variant='body2' component='body1' color="#222222" fontSize={10}>
+                                                yididiyaKebede@gmail.com
+                                            </Typography>
+                                        </Stack>
+                                    </Tooltip>
                                 </Grid>
 
                             </Grid>

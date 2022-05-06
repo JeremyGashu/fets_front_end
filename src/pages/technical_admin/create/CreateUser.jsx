@@ -30,15 +30,15 @@ const CreateUser = () => {
                             <Grid container>
                                 <Grid item xs={1}>
 
-                                    <Avatar sx={{ bgcolor: dashboardColor1, width: 60, height: 60 }} variant="rounded">
-                                        EB
+                                    <Avatar sx={{ bgcolor: dashboardColor1, width: 60, height: 60 }} variant="circle" fontWeight={900}>
+                                        YK
                                     </Avatar>
                                 </Grid>
-                                <Grid item xs={1}>
+                                <Grid item xs={1} marginTop={2}>
 
                                     <Button variant="contained" size="small" sx={{ backgroundColor: dashboardColor1 }}>Upload</Button>
                                 </Grid>
-                                <Grid item xs={2}>
+                                <Grid item xs={2} marginTop={2}>
                                     <Button variant="outlined" size="small" sx={{ backgroundColor: "white" }}>save to draft</Button>
 
                                 </Grid>
