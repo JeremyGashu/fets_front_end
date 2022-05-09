@@ -37,7 +37,7 @@ const DashboardPage = () => {
     let rows = [
         {
             id: 1,
-            name: 'Gojjam Hospital',
+            name: 'Tikur Anbesa',
             progress: 50,
             budget: 22500000,
             status: 'In Progress',

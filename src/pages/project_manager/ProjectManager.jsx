@@ -108,14 +108,14 @@ const ProjectManagerSidebar = (props) => {
 
             <Box sx={{ mt: 3, p: 2 }}>
                 <Typography sx={{ mb: 1, fontSize: 15, color: grey[600] }}>Projects</Typography>
-                <SidebarProjectListItem name='Gojjam Hospital' />
-                <SidebarProjectListItem name='Gojjam Hospital' />
-                <SidebarProjectListItem name='Gojjam Hospital' />
-                <SidebarProjectListItem name='Gojjam Hospital' />
-                <SidebarProjectListItem name='Gojjam Hospital' />
-                <SidebarProjectListItem name='Gojjam Hospital' />
-                <SidebarProjectListItem name='Gojjam Hospital' />
-                <SidebarProjectListItem name='Gojjam Hospital' />
+                <SidebarProjectListItem name='Tikur Anbesa' />
+                <SidebarProjectListItem name='Tikur Anbesa' />
+                <SidebarProjectListItem name='Tikur Anbesa' />
+                <SidebarProjectListItem name='Tikur Anbesa' />
+                <SidebarProjectListItem name='Tikur Anbesa' />
+                <SidebarProjectListItem name='Tikur Anbesa' />
+                <SidebarProjectListItem name='Tikur Anbesa' />
+                <SidebarProjectListItem name='Tikur Anbesa' />
             </Box>
         </Box>
     )

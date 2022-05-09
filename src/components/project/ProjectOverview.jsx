@@ -38,7 +38,7 @@ const ProjectOverview = () => {
     let taskRows = [
         {
             id: 1,
-            name: 'Gojjam Hospital',
+            name: 'Tikur Anbesa',
             budget: 22500000,
             due_date: '12-12-2022'
 
@@ -131,7 +131,7 @@ const ProjectOverview = () => {
     let rows = [
         {
             id: 1,
-            name: 'Gojjam Hospital',
+            name: 'Tikur Anbesa',
             progress: 50,
             budget: 22500000,
             status: 'In Progress',

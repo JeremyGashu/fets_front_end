@@ -41,7 +41,7 @@ contract PaymentInformations {
     }
 
         //add only donor modifier
-    function getPaymentInfoByUsername(string memory _username) external returns(PaymentInfo[] memory) {
+    function getPaymentInfoByUsername(string memory _username) external view returns(PaymentInfo[] memory) {
         PaymentInfo[] memory paymentInfos;
         uint256 counter = 0;
         for (uint256 index = 0; index < count; index++) {
