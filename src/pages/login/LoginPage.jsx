@@ -8,17 +8,14 @@ import { useForm } from 'react-hook-form'
 import { useMutation } from 'react-query'
 import { loginRequest } from '../../controller/auth'
 import { useNavigate } from 'react-router-dom'
-import { useState } from 'react'
 
 
 const LoginPage = () => {
     const { register, handleSubmit } = useForm()
 
-    const [loading, setLoading] = useState(false)
-
     const navigate = useNavigate()
 
-    const { mutate } = useMutation(loginRequest, {
+    const { mutate, isLoading } = useMutation(loginRequest, {
         onError: (error, variables, context) => {
             console.log(error)
             console.log(variables)
@@ -26,34 +23,26 @@ const LoginPage = () => {
         },
         onSuccess: (data, variables, context) => {
             console.log(data)
-            if (data.code === 200) {
+            if (data.statusCode === 200) {
+                let userType = data.body.type
+                if (userType === 'TECHNICAL_ADMIN') {
+                    navigate('/technical-admin')
+                }
+                else if (userType === 'PROJECT_MANAGER') {
+                    navigate('/project-manager')
+                }
+
+                else if (userType === 'FINANCIAL_OFFICER') { 
+                    //TODO implement for financial officer
+                }
+                else { }
 
             }
         },
     })
 
     const onLogin = async (data) => {
-        setLoading(true)
-        if (data.username === 'technical-admin') {
-            setTimeout(() => {
-                setLoading(false)
-                navigate('/technical-admin')
-            }, 3000);
-            
-        }
-        else if (data.username === 'project-manager') {
-            setTimeout(() => {
-                setLoading(false)
-                navigate('/project-manager')
-            }, 3000);
-            
-        }
-
-        else {
-            setTimeout(() => {
-                setLoading(false)
-            }, 3000);
-        }
+        mutate(data)
     }
 
     return (
@@ -100,7 +89,7 @@ const LoginPage = () => {
 
                         </Grid>
                         {
-                            loading ? <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', m: 3, }}><CircularProgress sx={{ color: mainColor }} /></Box> : <Grid item>
+                            isLoading ? <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', m: 3, }}><CircularProgress sx={{ color: mainColor }} /></Box> : <Grid item>
                                 <Button type='submit' fullWidth sx={{
                                     color: 'white', backgroundColor: mainColor, width: '275px', '&:hover': {
                                         backgroundColor: mainColor
