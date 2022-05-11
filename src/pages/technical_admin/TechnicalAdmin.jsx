@@ -12,11 +12,13 @@ import Toolbar from '@mui/material/Toolbar';
 import Typography from '@mui/material/Typography';
 import React, { useState } from 'react'
 import { Avatar, Badge, Divider, Grid, Menu, MenuItem, Tooltip } from '@mui/material';
-import { Dashboard, EditOutlined, GraphicEqOutlined, GroupOutlined, HouseOutlined, Logout, Notifications, } from '@mui/icons-material';
+import { Dashboard, EditOutlined, GraphicEqOutlined, GroupOutlined, HouseOutlined, Logout, Notifications } from '@mui/icons-material';
 import { mainColor } from '../../themes/color';
 import company_logo from '../../assets/company_logo.png'
 import DashboardPage from './Dashboard';
 import CompanyPage from './Company';
+import { Route, Routes, useNavigate } from 'react-router-dom';
+import CreateCompany from '../project_manager/CreateCompany';
 
 
 
@@ -28,6 +30,7 @@ const TechnicalAdminSidebar = (props) => {
     const { window } = props;
     const [mobileOpen, setMobileOpen] = useState(false)
     const [selectedIndex, setSelectedIndex] = useState(0)
+    const navigate = useNavigate()
 
 
     const handleDrawerToggle = () => {
@@ -102,7 +105,7 @@ const TechnicalAdminSidebar = (props) => {
                 {dashboardElement.map((menu, index) => (
                     <Box sx={{ m: 1 }}>
                         <ListItem style={{ borderRadius: 7 }} onClick={() => {
-                            // navigate('/dashboard')
+                            navigate('/technical-admin')
                             setSelectedIndex(index)
                         }} button key={menu.name} sx={{ backgroundColor: selectedIndex === index ? mainColor : 'white', my: 0, py: 1, '&:hover': { backgroundColor: selectedIndex === index ? mainColor : 'white', } }}>
                             <ListItemIcon>
@@ -260,7 +263,17 @@ const TechnicalAdminSidebar = (props) => {
                 >
                     <Toolbar />
 
-                    {dashboardElement[selectedIndex]['component']}
+
+                    {
+                        <Routes>
+                            <Route path='*' element={dashboardElement[selectedIndex]['component']} />
+                            <Route path='add-company' element={<CreateCompany />} />
+                            {/* <Route path='assets/:departmentid' element={<AssetsComponent />} />
+                            <Route path='associations/:departmentid' element={<AssociationComponent />} />
+                            <Route path='association_members/:associationid' element={<AssociationMembersComponent />} />
+                            <Route path='company_members/:companyid' element={<CompanyMembersComponent />} /> */}
+                        </Routes>
+                    }
                 </Box>
             </Box>
 
