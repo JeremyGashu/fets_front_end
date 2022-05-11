@@ -9,7 +9,7 @@ const App = () => {
     <>
       <Routes>
         <Route path='/' element={<LoginPage />} />
-        <Route path='/technical-admin' element={<TechnicalAdminSidebar />} />
+        <Route path='/technical-admin/*' element={<TechnicalAdminSidebar />} />
         <Route path='/project-manager' element={<ProjectManagerSidebar />} />
       </Routes>
     </>
