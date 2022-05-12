@@ -4,6 +4,7 @@ import { useForm } from "react-hook-form"
 import { useMutation } from "react-query"
 import { useNavigate } from "react-router-dom"
 import { toast } from "react-toastify"
+import { queryClient } from "../.."
 import { createCompany } from "../../controller/company"
 import { dashboardColor1, mainColor } from "../../themes/color"
 const CreateCompany = () => {
@@ -20,6 +21,7 @@ const CreateCompany = () => {
         onSuccess: (data, variables, context) => {
             toast('Added company successfully!', { type: 'success' })
             navigate('/technical-admin')
+            queryClient.invalidateQueries(['company'])
         },
     })
 
