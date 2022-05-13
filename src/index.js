@@ -6,18 +6,23 @@ import App from './App';
 import reportWebVitals from './reportWebVitals';
 
 import { ToastContainer } from 'react-toastify';
-
 import 'react-toastify/dist/ReactToastify.css';
+
+import { createReactEditorJS } from 'react-editor-js'
+
+export const ReactEditorJS = createReactEditorJS()
+
 
 
 export const queryClient = new QueryClient()
+
 
 ReactDOM.render(
   <QueryClientProvider client={queryClient}>
     <BrowserRouter>
       <React.StrictMode>
-          <App />
-          <ToastContainer />
+        <App />
+        <ToastContainer />
       </React.StrictMode></BrowserRouter>
   </QueryClientProvider>,
   document.getElementById('root')

@@ -10,7 +10,7 @@ export const loginRequest = async (auth) => {
     }
     else {
         if (response.data && response.data.errors) {
-            response.data.errors.forEach(error => toast(error, { type: 'error' }))
+            response.data.errors.forEach(error => toast(error, { type: 'error',position: toast.POSITION.BOTTOM_RIGHT, }))
         }
     }
     return response.data
