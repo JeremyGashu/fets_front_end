@@ -18,7 +18,7 @@ export const getAllFeeds = async () => {
 }
 
 export const getFeedById = async (id) => {
-    let response = await axios.get(`${BASE_URL}/feed${id}`)
+    let response = await axios.get(`${BASE_URL}/feed/${id}`)
     if (response.status === 200 && !response.data.error) {
     }
     else {
