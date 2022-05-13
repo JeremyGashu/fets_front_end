@@ -19,6 +19,7 @@ import DashboardPage from './Dashboard';
 import CompanyPage from './Company';
 import { Route, Routes, useNavigate } from 'react-router-dom';
 import CreateCompany from '../project_manager/CreateCompany';
+import FeedsPage from '../feed/FeedsPage';
 
 
 
@@ -74,7 +75,7 @@ const TechnicalAdminSidebar = (props) => {
         },
         {
             name: 'Feeds',
-            component: <Typography>Feeds</Typography>,
+            component: <FeedsPage />,
             icon: <EditOutlined sx={{ color: selectedIndex === 4 ? 'white' : '#444' }} />
         },
     ]

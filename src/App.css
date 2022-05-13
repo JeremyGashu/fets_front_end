@@ -31,3 +31,12 @@
 .grid-display-scroll-none::-webkit-scrollbar {
     display: none;
 }
+
+.feed-card{
+    transition: all 0.4s ease;
+    cursor: pointer;
+}
+
+.feed-card:hover {
+    box-shadow: 3px 3px 6px rgb(215, 215, 215);
+}

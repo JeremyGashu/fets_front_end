@@ -13,7 +13,8 @@ export const getAllFeeds = async () => {
             response.data.errors.forEach(error => toast(error, { type: 'error', position: toast.POSITION.BOTTOM_RIGHT, }))
         }
     }
-    return response.data
+    console.log(response.data)
+    return response.data && response.data.body
 }
 
 export const getFeedById = async (id) => {
