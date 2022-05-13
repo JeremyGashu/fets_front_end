@@ -9,7 +9,7 @@ export const getAllCompanies = async () => {
     }
     else {
         if (response.data && response.data.errors) {
-            response.data.errors.forEach(error => toast(error, { type: 'error' }))
+            response.data.errors.forEach(error => toast(error, { type: 'error', position: toast.POSITION.BOTTOM_RIGHT, }))
         }
     }
     return response.data.body
@@ -39,13 +39,13 @@ export const createCompany = async (data) => {
     }
     else {
         if (response.data && response.data.errors) {
-            response.data.errors.forEach(error => toast(error, { type: 'error' }))
+            response.data.errors.forEach(error => toast(error, { type: 'error', position: toast.POSITION.BOTTOM_RIGHT, }))
         }
     }
     return response.data
 }
 
-export const deleteCompany = async ({id}) => {
+export const deleteCompany = async ({ id }) => {
     console.log(id)
     let response = await axios.delete(`${BASE_URL}/company/${id}`, {
         headers: {

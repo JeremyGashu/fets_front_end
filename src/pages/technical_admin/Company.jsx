@@ -84,7 +84,7 @@ const CompanyPage = () => {
                 }
 
                 {
-                    <Grid item lg={8} sx={{ px: 2, }} >
+                    !selectedCompany && <Grid item lg={8} sx={{ px: 2, }} >
                         <Box sx={{ width: '100%', height: '100%', display: 'flex', justifyContent: 'center' }}>
                             <Typography sx={{ color: grey[700], fontSize: 12, textAlign: 'center', my: 2 }}>No company selected...</Typography>
                         </Box>

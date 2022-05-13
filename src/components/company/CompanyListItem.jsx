@@ -18,7 +18,7 @@ const CompanyListItem = ({ name, location, id }) => {
             console.log(context)
         },
         onSuccess: (data, variables, context) => {
-            toast('Deleted company successfully!', { type: 'success' })
+            toast('Deleted company successfully!', { type: 'success', position: toast.POSITION.BOTTOM_RIGHT, })
             navigate('/technical-admin')
             queryClient.invalidateQueries(['company'])
 

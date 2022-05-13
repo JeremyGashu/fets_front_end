@@ -19,7 +19,7 @@ const CreateCompany = () => {
             console.log(context)
         },
         onSuccess: (data, variables, context) => {
-            toast('Added company successfully!', { type: 'success' })
+            toast('Added company successfully!', { type: 'success', position: toast.POSITION.BOTTOM_RIGHT, })
             navigate('/technical-admin')
             queryClient.invalidateQueries(['company'])
         },

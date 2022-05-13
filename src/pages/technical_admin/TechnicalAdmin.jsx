@@ -19,6 +19,9 @@ import DashboardPage from './Dashboard';
 import CompanyPage from './Company';
 import { Route, Routes, useNavigate } from 'react-router-dom';
 import CreateCompany from '../project_manager/CreateCompany';
+import FeedsPage from '../feed/FeedsPage';
+import CreateFeed from '../feed/CreateFeed';
+import FeedDetailPage from '../feed/FeedDetailPage';
 
 
 
@@ -74,7 +77,7 @@ const TechnicalAdminSidebar = (props) => {
         },
         {
             name: 'Feeds',
-            component: <Typography>Feeds</Typography>,
+            component: <FeedsPage />,
             icon: <EditOutlined sx={{ color: selectedIndex === 4 ? 'white' : '#444' }} />
         },
     ]
@@ -268,6 +271,8 @@ const TechnicalAdminSidebar = (props) => {
                         <Routes>
                             <Route path='*' element={dashboardElement[selectedIndex]['component']} />
                             <Route path='add-company' element={<CreateCompany />} />
+                            <Route path='create-feed' element={<CreateFeed />} />
+                            <Route path='feed-detail/:id' element={<FeedDetailPage />} />
                             {/* <Route path='assets/:departmentid' element={<AssetsComponent />} />
                             <Route path='associations/:departmentid' element={<AssociationComponent />} />
                             <Route path='association_members/:associationid' element={<AssociationMembersComponent />} />
