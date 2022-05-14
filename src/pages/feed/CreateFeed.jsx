@@ -14,7 +14,7 @@ import { mainColor } from "../../themes/color"
 import DialogTitle from '@mui/material/DialogTitle';
 import DialogContent from '@mui/material/DialogContent';
 import DialogActions from '@mui/material/DialogActions';
-import { QuestionMark, QuestionMarkOutlined, SaveOutlined } from "@mui/icons-material"
+import { QuestionMark, SaveOutlined } from "@mui/icons-material"
 
 const CreateFeed = () => {
 
@@ -159,7 +159,7 @@ const CreateFeed = () => {
                     </Box>
                         :
                         <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', m: 2, p: 2, backgroundColor: grey[100], borderRadius: 5 }}>
-                            <img style={{ width: '100%', maxWidth: '850px' }} src={URL.createObjectURL(coverImage)} />
+                            <img style={{ width: '100%', maxWidth: '850px' }} src={URL.createObjectURL(coverImage)} alt=''/>
                         </Box>
                 }
             </div>

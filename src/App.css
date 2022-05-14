@@ -40,3 +40,16 @@
 .feed-card:hover {
     box-shadow: 3px 3px 6px rgb(215, 215, 215);
 }
+
+.user-type{
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.user-type:hover {
+    color: rgb(93, 93, 93);
+}
+
+.capitalize {
+    text-transform: capitalize;
+}
