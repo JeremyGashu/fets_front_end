@@ -1,6 +1,6 @@
 //SPDX-License-Identifier: MIT
 
-pragma solidity ^0.8.9;
+pragma solidity ^0.8;
 pragma experimental ABIEncoderV2;
 
 contract ProjectUserMapping {
@@ -30,7 +30,7 @@ contract ProjectUserMapping {
         );
     }
 
-    function getProjectsByUsername(string memory _username) external returns(uint256[] memory) {
+    function getProjectsByUsername(string memory _username) external view returns(uint256[] memory) {
         uint256[] memory projects;
         uint256 counter = 0;
         for (uint256 index = 0; index < count; index++) {

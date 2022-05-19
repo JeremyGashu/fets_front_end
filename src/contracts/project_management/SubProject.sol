@@ -1,6 +1,6 @@
 // SPDX-License-Identifier: MIT
 
-pragma solidity ^0.8.9;
+pragma solidity ^0.8;
 
 import './Project.sol';
 
@@ -16,7 +16,7 @@ contract SubProject {
         uint256 createdAt;
     }
 
-    mapping(uint256 => SubProjectInfo) public subprojects;
+    mapping(uint256 => SubProjectInfo) private subprojects;
 
     event AddedSubProject(
         uint256 indexed id,
@@ -34,7 +34,7 @@ contract SubProject {
         uint256 estimatedDuration,
         uint256 createdAt
     ) external {
-        subprojects[++count] = SubProjectInfo(
+        subprojects[count] = SubProjectInfo(
             count,
             name,
             description,
@@ -42,6 +42,7 @@ contract SubProject {
             estimatedDuration,
             createdAt
         );
+        count++;
         emit AddedSubProject(
             count,
             name,
@@ -51,6 +52,21 @@ contract SubProject {
             createdAt
         );
     }
+
+    function getSubProjectById(uint256 _id) external view returns(uint256 id,
+        string memory name,
+        string memory description,
+        uint256 projectId,
+        uint256 estimatedDuration,
+        uint256 createdAt) {
+            SubProjectInfo memory subproject = subprojects[_id];
+            id = _id;
+            name = subproject.name;
+            description = subproject.description;
+            projectId = subproject.projectId;
+            estimatedDuration = subproject.estimatedDuration;
+            createdAt = subproject.createdAt;
+        }
 
     function deleteProject(uint256 id) external {
         delete subprojects[id];

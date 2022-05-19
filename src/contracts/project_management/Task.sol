@@ -1,6 +1,6 @@
 // SPDX-License-Identifier: MIT
 
-pragma solidity ^0.8.9;
+pragma solidity ^0.8;
 
 contract Task {
     uint256 count;
@@ -30,7 +30,7 @@ contract Task {
         string remark;
     }
 
-    mapping(uint256 => TaskInfo) public tasks;
+    mapping(uint256 => TaskInfo) private tasks;
 
     event AddedTask(
         uint256 indexed id,
@@ -65,7 +65,7 @@ contract Task {
         string memory status,
         uint256 allocatedBudget
     ) external {
-        tasks[++count] = TaskInfo(
+        tasks[count] = TaskInfo(
             count,
             name,
             description,
@@ -76,6 +76,7 @@ contract Task {
             0,
             ''
         );
+        count++;
         emit AddedTask(
             count,
             name,
@@ -103,14 +104,43 @@ contract Task {
         external
     {
         tasks[taskid].status = TaskStatus.APPROVED_BY_BUDGET_AND_PROCUREMENT_MANAGER;
-        emit ChangeedTaskStatus(taskid ,TaskStatus.CREATED, TaskStatus.ALLOCATED_BY_FINANCIAL_MANAGER, block.timestamp, msg.sender);
+        emit ChangeedTaskStatus(taskid ,TaskStatus.ALLOCATED_BY_FINANCIAL_MANAGER, TaskStatus.APPROVED_BY_BUDGET_AND_PROCUREMENT_MANAGER, block.timestamp, msg.sender);
     }
 
-    function projectManagerApproveTaskCompletion(uint256 taskid) external {}
+    function projectManagerApproveTaskCompletion(uint256 taskid) external {
+        tasks[taskid].status = TaskStatus.APPROVED_BY_PROJECT_MANAGER;
+        emit ChangeedTaskStatus(taskid ,TaskStatus.APPROVED_BY_BUDGET_AND_PROCUREMENT_MANAGER, TaskStatus.APPROVED_BY_PROJECT_MANAGER, block.timestamp, msg.sender);
+    }
 
-    function externalAuditorApproveTaskCompletion(uint256 taskid) external {}
+    function externalAuditorApproveTaskCompletion(uint256 taskid) external {
+         tasks[taskid].status = TaskStatus.APPROVED_BY_EXTERNAL_AUDITOR;
+        emit ChangeedTaskStatus(taskid ,TaskStatus.APPROVED_BY_PROJECT_MANAGER, TaskStatus.APPROVED_BY_EXTERNAL_AUDITOR, block.timestamp, msg.sender);
+    }
 
     function deleteTask(uint256 id) external {
         delete tasks[id];
+    }
+
+    function getTaskById(uint256 _id) external view returns(
+        uint256 id,
+        string memory name,
+        string memory description,
+        uint256 projectId,
+        uint256 subProjectId,
+        uint256 estimatedDuration,
+        TaskStatus status,
+        uint256 allocatedBudget,
+        string memory remark
+    ) {
+        TaskInfo memory task = tasks[_id];
+        id = _id;
+        name = task.name;
+        description = task.description;
+        projectId = task.projectId;
+        subProjectId = task.subProjectId;
+        estimatedDuration = task.estimatedDuration;
+        status = task.status;
+        allocatedBudget = task.allocatedBudget;
+        remark = task.remark;
     }
 }
