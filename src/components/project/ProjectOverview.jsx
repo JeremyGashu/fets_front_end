@@ -94,7 +94,7 @@ const ProjectOverview = ({ projects = [] }) => {
         },
         {
             field: 'name',
-            headerName: 'Namee',
+            headerName: 'Name',
             width: 140,
             renderCell: (cellValue) => {
                 return (
@@ -134,7 +134,7 @@ const ProjectOverview = ({ projects = [] }) => {
         {
             field: 'id',
             headerName: 'NO',
-            width: 150,
+            width: 40,
             renderCell: (cellValue) => {
                 return (
                     <Typography sx={{ fontSize: 13, }}>{cellValue['row']['id']}</Typography>
@@ -145,7 +145,7 @@ const ProjectOverview = ({ projects = [] }) => {
         {
             field: 'name',
             headerName: 'Project Name',
-            width: 150,
+            width: 160,
             renderCell: (cellValue) => {
                 return (
                     <Typography sx={{ fontSize: 13, }}>{cellValue['row']['name']}</Typography>
@@ -236,7 +236,7 @@ const ProjectOverview = ({ projects = [] }) => {
                 <Grid item lg={4} md={5}>
                     <Box sx={{ width: '100%', p: 2, borderRadius: 3, backgroundColor: 'white', height: '430px', my: 3 }}>
                         <Typography sx={{ fontWeight: 'bold', color: grey[800], fontSize: 20 }}>Statistics</Typography>
-                        <DoughnutChart />
+                        <DoughnutChart projects={projects} />
 
                         <Grid container direction='row' alignItems='center' justifyContent='space-between'>
                             <Grid item>
@@ -246,7 +246,7 @@ const ProjectOverview = ({ projects = [] }) => {
 
                                     </Grid>
                                     <Grid item sx={{ ml: 1 }}>
-                                        <Typography sx={{ fontSize: 27, color: grey[800], fontWeight: 'bold' }}>3</Typography>
+                                        <Typography sx={{ fontSize: 27, color: grey[800], fontWeight: 'bold' }}>{projects.filter(p => p.status !== 'Completed').length}</Typography>
                                         <Typography sx={{ color: grey[600] }}>Ongoing</Typography>
                                     </Grid>
                                 </Grid>
@@ -260,7 +260,7 @@ const ProjectOverview = ({ projects = [] }) => {
                                         </Box>
                                     </Grid>
                                     <Grid item sx={{ ml: 1 }}>
-                                        <Typography sx={{ fontSize: 27, color: grey[800], fontWeight: 'bold' }}>3</Typography>
+                                        <Typography sx={{ fontSize: 27, color: grey[800], fontWeight: 'bold' }}>{projects.filter(p => p.status === 'Completed').length}</Typography>
                                         <Typography sx={{ color: grey[600] }}>Completed</Typography>
                                     </Grid>
                                 </Grid>
@@ -275,7 +275,7 @@ const ProjectOverview = ({ projects = [] }) => {
                 <Grid item lg={6} md={12} sm={12}>
                     <Box sx={{ width: '100%', p: 2, borderRadius: 3, backgroundColor: 'white', height: '430px', my: 1.5 }} >
                         <Typography sx={{ fontSize: 22, color: grey[700], fontWeight: 'bold', mb: 4 }}>Estimation - Budget Insight</Typography>
-                        <ProjectBarChart />
+                        <ProjectBarChart projects={projects} />
 
                     </Box>
                 </Grid>
