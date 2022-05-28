@@ -1,4 +1,4 @@
-import { SET_CONTRACTS } from "../actions";
+import { SAVE_ADDRESS, SET_CONTRACTS } from "../actions";
 
 export const contractsReducer = (state = {}, action) => {
     console.log(action.payload)
@@ -6,7 +6,13 @@ export const contractsReducer = (state = {}, action) => {
         case SET_CONTRACTS:
             return {
                 ...state,
-                contracts: action.payload
+                ...action.payload
+            }
+
+        case SAVE_ADDRESS:
+            return {
+                ...state,
+                address: action.payload
             }
 
         default:

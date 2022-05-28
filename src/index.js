@@ -8,6 +8,9 @@ import { createLogger } from 'redux-logger'
 
 import Web3 from 'web3/dist/web3.min.js'
 import ProjectMappingABI from './abis/ProjectUserMapping.json'
+import ProjectABI from './abis/Project.json'
+import SubProjectABI from './abis/SubProject.json'
+import TaskABI from './abis/Task.json'
 
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
@@ -16,7 +19,7 @@ import { createReactEditorJS } from 'react-editor-js'
 import { applyMiddleware, combineReducers, legacy_createStore as createStore } from 'redux';
 import thunk from 'redux-thunk';
 import { Provider } from 'react-redux';
-import { setContractsActionCreator } from './actions';
+import { setContractsActionCreator, saveContractAddress } from './actions';
 import { contractsReducer } from './reducers/contracts';
 
 
@@ -30,7 +33,7 @@ if (process.env.NODE_ENV !== 'production') {
 }
 
 const store = createStore(
-  combineReducers({ contractsReducer }),
+  combineReducers({ contracts: contractsReducer }),
   applyMiddleware(...middleware),
 )
 
@@ -39,9 +42,19 @@ web3.eth.requestAccounts().then(accounts => {
   console.log(accounts)
   //TODO save the address here
   const mappingContract = new web3.eth.Contract(ProjectMappingABI.abi, ProjectMappingABI.networks[5777].address)
+  const projectContract = new web3.eth.Contract(ProjectABI.abi, ProjectABI.networks[5777].address)
+  const subProjectContract = new web3.eth.Contract(SubProjectABI.abi, SubProjectABI.networks[5777].address)
+  const taskContract = new web3.eth.Contract(TaskABI.abi, TaskABI.networks[5777].address)
   //TODO save instance of each contract
 
-  store.dispatch(setContractsActionCreator({ mappingContract }))
+  store.dispatch(setContractsActionCreator({ mappingContract, projectContract, subProjectContract, taskContract }))
+  store.dispatch(saveContractAddress(accounts[0] || '0x0'))
+  projectContract.events
+    .AddedProject({})
+    .on("data", (event) => {
+      console.log('ADDED PROJECT', event);
+    });
+
   // const todoList = new web3.eth.Contract(TODO_LIST_ABI, TODO_LIST_ADDRESS)
 
   // this.setState({ todoList })

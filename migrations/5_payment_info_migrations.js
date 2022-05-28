@@ -1,5 +1,5 @@
-// const PaymentInformations = artifacts.require("PaymentInformations");
+const PaymentInformations = artifacts.require("PaymentInformations");
 
-// module.exports = function (deployer) {
-//     deployer.deploy(PaymentInformations);
-// };
+module.exports = function (deployer) {
+    deployer.deploy(PaymentInformations);
+};

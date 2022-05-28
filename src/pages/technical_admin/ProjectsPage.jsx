@@ -1,24 +1,77 @@
 import { AddOutlined, } from '@mui/icons-material'
 import { Box, Grid, IconButton, Typography } from '@mui/material'
 import { grey, } from '@mui/material/colors'
-import React from 'react'
+import React, { useEffect } from 'react'
 import ProjectOverview from '../../components/project/ProjectOverview'
+import FullPageLoading from '../../components/FullPageLoadingPage'
 import { backgroundColor, mainColor } from '../../themes/color'
+import { useSelector } from 'react-redux'
+import { useState } from 'react'
+import { useNavigate } from 'react-router-dom'
 
-const ProjectManagerProjectPage = () => {
+const TechnicalAdminProjectManagement = () => {
 
-    // const [value, setValue] = useState(0);
+    const [projects, setProjects] = useState()
+    const [loadingProjects, setLoadingProjects] = useState(false)
+    const navigate = useNavigate()
 
-    // const handleChange = (event, newValue) => {
-    //     setValue(newValue);
-    // };
+    const { projectContract, mappingContract } = useSelector(state => state.contracts)
+    // eslint-disable-next-line
+    useEffect(() => {
+        setLoadingProjects(true)
+        projectContract.methods.getAllProjects().call().then(res => {
 
-    // function a11yProps(index) {
-    //     return {
-    //         id: `simple-tab-${index}`,
-    //         'aria-controls': `simple-tabpanel-${index}`,
-    //     };
-    // }
+            Promise.all(res.map(async (project) => {
+                let s = await mappingContract.methods.getTaskStatusByProjectId(+project.id).call()
+                let approved = +s[0]
+                let unapproved = +s[1]
+                let projectStatus = ''
+
+                if (approved > 0 && unapproved === 0) {
+                    projectStatus = 'Completed'
+                }
+                else if (approved === 0 && unapproved === 0) {
+                    projectStatus = 'Pending'
+                }
+                else {
+                    projectStatus = 'In Progress'
+                }
+                // console.log(mappingContract)
+                return {
+                    accountNumber: project.accountNumber,
+                    companyId: +project.companyId,
+                    createdAt: +project.createdAt,
+                    description: project.description,
+                    estimatedBudget: +project.estimatedBudget,
+                    estimatedDuration: +project.estimatedDuration,
+                    fundedMoney: +project.fundedMoney,
+                    id: +project.id,
+                    location: project.location,
+                    name: project.name,
+                    status: projectStatus,
+                    approved,
+                    unapproved
+                }
+            })).then(result => {
+                setProjects(result)
+                console.log(result)
+                setLoadingProjects(false)
+            })
+                .catch(err => {
+                    console.log(err)
+                    setLoadingProjects(false)
+                })
+        })
+            .catch(err => {
+                console.log(err)
+                setLoadingProjects(false)
+            })
+        // eslint-disable-next-line
+    }, [])
+
+    if (loadingProjects) {
+        return <FullPageLoading />
+    }
 
     return (
         <Box sx={{ minHeight: '100vh', backgroundColor: backgroundColor, p: 2, borderRadius: 2 }}>
@@ -47,6 +100,8 @@ const ProjectManagerProjectPage = () => {
                         backgroundColor: mainColor, '&:hover': {
                             backgroundColor: mainColor,
                         }
+                    }} onClick={() => {
+                        navigate('create-project')
                     }}>
                         <AddOutlined sx={{ color: 'white' }} />
                     </IconButton>
@@ -54,57 +109,10 @@ const ProjectManagerProjectPage = () => {
             </Grid>
 
             <Box sx={{}}>
-                <ProjectOverview />
+                <ProjectOverview projects={projects} />
             </Box>
-            {/* <TabPanel value={value} index={0}>
-                
-            </TabPanel>
-            <TabPanel value={value} index={1}>
-                <Grid container alignItems='start' justifyContent='space-between'>
-                    <Grid item lg={2.7}>
-                        <Typography sx={{ fontSize: 14, fontWeight: 'bold', color: grey[60] }}>TODO</Typography>
-                        <Box sx={{ width: '100%', height: 2, backgroundColor: mainColor, mt: 1 }}></Box>
-                        <TaskDetailCardOngoing />
-
-                    </Grid>
-
-                    <Grid item lg={2.7}>
-                        <Typography sx={{ fontSize: 14, fontWeight: 'bold', color: grey[60] }}>IN PROGRESS</Typography>
-                        <Box sx={{ width: '100%', height: 2, backgroundColor: lightYellowText, mt: 1 }}></Box>
-                        <TaskDetailCardOngoing />
-                    </Grid>
-
-                    <Grid item lg={2.7}>
-                        <Typography sx={{ fontSize: 14, fontWeight: 'bold', color: grey[60] }}>COMPLETED</Typography>
-                        <Box sx={{ width: '100%', height: 2, backgroundColor: green[700], mt: 1 }}></Box>
-
-                        <TaskDetailCardCompleted />
-                        <TaskDetailCardCompleted />
-                        <TaskDetailCardCompleted />
-                        <TaskDetailCardCompleted />
-                        <TaskDetailCardCompleted />
-                        <TaskDetailCardCompleted />
-                        <TaskDetailCardCompleted />
-
-
-                    </Grid>
-
-                    <Grid item lg={2.7}>
-                        <Typography sx={{ fontSize: 14, fontWeight: 'bold', color: grey[60] }}>NEED APPROVAL</Typography>
-                        <Box sx={{ width: '100%', height: 2, backgroundColor: mainColor, mt: 1 }}></Box>
-                        <TaskDetailCardNotCompleted />
-                        <TaskDetailCardNotCompleted />
-                    </Grid>
-                </Grid>
-            </TabPanel>
-            <TabPanel value={value} index={2}>
-                Item Three
-            </TabPanel> */}
-
-
-
         </Box >
     )
 }
 
-export default ProjectManagerProjectPage
+export default TechnicalAdminProjectManagement

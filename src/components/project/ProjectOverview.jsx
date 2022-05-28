@@ -7,16 +7,18 @@ import { Check } from "@mui/icons-material"
 import ProjectBarChart from "./BarChartProject"
 
 
-const ProjectOverview = () => {
+const ProjectOverview = ({ projects = [] }) => {
 
     const getTextColorFromStatus = (status) => {
         switch (status) {
             case 'In Progress':
-                return lightYellowText
+                return `${lightYellowText}`
             case 'Completed':
                 return lightGreen
             case 'Canceled':
                 return lightRedText
+            case 'Pending':
+                return grey[800]
             default:
                 return 'yellow'
         }
@@ -128,80 +130,21 @@ const ProjectOverview = () => {
         },
     ]
 
-    let rows = [
-        {
-            id: 1,
-            name: 'Tikur Anbesa',
-            progress: 50,
-            budget: 22500000,
-            status: 'In Progress',
-            donated: 1800000,
-            start_date: '12-12-2022'
-
-        },
-
-        {
-            id: 2,
-            name: 'Addis Ababa Stadium',
-            progress: 10,
-            budget: 22500000,
-            status: 'Completed',
-            donated: 1800000,
-            start_date: '12-12-2022'
-
-        },
-
-        {
-            id: 3,
-            name: 'Bishoftu Resort',
-            progress: 80,
-            budget: 22500000,
-            status: 'Canceled',
-            donated: 1800000,
-            start_date: '12-12-2022'
-
-        },
-
-        {
-            id: 4,
-            name: 'Feeding Students',
-            progress: 25,
-            budget: 22500000,
-            status: 'In Progress',
-            donated: 1800000,
-            start_date: '12-12-2022'
-
-        },
-
-        {
-            id: 5,
-            name: 'Addis Ababa Football Acadamy',
-            progress: 90,
-            budget: 22500000,
-            status: 'In Progress',
-            donated: 1800000,
-            start_date: '12-12-2022'
-
-        },
-
-
-    ]
-
     let columns = [
-        // {
-        //     field: 'id',
-        //     headerName: 'NO',
-        //     width: 150,
-        //     renderCell: (cellValue) => {
-        //         return (
-        //             <Typography sx={{ fontSize: 13, }}>{cellValue['row']['id']}</Typography>
+        {
+            field: 'id',
+            headerName: 'NO',
+            width: 150,
+            renderCell: (cellValue) => {
+                return (
+                    <Typography sx={{ fontSize: 13, }}>{cellValue['row']['id']}</Typography>
 
-        //         )
-        //     }
-        // },
+                )
+            }
+        },
         {
             field: 'name',
-            headerName: 'Sub Project Name',
+            headerName: 'Project Name',
             width: 150,
             renderCell: (cellValue) => {
                 return (
@@ -216,20 +159,22 @@ const ProjectOverview = () => {
             headerName: 'Progress',
             width: 150,
             renderCell: (cellValue) => {
-                return (
-                    <LinearProgress sx={{ width: 100, height: 8, borderRadius: 10, backgroundColor: 'grey' }} variant='determinate' value={cellValue['row']['progress']} />
+                let approved = cellValue['row']['approved']
+                let unapproved = cellValue['row']['unapproved']
 
+                return (
+                    <LinearProgress sx={{ width: 100, height: 8, borderRadius: 10, backgroundColor: 'grey' }} variant='determinate' value={approved === 0 && unapproved === 0 ? 0 : (approved / (unapproved + approved)) * 100} />
                 )
             }
         },
 
         {
-            field: 'budget',
+            field: 'estimatedBudget',
             headerName: 'Budget',
             width: 150,
             renderCell: (cellValue) => {
                 return (
-                    <Typography sx={{ fontSize: 13, }}>{`$${cellValue['row']['budget'].toLocaleString()}M`}</Typography>
+                    <Typography sx={{ fontSize: 13, }}>{`$${cellValue['row']['estimatedBudget'].toLocaleString()} ETB`}</Typography>
 
                 )
             }
@@ -250,24 +195,24 @@ const ProjectOverview = () => {
         },
 
         {
-            field: 'donated',
+            field: 'fundedMoney',
             headerName: 'Donated',
             width: 150,
             renderCell: (cellValue) => {
                 return (
-                    <Typography sx={{ fontSize: 13, }}>{`$ ${cellValue['row']['donated'].toLocaleString()}M`}</Typography>
+                    <Typography sx={{ fontSize: 13, }}>{`$ ${cellValue['row']['fundedMoney'].toLocaleString()} ETB`}</Typography>
 
                 )
             }
         },
 
         {
-            field: 'start_date',
+            field: 'createdAt',
             headerName: 'Start Date',
             width: 150,
             renderCell: (cellValue) => {
                 return (
-                    <Typography sx={{ fontSize: 13, }}>{`${cellValue['row']['start_date']}`}</Typography>
+                    <Typography sx={{ fontSize: 13, }}>{`${new Date(cellValue['row']['createdAt'])}`}</Typography>
 
                 )
             }
@@ -276,11 +221,11 @@ const ProjectOverview = () => {
     return (
         <>
             <Grid container direction='row' alignItems='center' justifyContent='space-between'>
-                <Grid className='grid-display-scroll-none' item sx={{ p: 2, borderRadius: 3, backgroundColor: 'white', height: '430px', my: 3 }} lg={7}>
+                <Grid className='grid-display-scroll-none' item sx={{ p: 2, borderRadius: 3, backgroundColor: 'white', height: '430px', my: 3 }} sm={12} md={12} lg={7}>
                     <DataGrid
                         className='grid-display-scroll-none'
                         disableSelectionOnClick={true}
-                        rows={rows}
+                        rows={projects}
                         columns={columns}
                         pageSize={5}
                         rowsPerPageOptions={[5]}
@@ -288,7 +233,7 @@ const ProjectOverview = () => {
                     />
                 </Grid>
 
-                <Grid item lg={4}>
+                <Grid item lg={4} md={5}>
                     <Box sx={{ width: '100%', p: 2, borderRadius: 3, backgroundColor: 'white', height: '430px', my: 3 }}>
                         <Typography sx={{ fontWeight: 'bold', color: grey[800], fontSize: 20 }}>Statistics</Typography>
                         <DoughnutChart />
@@ -327,7 +272,7 @@ const ProjectOverview = () => {
             </Grid>
 
             <Grid container alignItems='center' justifyContent='space-between' gap={1}>
-                <Grid item lg={6}>
+                <Grid item lg={6} md={12} sm={12}>
                     <Box sx={{ width: '100%', p: 2, borderRadius: 3, backgroundColor: 'white', height: '430px', my: 1.5 }} >
                         <Typography sx={{ fontSize: 22, color: grey[700], fontWeight: 'bold', mb: 4 }}>Estimation - Budget Insight</Typography>
                         <ProjectBarChart />
@@ -335,7 +280,7 @@ const ProjectOverview = () => {
                     </Box>
                 </Grid>
 
-                <Grid item lg={5.5}>
+                <Grid item lg={5.5} md={12} sm={12}>
                     <Box sx={{ width: '100%', p: 2, borderRadius: 3, backgroundColor: 'white', height: '430px', my: 1.5, }} >
                         <Grid container justifyContent='space-between' alignItems='center' sx={{ mb: 2 }}>
                             <Grid item>
