@@ -109,7 +109,11 @@ contract Project {
     }
 
     //TODO - when a user asks for projects return subproject and tasks tied
-    function getProjectById(uint256 _id) public view returns (ProjectInfo memory){
-            return projects[_id];
+    function getProjectById(uint256 _id)
+        public
+        view
+        returns (ProjectInfo memory)
+    {
+        return projects[_id];
     }
 }

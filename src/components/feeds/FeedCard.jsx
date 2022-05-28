@@ -8,7 +8,7 @@ const FeedCard = ({ feed }) => {
     const navigate = useNavigate()
     return (
 
-        <Grid item md={5} sm={12} lg={3} sx={{width: '250px'}}>
+        <Grid item md={5} sm={12} lg={3} sx={{width: '250px', m : 2}}>
             <div onClick={() => {
                 navigate(`feed-detail/${feed.id}`)
             }}>

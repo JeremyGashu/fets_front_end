@@ -24,6 +24,7 @@ import CreateFeed from '../feed/CreateFeed';
 import FeedDetailPage from '../feed/FeedDetailPage';
 import UserPage from './User';
 import CreateUser from './CreateUsers';
+import ProjectManagerProjectPage from './ProjectsPage';
 
 
 
@@ -63,7 +64,7 @@ const TechnicalAdminSidebar = (props) => {
         },
         {
             name: 'Projects',
-            component: <Typography>Projects</Typography>,
+            component: <ProjectManagerProjectPage />,
             icon: <GraphicEqOutlined sx={{ color: selectedIndex === 1 ? 'white' : '#444' }} />
         },
 
@@ -108,7 +109,7 @@ const TechnicalAdminSidebar = (props) => {
             <Divider sx={{ m: 2, p: 1, mt: 1 }} />
             <List>
                 {dashboardElement.map((menu, index) => (
-                    <Box sx={{ m: 1 }}>
+                    <Box key={Math.random()} sx={{ m: 1 }}>
                         <ListItem style={{ borderRadius: 7 }} onClick={() => {
                             navigate('/technical-admin')
                             setSelectedIndex(index)

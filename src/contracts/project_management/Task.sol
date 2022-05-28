@@ -8,11 +8,9 @@ contract Task {
     enum TaskStatus {
         CREATED,
         ALLOCATED_BY_FINANCIAL_MANAGER,
-
         APPROVED_BY_BUDGET_AND_PROCUREMENT_MANAGER,
         APPROVED_BY_PROJECT_MANAGER,
         APPROVED_BY_EXTERNAL_AUDITOR,
-
         REJECTED_BY_BUDGET_AND_PROCUREMENT_MANAGER,
         REJECTED_BY_PROJECT_MANAGER,
         REJECTED_BY_EXTERNAL_AUDITOR
@@ -78,9 +76,9 @@ contract Task {
             estimatedDuration,
             TaskStatus.CREATED,
             0,
-            ''
+            ""
         );
-        
+
         emit AddedTask(
             count,
             name,
@@ -101,31 +99,60 @@ contract Task {
     ) public {
         tasks[taskid].allocatedBudget = allocatedBudget;
         tasks[taskid].status = TaskStatus.ALLOCATED_BY_FINANCIAL_MANAGER;
-        emit ChangeedTaskStatus(taskid ,TaskStatus.CREATED, TaskStatus.ALLOCATED_BY_FINANCIAL_MANAGER, block.timestamp, msg.sender);
+        emit ChangeedTaskStatus(
+            taskid,
+            TaskStatus.CREATED,
+            TaskStatus.ALLOCATED_BY_FINANCIAL_MANAGER,
+            block.timestamp,
+            msg.sender
+        );
     }
 
     function budgetAndProcurementManagerApproveTaskCompletion(uint256 _taskId)
         public
     {
-        tasks[_taskId].status = TaskStatus.APPROVED_BY_BUDGET_AND_PROCUREMENT_MANAGER;
-        emit ChangeedTaskStatus(_taskId ,TaskStatus.ALLOCATED_BY_FINANCIAL_MANAGER, TaskStatus.APPROVED_BY_BUDGET_AND_PROCUREMENT_MANAGER, block.timestamp, msg.sender);
+        tasks[_taskId].status = TaskStatus
+            .APPROVED_BY_BUDGET_AND_PROCUREMENT_MANAGER;
+        emit ChangeedTaskStatus(
+            _taskId,
+            TaskStatus.ALLOCATED_BY_FINANCIAL_MANAGER,
+            TaskStatus.APPROVED_BY_BUDGET_AND_PROCUREMENT_MANAGER,
+            block.timestamp,
+            msg.sender
+        );
     }
 
     function projectManagerApproveTaskCompletion(uint256 _taskId) public {
         tasks[_taskId].status = TaskStatus.APPROVED_BY_PROJECT_MANAGER;
-        emit ChangeedTaskStatus(_taskId ,TaskStatus.APPROVED_BY_BUDGET_AND_PROCUREMENT_MANAGER, TaskStatus.APPROVED_BY_PROJECT_MANAGER, block.timestamp, msg.sender);
+        emit ChangeedTaskStatus(
+            _taskId,
+            TaskStatus.APPROVED_BY_BUDGET_AND_PROCUREMENT_MANAGER,
+            TaskStatus.APPROVED_BY_PROJECT_MANAGER,
+            block.timestamp,
+            msg.sender
+        );
     }
 
     function externalAuditorApproveTaskCompletion(uint256 _taskId) public {
-         tasks[_taskId].status = TaskStatus.APPROVED_BY_EXTERNAL_AUDITOR;
-        emit ChangeedTaskStatus(_taskId ,TaskStatus.APPROVED_BY_PROJECT_MANAGER, TaskStatus.APPROVED_BY_EXTERNAL_AUDITOR, block.timestamp, msg.sender);
+        tasks[_taskId].status = TaskStatus.APPROVED_BY_EXTERNAL_AUDITOR;
+        emit ChangeedTaskStatus(
+            _taskId,
+            TaskStatus.APPROVED_BY_PROJECT_MANAGER,
+            TaskStatus.APPROVED_BY_EXTERNAL_AUDITOR,
+            block.timestamp,
+            msg.sender
+        );
     }
 
     function deleteTask(uint256 _taskId) public {
         delete tasks[_taskId];
     }
 
-    function getTaskById(uint256 _taskId) public view returns(TaskInfo memory) {
+    function getTaskById(uint256 _taskId)
+        public
+        view
+        returns (TaskInfo memory)
+    {
         return tasks[_taskId];
     }
 
@@ -133,11 +160,15 @@ contract Task {
     As we cannot create dynamic array which we can push to, we should use this function to return the 
     length of tasks with a given project id.    
     */
-    function getTasksCountByProjectId(uint256 _projectId) internal view returns(uint256 length) {
+    function getTasksCountByProjectId(uint256 _projectId)
+        internal
+        view
+        returns (uint256 length)
+    {
         for (uint256 index = 0; index < count + 1; index++) {
-            if(tasks[index].projectId == _projectId) {
-                    length++;
-                }
+            if (tasks[index].projectId == _projectId) {
+                length++;
+            }
         }
     }
 
@@ -145,27 +176,34 @@ contract Task {
     As we cannot create dynamic array which we can push to, we should use this function to return the 
     length of tasks with a given project id.    
     */
-    function getTasksCountBySubProjectId(uint256 _subProjectId) internal view returns(uint256 length) {
+    function getTasksCountBySubProjectId(uint256 _subProjectId)
+        internal
+        view
+        returns (uint256 length)
+    {
         for (uint256 index = 0; index < count + 1; index++) {
-            if(tasks[index].subProjectId == _subProjectId) {
-                    length++;
-                }
+            if (tasks[index].subProjectId == _subProjectId) {
+                length++;
+            }
         }
     }
-    
 
     /*
     This function returns array of tasks that belong to one project
     */
-    function getTasksListFromProjectId(uint256 _projectId) public view returns(TaskInfo[] memory) {
+    function getTasksListFromProjectId(uint256 _projectId)
+        public
+        view
+        returns (TaskInfo[] memory)
+    {
         uint256 length = getTasksCountByProjectId(_projectId);
         TaskInfo[] memory ft = new TaskInfo[](length);
         uint256 counter = 0;
         for (uint256 index = 1; index < count + 1; index++) {
-            if(tasks[index].projectId == _projectId) {
-                    ft[counter] = tasks[index];
-                    counter++;
-                }
+            if (tasks[index].projectId == _projectId) {
+                ft[counter] = tasks[index];
+                counter++;
+            }
         }
         return ft;
     }
@@ -173,26 +211,59 @@ contract Task {
     /*
     This function returns array of tasks that belongs to one subproject
     */
-    function getTasksListFromSubProjectId(uint256 _subProjectId) public view returns(TaskInfo[] memory) {
+    function getTasksListFromSubProjectId(uint256 _subProjectId)
+        public
+        view
+        returns (TaskInfo[] memory)
+    {
         uint256 length = getTasksCountBySubProjectId(_subProjectId);
         TaskInfo[] memory ft = new TaskInfo[](length);
         uint256 counter = 0;
         for (uint256 index = 1; index < count + 1; index++) {
-            if(tasks[index].subProjectId == _subProjectId) {
-                    ft[counter] = tasks[index];
-                    counter++;
-                }
+            if (tasks[index].subProjectId == _subProjectId) {
+                ft[counter] = tasks[index];
+                counter++;
+            }
         }
         return ft;
     }
 
-    //TODO - getApproved and unapproved tasks
-    function getTaskStatusByProjectId(uint256 _projectId) public view returns(uint256 approved, uint256 unapproved) {
+    /*
+    Function to return status of completed and in progress tasks by project id
+    */
+    function getTaskStatusByProjectId(uint256 _projectId)
+        public
+        view
+        returns (uint256 approved, uint256 unapproved)
+    {
         for (uint256 i = 1; i <= count; i++) {
-            if(tasks[i].status == TaskStatus.APPROVED_BY_PROJECT_MANAGER && tasks[i].projectId == _projectId) {
+            if (
+                tasks[i].status == TaskStatus.APPROVED_BY_PROJECT_MANAGER &&
+                tasks[i].projectId == _projectId
+            ) {
                 approved += 1;
+            } else if (tasks[i].projectId == _projectId) {
+                unapproved += 1;
             }
-            else if(tasks[i].projectId == _projectId){
+        }
+        return (approved, unapproved);
+    }
+
+    /*
+    Function to return status of completed and in progress tasks by sub-project id
+    */
+    function getTaskStatusBySubProjectId(uint256 _subProjectId)
+        public
+        view
+        returns (uint256 approved, uint256 unapproved)
+    {
+        for (uint256 i = 1; i <= count; i++) {
+            if (
+                tasks[i].status == TaskStatus.APPROVED_BY_PROJECT_MANAGER &&
+                tasks[i].subProjectId == _subProjectId
+            ) {
+                approved += 1;
+            } else if (tasks[i].projectId == _subProjectId) {
                 unapproved += 1;
             }
         }

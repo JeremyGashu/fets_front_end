@@ -32,7 +32,7 @@ const FeedsPage = () => {
                             navigate('create-feed')
                         }}>Create Feed</Button>
                     </Box>
-                    <Grid container gap={2} justifyContent='space-evenly'>
+                    <Grid container gap={3} justifyContent='start'>
                         {
                             data && (data.length > 0) && data.map(feed => {
                                 return <FeedCard feed={feed} />
