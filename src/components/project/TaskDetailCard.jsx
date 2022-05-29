@@ -71,7 +71,7 @@ export const TaskDetailCardOngoing = () => {
 
 
 
-export const TaskDetailCardNotCompleted = () => {
+export const TaskDetailCardNeedApproval = () => {
     return (
         <Box sx={{ p: 2, width: '100%', backgroundColor: 'white', minHeight: 220, my: 1, borderRadius: 3, boxShadow: `1px 1px 3px 5px  ${grey[100]}` }}>
             <Typography sx={{ fontSize: 14, fontWeight: 'bold', color: grey[700], my: 3 }}>

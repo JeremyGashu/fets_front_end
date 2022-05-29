@@ -1,10 +1,14 @@
-import { AddOutlined, } from '@mui/icons-material'
-import { Box, Grid, IconButton, Tab, Tabs, Typography } from '@mui/material'
+// import { AddOutlined } from '@mui/icons-material'
+import { Box, Grid, Tab, Tabs, Typography } from '@mui/material'
 import { green, grey, } from '@mui/material/colors'
-import React from 'react'
+import React, { useEffect } from 'react'
 import { useState } from 'react'
+import { useSelector } from 'react-redux'
+// import { useNavigate } from 'react-router-dom'
+import FullPageLoading from '../../components/FullPageLoadingPage'
 import ProjectOverview from '../../components/project/ProjectOverview'
-import { TaskDetailCardCompleted, TaskDetailCardNotCompleted, TaskDetailCardOngoing } from '../../components/project/TaskDetailCard'
+import { TaskDetailCardCompleted, TaskDetailCardOngoing } from '../../components/project/TaskDetailCard'
+import { getUserName } from '../../configs/localstorage_handler'
 import { backgroundColor, lightYellowText, mainColor } from '../../themes/color'
 
 
@@ -33,24 +37,115 @@ function TabPanel(props) {
 
 const ProjectPage = () => {
 
+
+    const [loadingProjects, setLoadingProjects] = useState(false)
+    const [projects, setProjects] = useState()
+    const [tasks, setTasks] = useState([])
+    const [subProjects, setSubProjects] = useState([])
+    const { projectContract, mappingContract } = useSelector(state => state.contracts)
+    // const navigate = useNavigate()
+    console.log(subProjects)
+
+    useEffect(() => {
+        setLoadingProjects(true)
+        const username = getUserName() || ''
+
+        mappingContract && mappingContract.methods.getProjectsListByUsername(username).call().then(res => {
+            console.log(res)
+
+            Promise.all(res.map(async (project) => {
+                let s = await mappingContract.methods.getTaskStatusByProjectId(+project.id).call()
+                let approved = +s[0]
+                let unapproved = +s[1]
+                let projectStatus = ''
+
+                if (approved > 0 && unapproved === 0) {
+                    projectStatus = 'Completed'
+                }
+                else if (approved === 0 && unapproved === 0) {
+                    projectStatus = 'Pending'
+                }
+                else {
+                    projectStatus = 'In Progress'
+                }
+                // console.log(mappingContract)
+                return {
+                    accountNumber: project.accountNumber,
+                    companyId: +project.companyId,
+                    createdAt: +project.createdAt,
+                    description: project.description,
+                    estimatedBudget: +project.estimatedBudget,
+                    estimatedDuration: +project.estimatedDuration,
+                    fundedMoney: +project.fundedMoney,
+                    id: +project.id,
+                    location: project.location,
+                    name: project.name,
+                    status: projectStatus,
+                    approved,
+                    unapproved
+                }
+            })).then(result => {
+                setProjects(result)
+                let tempSubProjects = []
+                let tempTasks = []
+                let sps = result.map(async (proj) => {
+                    return await mappingContract.methods.getSubProjectListByProjectId(proj.id).call()
+                })
+                Promise.all(sps).then(results => {
+                    results.forEach(res => {
+                        tempSubProjects = [...tempSubProjects, ...res]
+                    })
+
+                    setSubProjects(tempSubProjects)
+
+                })
+
+                let ts = result.map(async (proj) => {
+                    return await mappingContract.methods.getTaskListByProjectId(proj.id).call()
+                })
+                Promise.all(ts).then(results => {
+                    results.forEach(res => {
+                        tempTasks = [...tempTasks, ...res]
+                    })
+
+                    setSubProjects(tempSubProjects)
+                    setTasks(tempTasks)
+                    console.log(tempSubProjects)
+                    console.log(tempTasks)
+                })
+
+
+                setLoadingProjects(false)
+            })
+                .catch(err => {
+                    console.log(err)
+                    setLoadingProjects(false)
+                })
+        })
+            .catch(err => {
+                console.log(err)
+                setLoadingProjects(false)
+            })
+        // eslint-disable-next-line 
+    }, [projectContract, mappingContract])
+
+
+
     const [value, setValue] = useState(0);
 
     const handleChange = (event, newValue) => {
         setValue(newValue);
     };
 
-
-
-
-
-
-
-
     function a11yProps(index) {
         return {
             id: `simple-tab-${index}`,
             'aria-controls': `simple-tabpanel-${index}`,
         };
+    }
+
+    if (loadingProjects) {
+        return <FullPageLoading />
     }
 
 
@@ -66,8 +161,8 @@ const ProjectPage = () => {
                         </Grid>
 
                         <Grid item sx={{ ml: 2 }}>
-                            <Typography>Project Name</Typography>
-                            <Typography sx={{ fontSize: 12, color: grey[600] }}>Status</Typography>
+                            <Typography>Project Management</Typography>
+                            <Typography sx={{ fontSize: 12, color: grey[600] }}>FETS</Typography>
                         </Grid>
                     </Grid>
 
@@ -76,15 +171,17 @@ const ProjectPage = () => {
                 <Grid item>
                     {/* <input placeholder='Search...' type="text" style={{ borderRadius: 10, color: '#444', outline: 'none', border: `1px solid ${mainColor}`, padding: '8px 10px' }} /> */}
                 </Grid>
-                <Grid item sx={{ mr: 2 }}>
+                {/* <Grid item sx={{ mr: 2 }}>
                     <IconButton sx={{
                         backgroundColor: mainColor, '&:hover': {
                             backgroundColor: mainColor,
                         }
+                    }} onClick={() => {
+                        
                     }}>
                         <AddOutlined sx={{ color: 'white' }} />
                     </IconButton>
-                </Grid>
+                </Grid> */}
             </Grid>
 
             <Box sx={{}}>
@@ -95,34 +192,55 @@ const ProjectPage = () => {
                 </Tabs>
             </Box>
             <TabPanel value={value} index={0}>
-                <ProjectOverview />
+                <ProjectOverview projects={projects} />
             </TabPanel>
             <TabPanel value={value} index={1}>
                 <Grid container alignItems='start' justifyContent='space-between'>
                     <Grid item lg={2.7}>
                         <Typography sx={{ fontSize: 14, fontWeight: 'bold', color: grey[60] }}>TODO</Typography>
                         <Box sx={{ width: '100%', height: 2, backgroundColor: mainColor, mt: 1 }}></Box>
-                        <TaskDetailCardOngoing />
+                        {
+                            tasks.filter(task => task.status === 0).length === 0 && <Typography sx={{ fontSize: 12, my: 2, color: grey[700], textAlign: 'center' }}>No Task in Todo!</Typography>
+                        }
+                        {
+                            tasks.filter(task => task.status === 0).map(t => {
+                                return (
+                                    <TaskDetailCardOngoing />
+                                )
+                            })
+                        }
 
                     </Grid>
 
                     <Grid item lg={2.7}>
                         <Typography sx={{ fontSize: 14, fontWeight: 'bold', color: grey[60] }}>IN PROGRESS</Typography>
                         <Box sx={{ width: '100%', height: 2, backgroundColor: lightYellowText, mt: 1 }}></Box>
-                        <TaskDetailCardOngoing />
+                        {
+                            tasks.filter(task => task.status > 0 && task.status < 2).length === 0 && <Typography sx={{ fontSize: 12, my: 2, color: grey[700], textAlign: 'center' }}>No Task in Progress!</Typography>
+                        }
+                        {
+                            tasks.filter(task => task.status > 0 && task.status < 2).map(t => {
+                                return (
+                                    <TaskDetailCardOngoing />
+                                )
+                            })
+                        }
                     </Grid>
 
                     <Grid item lg={2.7}>
                         <Typography sx={{ fontSize: 14, fontWeight: 'bold', color: grey[60] }}>COMPLETED</Typography>
                         <Box sx={{ width: '100%', height: 2, backgroundColor: green[700], mt: 1 }}></Box>
 
-                        <TaskDetailCardCompleted />
-                        <TaskDetailCardCompleted />
-                        <TaskDetailCardCompleted />
-                        <TaskDetailCardCompleted />
-                        <TaskDetailCardCompleted />
-                        <TaskDetailCardCompleted />
-                        <TaskDetailCardCompleted />
+                        {
+                            tasks.filter(task => task.status === 3).length === 0 && <Typography sx={{ fontSize: 12, my: 2, color: grey[700], textAlign: 'center' }}>No Task is Completed!!</Typography>
+                        }
+                        {
+                            tasks.filter(task => task.status === 3).map(t => {
+                                return (
+                                    <TaskDetailCardCompleted />
+                                )
+                            })
+                        }
 
 
                     </Grid>
@@ -130,8 +248,16 @@ const ProjectPage = () => {
                     <Grid item lg={2.7}>
                         <Typography sx={{ fontSize: 14, fontWeight: 'bold', color: grey[60] }}>NEED APPROVAL</Typography>
                         <Box sx={{ width: '100%', height: 2, backgroundColor: mainColor, mt: 1 }}></Box>
-                        <TaskDetailCardNotCompleted />
-                        <TaskDetailCardNotCompleted />
+                        {
+                            tasks.filter(task => task.status === 2).length === 0 && <Typography sx={{ fontSize: 12, my: 2, color: grey[700], textAlign: 'center' }}>No Task needs your approval!</Typography>
+                        }
+                        {
+                            tasks.filter(task => task.status === 2).map(t => {
+                                return (
+                                    <TaskDetailCardCompleted />
+                                )
+                            })
+                        }
                     </Grid>
                 </Grid>
             </TabPanel>

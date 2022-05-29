@@ -15,13 +15,10 @@ import { Avatar, Badge, Divider, Grid, Menu, MenuItem, Tooltip } from '@mui/mate
 import { Dashboard, GraphicEqOutlined, Logout, Notifications, } from '@mui/icons-material';
 import { mainColor } from '../../themes/color';
 import company_logo from '../../assets/company_logo.png'
-import DashboardPage from '../technical_admin/Dashboard'
 import ProjectPage from './Projects';
 import SidebarProjectListItem from '../../components/project/SidebarProjectListItem';
 import { grey } from '@mui/material/colors';
-
-
-
+import ProjectManagerDashboard from './ProjectManagerDashboard';
 
 
 const drawerWidth = 250;
@@ -51,7 +48,7 @@ const ProjectManagerSidebar = (props) => {
     const dashboardElement = [
         {
             name: 'Dashboard',
-            component: <DashboardPage />,
+            component: <ProjectManagerDashboard />,
             icon: <Dashboard sx={{ color: selectedIndex === 0 ? 'white' : '#444' }} />
 
         },
