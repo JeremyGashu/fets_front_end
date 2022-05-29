@@ -488,15 +488,14 @@ const ProjectPage = () => {
 
             <Box sx={{}}>
                 <Tabs value={value} onChange={handleChange} aria-label="basic tabs example">
-                    <Tab label="Overview" {...a11yProps(0)} />
-                    <Tab label="Board" {...a11yProps(1)} />
-                    <Tab label="List" {...a11yProps(2)} />
+                    <Tab label="Board" {...a11yProps(0)} />
+                    <Tab label="Overview" {...a11yProps(1)} />
                 </Tabs>
             </Box>
-            <TabPanel value={value} index={0}>
+            <TabPanel value={value} index={1}>
                 <ProjectOverview projects={projects} />
             </TabPanel>
-            <TabPanel value={value} index={1}>
+            <TabPanel value={value} index={0}>
                 <Grid container alignItems='start' justifyContent='space-between'>
                     <Grid item lg={2.7}>
                         <Typography sx={{ fontSize: 14, fontWeight: 'bold', color: grey[60] }}>TODO</Typography>
@@ -523,7 +522,7 @@ const ProjectPage = () => {
                         {
                             tasks.filter(task => task.status > 0 && task.status <= 2).map(t => {
                                 return (
-                                    <TaskDetailCardOngoing task={t}/>
+                                    <TaskDetailCardOngoing task={t} />
                                 )
                             })
                         }
