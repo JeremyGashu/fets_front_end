@@ -58,7 +58,6 @@ const ProjectPage = () => {
         }).catch(err => {
             toast('Some error encountered!', { type: 'warning', position: toast.POSITION.BOTTOM_RIGHT, })
             setAddSubProjectModalOpen(false)
-
         })
     }
 

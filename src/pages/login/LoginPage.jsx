@@ -8,6 +8,7 @@ import { useForm } from 'react-hook-form'
 import { useMutation } from 'react-query'
 import { loginRequest } from '../../controller/auth'
 import { useNavigate } from 'react-router-dom'
+import { ROLES } from '../../configs/roles'
 
 
 const LoginPage = () => {
@@ -35,7 +36,7 @@ const LoginPage = () => {
                 }
 
                 else if (userType === 'FINANCIAL_OFFICER') {
-                    //TODO implement for financial officer
+                    navigate('/financial-manager')
                 }
                 else { }
 

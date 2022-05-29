@@ -11,3 +11,10 @@ export const getUserName = () => {
     const username = storage.body && storage.body.username
     return username
 }
+
+export const getUserType = () => {
+    const storage = JSON.parse(localStorage.getItem('authData') || "{}")
+
+    const type = storage.body && storage.body.type
+    return type
+}

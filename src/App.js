@@ -9,6 +9,7 @@ import TechnicalAdminSidebar from "./pages/technical_admin/TechnicalAdmin";
 import './configs/blockchain'
 import BoardingPage from './pages/boarding/BoardinPage';
 import FeedDetailPage from './pages/feed/FeedDetailPage';
+import FinancialManagerSidebar from './pages/financial_manager/FinancialManager';
 
 
 const App = () => {
@@ -29,6 +30,7 @@ const App = () => {
         <Route path='/login' element={<LoginPage />} />
         <Route path='/technical-admin/*' element={<TechnicalAdminSidebar />} />
         <Route path='/project-manager/*' element={<ProjectManagerSidebar />} />
+        <Route path='/financial-manager/*' element={<FinancialManagerSidebar />} />
         <Route path='/feeds/*' element={<FeedsPage />} />
         <Route path='/feed-detail/:id' element={<FeedDetailPage />} />
 
