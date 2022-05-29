@@ -1,6 +1,6 @@
 import axios from "axios"
 import { toast } from "react-toastify"
-import { getToken } from "../configs/token"
+import { getToken } from "../configs/localstorage_handler"
 import { BASE_URL } from "../configs/urls"
 
 export const getAllUsers = async () => {

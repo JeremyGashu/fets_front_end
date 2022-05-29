@@ -1,5 +1,5 @@
 import axios from "axios"
-import { getToken } from "../configs/token"
+import { getToken } from "../configs/localstorage_handler"
 import { BASE_URL } from "../configs/urls"
 import { toast } from "react-toastify"
 

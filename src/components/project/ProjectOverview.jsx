@@ -86,7 +86,7 @@ const ProjectOverview = ({ projects = [], tasks = [] }) => {
         {
             field: 'name',
             headerName: 'Project Name',
-            width: 160,
+            width: 170,
             renderCell: (cellValue) => {
                 return (
                     <Typography sx={{ fontSize: 13, }}>{cellValue['row']['name']}</Typography>
@@ -98,7 +98,7 @@ const ProjectOverview = ({ projects = [], tasks = [] }) => {
         {
             field: 'progress',
             headerName: 'Progress',
-            width: 150,
+            width: 160,
             renderCell: (cellValue) => {
                 let approved = cellValue['row']['approved']
                 let unapproved = cellValue['row']['unapproved']

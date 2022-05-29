@@ -15,15 +15,15 @@ import { Avatar, Badge, Divider, Grid, Menu, MenuItem, Tooltip } from '@mui/mate
 import { Dashboard, GraphicEqOutlined, Logout, Notifications, } from '@mui/icons-material';
 import { mainColor } from '../../themes/color';
 import company_logo from '../../assets/company_logo.png'
-import ProjectPage from './Projects';
 import SidebarProjectListItem from '../../components/project/SidebarProjectListItem';
 import { grey } from '@mui/material/colors';
-import ProjectManagerDashboard from './ProjectManagerDashboard';
+import FinancialOfficerDashboard from './FinancialOfficerDashboard';
+import FinancialOfficerProjectsPage from './Projects';
 
 
 const drawerWidth = 250;
 
-const ProjectManagerSidebar = (props) => {
+const FinancialManagerSidebar = (props) => {
     const { window } = props;
     const [mobileOpen, setMobileOpen] = useState(false)
     const [selectedIndex, setSelectedIndex] = useState(0)
@@ -48,13 +48,13 @@ const ProjectManagerSidebar = (props) => {
     const dashboardElement = [
         {
             name: 'Dashboard',
-            component: <ProjectManagerDashboard />,
+            component: <FinancialOfficerDashboard />,
             icon: <Dashboard sx={{ color: selectedIndex === 0 ? 'white' : '#444' }} />
 
         },
         {
             name: 'Projects',
-            component: <ProjectPage />,
+            component: <FinancialOfficerProjectsPage/>,
             icon: <GraphicEqOutlined sx={{ color: selectedIndex === 1 ? 'white' : '#444' }} />
         },
     ]
@@ -265,4 +265,4 @@ const ProjectManagerSidebar = (props) => {
 }
 
 
-export default ProjectManagerSidebar
+export default FinancialManagerSidebar
