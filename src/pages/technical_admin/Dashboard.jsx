@@ -1,26 +1,28 @@
-import { Check, LocalDiningOutlined, MoneyOutlined, PersonPin } from "@mui/icons-material"
-import { Box, Divider, Grid, LinearProgress, Typography } from "@mui/material"
+import { AddOutlined, Check, LocalDiningOutlined, MoneyOutlined, PersonPin } from "@mui/icons-material"
+import { Box, Divider, Grid, IconButton, LinearProgress, Typography } from "@mui/material"
 import { DataGrid } from "@mui/x-data-grid"
 import { useEffect } from "react"
 import { useState } from "react"
 import { useSelector } from "react-redux"
+import { useNavigate } from "react-router-dom"
 import FullPageLoading from "../../components/FullPageLoadingPage"
 import LineChart from "../../components/technical_admin/LineChartProject"
 import TechnicalAdminDashboardCard from "../../components/technical_admin/TechnicalAdminDashboardCard"
 import { getBackgroundColorFromStatus, getTextColorFromStatus } from "../../configs/statuses"
-import { dashboardColor1, dashboardColor2, dashboardColor3, dashboardColor4 } from "../../themes/color"
+import { dashboardColor1, dashboardColor2, dashboardColor3, dashboardColor4, mainColor } from "../../themes/color"
 
 const DashboardPage = () => {
 
     const [loadingProjects, setLoadingProjects] = useState(false)
     const [projects, setProjects] = useState()
     const { projectContract, mappingContract } = useSelector(state => state.contracts)
+    const navigate = useNavigate()
 
     useEffect(() => {
         setLoadingProjects(true)
 
 
-        projectContract.methods.getAllProjects().call().then(res => {
+        projectContract && projectContract.methods.getAllProjects().call().then(res => {
 
             Promise.all(res.map(async (project) => {
                 let s = await mappingContract.methods.getTaskStatusByProjectId(+project.id).call()
@@ -67,8 +69,8 @@ const DashboardPage = () => {
                 console.log(err)
                 setLoadingProjects(false)
             })
-        // eslint-disable-next-line
-    }, [])
+        // eslint-disable-next-line 
+    }, [projectContract])
 
     if (loadingProjects) {
         return <FullPageLoading />
@@ -101,7 +103,7 @@ const DashboardPage = () => {
         {
             field: 'progress',
             headerName: 'Progress',
-            width: 150,
+            width: 140,
             renderCell: (cellValue) => {
                 let approved = cellValue['row']['approved']
                 let unapproved = cellValue['row']['unapproved']
@@ -115,7 +117,7 @@ const DashboardPage = () => {
         {
             field: 'estimatedBudget',
             headerName: 'Budget',
-            width: 150,
+            width: 140,
             renderCell: (cellValue) => {
                 return (
                     <Typography sx={{ fontSize: 13, }}>{`$${cellValue['row']['estimatedBudget'].toLocaleString()} ETB`}</Typography>
@@ -141,7 +143,7 @@ const DashboardPage = () => {
         {
             field: 'fundedMoney',
             headerName: 'Donated',
-            width: 150,
+            width: 100,
             renderCell: (cellValue) => {
                 return (
                     <Typography sx={{ fontSize: 13, }}>{`$ ${cellValue['row']['fundedMoney'].toLocaleString()} ETB`}</Typography>
@@ -153,10 +155,34 @@ const DashboardPage = () => {
         {
             field: 'createdAt',
             headerName: 'Start Date',
-            width: 150,
+            width: 130,
             renderCell: (cellValue) => {
                 return (
                     <Typography sx={{ fontSize: 13, }}>{`${new Date(cellValue['row']['createdAt'])}`}</Typography>
+
+                )
+            }
+        },
+
+
+        {
+            headerName: 'Actions',
+            width: 200,
+            renderCell: (cellValue) => {
+                return (
+                    <Grid sx={{ p: 2 }} container direction='row' alignItems='center' justifyContent='center'>
+                        <Grid item>
+                            <IconButton onClick={() => {
+                                navigate(`add-mapping/${cellValue['row']['id']}`)
+                            }}>
+                                <AddOutlined sx={{ color: mainColor }} />
+                            </IconButton>
+                        </Grid>
+
+                        <Grid item>
+                            <Typography sx={{ fontSize: 12 }}>Add Mapping</Typography>
+                        </Grid>
+                    </Grid>
 
                 )
             }
@@ -193,7 +219,7 @@ const DashboardPage = () => {
 
             <DataGrid
                 disableSelectionOnClick={true}
-                rows={projects}
+                rows={projects || []}
                 columns={columns}
                 pageSize={5}
                 rowsPerPageOptions={[5]}

@@ -10,7 +10,7 @@ const FeedCard = ({ feed }) => {
 
         <Grid item md={5} sm={12} lg={3} sx={{width: '250px', m : 2}}>
             <div onClick={() => {
-                navigate(`feed-detail/${feed.id}`)
+                navigate(`/feed-detail/${feed.id}`)
             }}>
                 <Grid container direction='column' justifyContent='space-between' className='feed-card' sx={{ height: 330, p: 1, borderRadius: 3, backgroundColor: grey[200] }}>
                     <Grid item>

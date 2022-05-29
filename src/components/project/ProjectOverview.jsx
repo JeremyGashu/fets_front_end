@@ -58,7 +58,6 @@ const ProjectOverview = ({ projects = [], tasks = [] }) => {
                 )
             }
         },
-
         {
             field: 'estimatedDuration',
             headerName: 'Due Date',
