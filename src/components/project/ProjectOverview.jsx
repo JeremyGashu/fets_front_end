@@ -1,82 +1,14 @@
 import { Box, CircularProgress, Grid, Typography, LinearProgress, Button } from "@mui/material"
 import { DataGrid } from "@mui/x-data-grid"
 import DoughnutChart from "./DonutChartProject"
-import { lightGreenBg, lightRedBg, lightRedText, lightYellowGg, lightYellowText, mainColor } from "../../themes/color"
-import { grey, lightGreen } from "@mui/material/colors"
+import { mainColor } from "../../themes/color"
+import { grey } from "@mui/material/colors"
 import { Check } from "@mui/icons-material"
 import ProjectBarChart from "./BarChartProject"
+import { getBackgroundColorFromStatus, getTextColorFromStatus } from "../../configs/statuses"
 
 
-const ProjectOverview = () => {
-
-    const getTextColorFromStatus = (status) => {
-        switch (status) {
-            case 'In Progress':
-                return lightYellowText
-            case 'Completed':
-                return lightGreen
-            case 'Canceled':
-                return lightRedText
-            default:
-                return 'yellow'
-        }
-    }
-
-    const getBackgroundColorFromStatus = (status) => {
-        switch (status) {
-            case 'In Progress':
-                return lightYellowGg
-            case 'Completed':
-                return lightGreenBg
-            case 'Canceled':
-                return lightRedBg
-            default:
-                return 'yellow'
-        }
-    }
-
-    let taskRows = [
-        {
-            id: 1,
-            name: 'Tikur Anbesa',
-            budget: 22500000,
-            due_date: '12-12-2022'
-
-        },
-
-        {
-            id: 2,
-            name: 'Addis Ababa Stadium',
-            budget: 22500000,
-            due_date: '12-12-2022'
-        },
-        {
-            id: 3,
-            name: 'Bishoftu Resort',
-            budget: 22500000,
-            due_date: '12-12-2022'
-        },
-
-        {
-            id: 4,
-            name: 'Feeding Students',
-            budget: 22500000,
-            due_date: '12-12-2022'
-        },
-        {
-            id: 3,
-            name: 'Bishoftu Resort',
-            budget: 22500000,
-            due_date: '12-12-2022'
-        },
-
-        {
-            id: 4,
-            name: 'Feeding Students',
-            budget: 22500000,
-            due_date: '12-12-2022'
-        },
-    ]
+const ProjectOverview = ({ projects = [], tasks = [] }) => {
 
     let taskColumns = [
         {
@@ -92,8 +24,8 @@ const ProjectOverview = () => {
         },
         {
             field: 'name',
-            headerName: 'Namee',
-            width: 140,
+            headerName: 'Task Name',
+            width: 160,
             renderCell: (cellValue) => {
                 return (
                     <Typography sx={{ fontSize: 13, }}>{cellValue['row']['name']}</Typography>
@@ -104,105 +36,58 @@ const ProjectOverview = () => {
 
 
         {
-            field: 'budget',
+            field: 'estimatedBudget',
             headerName: 'Budget',
-            width: 140,
+            width: 150,
             renderCell: (cellValue) => {
                 return (
-                    <Typography sx={{ fontSize: 13, }}>{`$${cellValue['row']['budget'].toLocaleString()}M`}</Typography>
+                    <Typography sx={{ fontSize: 13, }}>{`$${cellValue['row']['estimatedBudget'].toLocaleString()} ETB`}</Typography>
 
                 )
             }
         },
 
         {
-            field: 'due_date',
+            field: 'createdAt',
+            headerName: 'Start Date',
+            width: 150,
+            renderCell: (cellValue) => {
+                return (
+                    <Typography sx={{ fontSize: 13, }}>{`${new Date(cellValue['row']['createdAt'])}`}</Typography>
+
+                )
+            }
+        },
+
+        {
+            field: 'estimatedDuration',
             headerName: 'Due Date',
-            width: 140,
+            width: 150,
             renderCell: (cellValue) => {
                 return (
-                    <Typography sx={{ fontSize: 13, }}>{`${cellValue['row']['due_date']}`}</Typography>
+                    <Typography sx={{ fontSize: 13, }}>{`${new Date(cellValue['row']['estimatedDuration'])}`}</Typography>
 
                 )
             }
         },
-    ]
-
-    let rows = [
-        {
-            id: 1,
-            name: 'Tikur Anbesa',
-            progress: 50,
-            budget: 22500000,
-            status: 'In Progress',
-            donated: 1800000,
-            start_date: '12-12-2022'
-
-        },
-
-        {
-            id: 2,
-            name: 'Addis Ababa Stadium',
-            progress: 10,
-            budget: 22500000,
-            status: 'Completed',
-            donated: 1800000,
-            start_date: '12-12-2022'
-
-        },
-
-        {
-            id: 3,
-            name: 'Bishoftu Resort',
-            progress: 80,
-            budget: 22500000,
-            status: 'Canceled',
-            donated: 1800000,
-            start_date: '12-12-2022'
-
-        },
-
-        {
-            id: 4,
-            name: 'Feeding Students',
-            progress: 25,
-            budget: 22500000,
-            status: 'In Progress',
-            donated: 1800000,
-            start_date: '12-12-2022'
-
-        },
-
-        {
-            id: 5,
-            name: 'Addis Ababa Football Acadamy',
-            progress: 90,
-            budget: 22500000,
-            status: 'In Progress',
-            donated: 1800000,
-            start_date: '12-12-2022'
-
-        },
-
-
     ]
 
     let columns = [
-        // {
-        //     field: 'id',
-        //     headerName: 'NO',
-        //     width: 150,
-        //     renderCell: (cellValue) => {
-        //         return (
-        //             <Typography sx={{ fontSize: 13, }}>{cellValue['row']['id']}</Typography>
+        {
+            field: 'id',
+            headerName: 'NO',
+            width: 40,
+            renderCell: (cellValue) => {
+                return (
+                    <Typography sx={{ fontSize: 13, }}>{cellValue['row']['id']}</Typography>
 
-        //         )
-        //     }
-        // },
+                )
+            }
+        },
         {
             field: 'name',
-            headerName: 'Sub Project Name',
-            width: 150,
+            headerName: 'Project Name',
+            width: 160,
             renderCell: (cellValue) => {
                 return (
                     <Typography sx={{ fontSize: 13, }}>{cellValue['row']['name']}</Typography>
@@ -216,20 +101,22 @@ const ProjectOverview = () => {
             headerName: 'Progress',
             width: 150,
             renderCell: (cellValue) => {
-                return (
-                    <LinearProgress sx={{ width: 100, height: 8, borderRadius: 10, backgroundColor: 'grey' }} variant='determinate' value={cellValue['row']['progress']} />
+                let approved = cellValue['row']['approved']
+                let unapproved = cellValue['row']['unapproved']
 
+                return (
+                    <LinearProgress sx={{ width: 100, height: 8, borderRadius: 10, backgroundColor: 'grey' }} variant='determinate' value={approved === 0 && unapproved === 0 ? 0 : (approved / (unapproved + approved)) * 100} />
                 )
             }
         },
 
         {
-            field: 'budget',
+            field: 'estimatedBudget',
             headerName: 'Budget',
             width: 150,
             renderCell: (cellValue) => {
                 return (
-                    <Typography sx={{ fontSize: 13, }}>{`$${cellValue['row']['budget'].toLocaleString()}M`}</Typography>
+                    <Typography sx={{ fontSize: 13, }}>{`$${cellValue['row']['estimatedBudget'].toLocaleString()} ETB`}</Typography>
 
                 )
             }
@@ -250,24 +137,24 @@ const ProjectOverview = () => {
         },
 
         {
-            field: 'donated',
+            field: 'fundedMoney',
             headerName: 'Donated',
             width: 150,
             renderCell: (cellValue) => {
                 return (
-                    <Typography sx={{ fontSize: 13, }}>{`$ ${cellValue['row']['donated'].toLocaleString()}M`}</Typography>
+                    <Typography sx={{ fontSize: 13, }}>{`$ ${cellValue['row']['fundedMoney'].toLocaleString()} ETB`}</Typography>
 
                 )
             }
         },
 
         {
-            field: 'start_date',
+            field: 'createdAt',
             headerName: 'Start Date',
             width: 150,
             renderCell: (cellValue) => {
                 return (
-                    <Typography sx={{ fontSize: 13, }}>{`${cellValue['row']['start_date']}`}</Typography>
+                    <Typography sx={{ fontSize: 13, }}>{`${new Date(cellValue['row']['createdAt'])}`}</Typography>
 
                 )
             }
@@ -276,11 +163,11 @@ const ProjectOverview = () => {
     return (
         <>
             <Grid container direction='row' alignItems='center' justifyContent='space-between'>
-                <Grid className='grid-display-scroll-none' item sx={{ p: 2, borderRadius: 3, backgroundColor: 'white', height: '430px', my: 3 }} lg={7}>
+                <Grid className='grid-display-scroll-none' item sx={{ p: 2, borderRadius: 3, backgroundColor: 'white', height: '430px', my: 3 }} sm={12} md={12} lg={7}>
                     <DataGrid
                         className='grid-display-scroll-none'
                         disableSelectionOnClick={true}
-                        rows={rows}
+                        rows={projects}
                         columns={columns}
                         pageSize={5}
                         rowsPerPageOptions={[5]}
@@ -288,10 +175,10 @@ const ProjectOverview = () => {
                     />
                 </Grid>
 
-                <Grid item lg={4}>
+                <Grid item lg={4} md={5}>
                     <Box sx={{ width: '100%', p: 2, borderRadius: 3, backgroundColor: 'white', height: '430px', my: 3 }}>
                         <Typography sx={{ fontWeight: 'bold', color: grey[800], fontSize: 20 }}>Statistics</Typography>
-                        <DoughnutChart />
+                        <DoughnutChart projects={projects} />
 
                         <Grid container direction='row' alignItems='center' justifyContent='space-between'>
                             <Grid item>
@@ -301,7 +188,7 @@ const ProjectOverview = () => {
 
                                     </Grid>
                                     <Grid item sx={{ ml: 1 }}>
-                                        <Typography sx={{ fontSize: 27, color: grey[800], fontWeight: 'bold' }}>3</Typography>
+                                        <Typography sx={{ fontSize: 27, color: grey[800], fontWeight: 'bold' }}>{projects.filter(p => p.status !== 'Completed').length}</Typography>
                                         <Typography sx={{ color: grey[600] }}>Ongoing</Typography>
                                     </Grid>
                                 </Grid>
@@ -315,7 +202,7 @@ const ProjectOverview = () => {
                                         </Box>
                                     </Grid>
                                     <Grid item sx={{ ml: 1 }}>
-                                        <Typography sx={{ fontSize: 27, color: grey[800], fontWeight: 'bold' }}>3</Typography>
+                                        <Typography sx={{ fontSize: 27, color: grey[800], fontWeight: 'bold' }}>{projects.filter(p => p.status === 'Completed').length}</Typography>
                                         <Typography sx={{ color: grey[600] }}>Completed</Typography>
                                     </Grid>
                                 </Grid>
@@ -327,15 +214,15 @@ const ProjectOverview = () => {
             </Grid>
 
             <Grid container alignItems='center' justifyContent='space-between' gap={1}>
-                <Grid item lg={6}>
+                <Grid item lg={6} md={12} sm={12}>
                     <Box sx={{ width: '100%', p: 2, borderRadius: 3, backgroundColor: 'white', height: '430px', my: 1.5 }} >
                         <Typography sx={{ fontSize: 22, color: grey[700], fontWeight: 'bold', mb: 4 }}>Estimation - Budget Insight</Typography>
-                        <ProjectBarChart />
+                        <ProjectBarChart projects={projects} />
 
                     </Box>
                 </Grid>
 
-                <Grid item lg={5.5}>
+                <Grid item lg={5.5} md={12} sm={12}>
                     <Box sx={{ width: '100%', p: 2, borderRadius: 3, backgroundColor: 'white', height: '430px', my: 1.5, }} >
                         <Grid container justifyContent='space-between' alignItems='center' sx={{ mb: 2 }}>
                             <Grid item>
@@ -358,7 +245,7 @@ const ProjectOverview = () => {
                             <DataGrid
                                 className='grid-display-scroll-none'
                                 disableSelectionOnClick={true}
-                                rows={taskRows}
+                                rows={tasks}
                                 columns={taskColumns}
                                 pageSize={3}
                                 rowsPerPageOptions={[3]}

@@ -17,14 +17,16 @@ import { mainColor } from '../../themes/color';
 import company_logo from '../../assets/company_logo.png'
 import DashboardPage from './Dashboard';
 import CompanyPage from './Company';
-import { Route, Routes, useNavigate } from 'react-router-dom';
+import { Navigate, Route, Routes, useNavigate } from 'react-router-dom';
 import CreateCompany from '../project_manager/CreateCompany';
 import FeedsPage from '../feed/FeedsPage';
 import CreateFeed from '../feed/CreateFeed';
 import FeedDetailPage from '../feed/FeedDetailPage';
 import UserPage from './User';
 import CreateUser from './CreateUsers';
-import ProjectManagerProjectPage from './ProjectsPage';
+import TechnicalAdminProjectManagement from './ProjectsPage';
+import CreateProjectsPage from './CreateProjectPage';
+import { logOut } from '../../controller/auth';
 
 
 
@@ -52,8 +54,9 @@ const TechnicalAdminSidebar = (props) => {
         setAnchorEl(null);
     };
 
-
-
+    if (!localStorage.getItem('authData')) {
+        return <Navigate to='/login' />
+    }
 
     const dashboardElement = [
         {
@@ -64,7 +67,7 @@ const TechnicalAdminSidebar = (props) => {
         },
         {
             name: 'Projects',
-            component: <ProjectManagerProjectPage />,
+            component: <TechnicalAdminProjectManagement />,
             icon: <GraphicEqOutlined sx={{ color: selectedIndex === 1 ? 'white' : '#444' }} />
         },
 
@@ -217,9 +220,16 @@ const TechnicalAdminSidebar = (props) => {
                                         transformOrigin={{ horizontal: 'right', vertical: 'top' }}
                                         anchorOrigin={{ horizontal: 'right', vertical: 'bottom' }}
                                     >
-                                        <MenuItem>
+                                        <MenuItem onClick={async () => {
+                                            // console.log('Log out')
+                                            await logOut()
+                                            navigate('/')
+                                        }}>
                                             <ListItemIcon>
-                                                <Logout fontSize="small" sx={{ color: mainColor, fontSize: 14 }} />
+                                                <IconButton>
+                                                    <Logout fontSize="small" sx={{ color: mainColor, fontSize: 14 }} />
+                                                </IconButton>
+
                                             </ListItemIcon>
                                             <Typography sx={{ fontSize: 14 }}>Logout</Typography>
                                         </MenuItem>
@@ -277,6 +287,7 @@ const TechnicalAdminSidebar = (props) => {
                             <Route path='create-feed' element={<CreateFeed />} />
                             <Route path='feed-detail/:id' element={<FeedDetailPage />} />
                             <Route path='create-user' element={<CreateUser />} />
+                            <Route path='create-project' element={<CreateProjectsPage />} />
                             {/* <Route path='assets/:departmentid' element={<AssetsComponent />} />
                             <Route path='associations/:departmentid' element={<AssociationComponent />} />
                             <Route path='association_members/:associationid' element={<AssociationMembersComponent />} />

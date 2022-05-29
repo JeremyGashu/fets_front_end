@@ -4,7 +4,7 @@ import { Box } from "@mui/material";
 import { useEffect } from "react";
 import { grey } from "@mui/material/colors";
 
-const ProjectBarChart = () => {
+const ProjectBarChart = ({ projects = [] }) => {
     let raisedMnoey = '#F06292';
     let estimatedBudget = '#4DB6AC';
     let chartRef = useRef();
@@ -12,22 +12,22 @@ const ProjectBarChart = () => {
     useEffect(() => {
         const ctx = chartRef.current.getContext("2d");
 
-        let densityData = {
+        let estimatedBudgetData = {
             label: "Estimated Budget",
-            data: [5427, 5243, 5514, 3933, 1326, 687, 1271, 1638],
+            data: projects.map(p => p.estimatedBudget),
             backgroundColor: estimatedBudget,
             yAxisID: "y-axis-density"
         };
 
-        let gravityData = {
+        let fundedMonetData = {
             label: "Raised Budget",
-            data: [3000, 1000, 2000, 4000, 3000, 3000, 300, 9000],
+            data: projects.map(p => p.fundedMoney + 100),
             backgroundColor: raisedMnoey,
             yAxisID: "y-axis-gravity"
         };
-        let planetData = {
-            labels: ['Project 1', 'Project 2', 'Project 3'],
-            datasets: [densityData, gravityData]
+        let overallData = {
+            labels: projects.map(p => p.name),
+            datasets: [estimatedBudgetData, fundedMonetData]
         };
 
         let chartOptions = {
@@ -61,14 +61,14 @@ const ProjectBarChart = () => {
 
         let barChart = new Chart(ctx, {
             type: "bar",
-            data: planetData,
+            data: overallData,
             options: chartOptions
         });
 
         return () => {
             barChart.destroy()
         }
-    }, [estimatedBudget, raisedMnoey])
+    }, [estimatedBudget, raisedMnoey, projects])
 
 
 

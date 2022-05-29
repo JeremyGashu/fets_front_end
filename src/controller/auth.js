@@ -15,3 +15,7 @@ export const loginRequest = async (auth) => {
     }
     return response.data
 }
+
+export const logOut = async () => {
+    localStorage.removeItem('authData')
+}
