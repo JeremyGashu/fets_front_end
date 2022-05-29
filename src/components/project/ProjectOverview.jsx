@@ -1,84 +1,14 @@
 import { Box, CircularProgress, Grid, Typography, LinearProgress, Button } from "@mui/material"
 import { DataGrid } from "@mui/x-data-grid"
 import DoughnutChart from "./DonutChartProject"
-import { lightGreenBg, lightRedBg, lightRedText, lightYellowGg, lightYellowText, mainColor } from "../../themes/color"
-import { grey, lightGreen } from "@mui/material/colors"
+import { mainColor } from "../../themes/color"
+import { grey } from "@mui/material/colors"
 import { Check } from "@mui/icons-material"
 import ProjectBarChart from "./BarChartProject"
+import { getBackgroundColorFromStatus, getTextColorFromStatus } from "../../configs/statuses"
 
 
-const ProjectOverview = ({ projects = [] }) => {
-
-    const getTextColorFromStatus = (status) => {
-        switch (status) {
-            case 'In Progress':
-                return `${lightYellowText}`
-            case 'Completed':
-                return lightGreen
-            case 'Canceled':
-                return lightRedText
-            case 'Pending':
-                return grey[800]
-            default:
-                return 'yellow'
-        }
-    }
-
-    const getBackgroundColorFromStatus = (status) => {
-        switch (status) {
-            case 'In Progress':
-                return lightYellowGg
-            case 'Completed':
-                return lightGreenBg
-            case 'Canceled':
-                return lightRedBg
-            default:
-                return 'yellow'
-        }
-    }
-
-    let taskRows = [
-        {
-            id: 1,
-            name: 'Tikur Anbesa',
-            budget: 22500000,
-            due_date: '12-12-2022'
-
-        },
-
-        {
-            id: 2,
-            name: 'Addis Ababa Stadium',
-            budget: 22500000,
-            due_date: '12-12-2022'
-        },
-        {
-            id: 3,
-            name: 'Bishoftu Resort',
-            budget: 22500000,
-            due_date: '12-12-2022'
-        },
-
-        {
-            id: 4,
-            name: 'Feeding Students',
-            budget: 22500000,
-            due_date: '12-12-2022'
-        },
-        {
-            id: 3,
-            name: 'Bishoftu Resort',
-            budget: 22500000,
-            due_date: '12-12-2022'
-        },
-
-        {
-            id: 4,
-            name: 'Feeding Students',
-            budget: 22500000,
-            due_date: '12-12-2022'
-        },
-    ]
+const ProjectOverview = ({ projects = [], tasks = [] }) => {
 
     let taskColumns = [
         {
@@ -94,8 +24,8 @@ const ProjectOverview = ({ projects = [] }) => {
         },
         {
             field: 'name',
-            headerName: 'Name',
-            width: 140,
+            headerName: 'Task Name',
+            width: 160,
             renderCell: (cellValue) => {
                 return (
                     <Typography sx={{ fontSize: 13, }}>{cellValue['row']['name']}</Typography>
@@ -106,24 +36,36 @@ const ProjectOverview = ({ projects = [] }) => {
 
 
         {
-            field: 'budget',
+            field: 'estimatedBudget',
             headerName: 'Budget',
-            width: 140,
+            width: 150,
             renderCell: (cellValue) => {
                 return (
-                    <Typography sx={{ fontSize: 13, }}>{`$${cellValue['row']['budget'].toLocaleString()}M`}</Typography>
+                    <Typography sx={{ fontSize: 13, }}>{`$${cellValue['row']['estimatedBudget'].toLocaleString()} ETB`}</Typography>
 
                 )
             }
         },
 
         {
-            field: 'due_date',
-            headerName: 'Due Date',
-            width: 140,
+            field: 'createdAt',
+            headerName: 'Start Date',
+            width: 150,
             renderCell: (cellValue) => {
                 return (
-                    <Typography sx={{ fontSize: 13, }}>{`${cellValue['row']['due_date']}`}</Typography>
+                    <Typography sx={{ fontSize: 13, }}>{`${new Date(cellValue['row']['createdAt'])}`}</Typography>
+
+                )
+            }
+        },
+
+        {
+            field: 'estimatedDuration',
+            headerName: 'Due Date',
+            width: 150,
+            renderCell: (cellValue) => {
+                return (
+                    <Typography sx={{ fontSize: 13, }}>{`${new Date(cellValue['row']['estimatedDuration'])}`}</Typography>
 
                 )
             }
@@ -303,7 +245,7 @@ const ProjectOverview = ({ projects = [] }) => {
                             <DataGrid
                                 className='grid-display-scroll-none'
                                 disableSelectionOnClick={true}
-                                rows={taskRows}
+                                rows={tasks}
                                 columns={taskColumns}
                                 pageSize={3}
                                 rowsPerPageOptions={[3]}

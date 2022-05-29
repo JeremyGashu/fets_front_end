@@ -12,13 +12,37 @@ import { useNavigate } from 'react-router-dom'
 const TechnicalAdminProjectManagement = () => {
 
     const [projects, setProjects] = useState()
+    const [tasks, setTasks] = useState()
     const [loadingProjects, setLoadingProjects] = useState(false)
+    const [loadingTasks, setLoadingTasks] = useState(false)
     const navigate = useNavigate()
 
-    const { projectContract, mappingContract } = useSelector(state => state.contracts)
+    const { projectContract, mappingContract, taskContract } = useSelector(state => state.contracts)
     // eslint-disable-next-line
     useEffect(() => {
         setLoadingProjects(true)
+
+        taskContract.methods.getAllTasks().call().then(res => {
+            let ts = res.map(task => {
+                return {
+                    allocatedBudget: +task.allocatedBudget,
+                    createdAt: +task.createdAt,
+                    description: task.description,
+                    estimatedDuration: +task.estimatedDuration,
+                    id: +task.id,
+                    name: task.name,
+                    projectId: task.projectId,
+                    remark: task.remark,
+                    status: +task.status,
+                    subProjectId: +task.subProjectId
+
+                }
+            })
+            setTasks(ts)
+        }).catch(err => {
+            console.log(err)
+            setLoadingTasks(false)
+        })
         projectContract.methods.getAllProjects().call().then(res => {
 
             Promise.all(res.map(async (project) => {
@@ -54,7 +78,7 @@ const TechnicalAdminProjectManagement = () => {
                 }
             })).then(result => {
                 setProjects(result)
-                console.log(result)
+                // console.log(result)
                 setLoadingProjects(false)
             })
                 .catch(err => {
@@ -69,7 +93,7 @@ const TechnicalAdminProjectManagement = () => {
         // eslint-disable-next-line
     }, [])
 
-    if (loadingProjects) {
+    if (loadingProjects || loadingTasks) {
         return <FullPageLoading />
     }
 
@@ -109,7 +133,7 @@ const TechnicalAdminProjectManagement = () => {
             </Grid>
 
             <Box sx={{}}>
-                <ProjectOverview projects={projects} />
+                <ProjectOverview projects={projects} tasks={tasks} />
             </Box>
         </Box >
     )

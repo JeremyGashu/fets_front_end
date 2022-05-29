@@ -11,6 +11,8 @@ import { useNavigate } from 'react-router-dom'
 
 
 const LoginPage = () => {
+
+
     const { register, handleSubmit } = useForm()
 
     const navigate = useNavigate()
@@ -32,7 +34,7 @@ const LoginPage = () => {
                     navigate('/project-manager')
                 }
 
-                else if (userType === 'FINANCIAL_OFFICER') { 
+                else if (userType === 'FINANCIAL_OFFICER') {
                     //TODO implement for financial officer
                 }
                 else { }

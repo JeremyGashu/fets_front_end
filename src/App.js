@@ -7,10 +7,16 @@ import LoginPage from './pages/login/LoginPage'
 import ProjectManagerSidebar from './pages/project_manager/ProjectManager';
 import TechnicalAdminSidebar from "./pages/technical_admin/TechnicalAdmin";
 import './configs/blockchain'
+import BoardingPage from './pages/boarding/BoardinPage';
 
 
 const App = () => {
 
+  // let authData = localStorage.getItem('authData')
+  // if (authData) {
+  //     let userInfo = JSON.parse(authData)
+  //     console.log(userInfo)
+  // }
 
   useEffect(() => {
     // loadBlockchainData()
@@ -18,7 +24,8 @@ const App = () => {
   return (
     <>
       <Routes>
-        <Route path='/' element={<LoginPage />} />
+        <Route path='/' element={<BoardingPage />} />
+        <Route path='/login' element={<LoginPage />} />
         <Route path='/technical-admin/*' element={<TechnicalAdminSidebar />} />
         <Route path='/project-manager/*' element={<ProjectManagerSidebar />} />
         <Route path='/feeds/*' element={<FeedsPage />} />

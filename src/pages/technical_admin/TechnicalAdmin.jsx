@@ -17,7 +17,7 @@ import { mainColor } from '../../themes/color';
 import company_logo from '../../assets/company_logo.png'
 import DashboardPage from './Dashboard';
 import CompanyPage from './Company';
-import { Route, Routes, useNavigate } from 'react-router-dom';
+import { Navigate, Route, Routes, useNavigate } from 'react-router-dom';
 import CreateCompany from '../project_manager/CreateCompany';
 import FeedsPage from '../feed/FeedsPage';
 import CreateFeed from '../feed/CreateFeed';
@@ -26,6 +26,7 @@ import UserPage from './User';
 import CreateUser from './CreateUsers';
 import TechnicalAdminProjectManagement from './ProjectsPage';
 import CreateProjectsPage from './CreateProjectPage';
+import { logOut } from '../../controller/auth';
 
 
 
@@ -53,8 +54,9 @@ const TechnicalAdminSidebar = (props) => {
         setAnchorEl(null);
     };
 
-
-
+    if (!localStorage.getItem('authData')) {
+        return <Navigate to='/login' />
+    }
 
     const dashboardElement = [
         {
@@ -218,9 +220,16 @@ const TechnicalAdminSidebar = (props) => {
                                         transformOrigin={{ horizontal: 'right', vertical: 'top' }}
                                         anchorOrigin={{ horizontal: 'right', vertical: 'bottom' }}
                                     >
-                                        <MenuItem>
+                                        <MenuItem onClick={async () => {
+                                            // console.log('Log out')
+                                            await logOut()
+                                            navigate('/')
+                                        }}>
                                             <ListItemIcon>
-                                                <Logout fontSize="small" sx={{ color: mainColor, fontSize: 14 }} />
+                                                <IconButton>
+                                                    <Logout fontSize="small" sx={{ color: mainColor, fontSize: 14 }} />
+                                                </IconButton>
+
                                             </ListItemIcon>
                                             <Typography sx={{ fontSize: 14 }}>Logout</Typography>
                                         </MenuItem>

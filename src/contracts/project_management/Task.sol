@@ -218,4 +218,23 @@ contract Task {
         }
         return (approved, unapproved);
     }
+
+         /*
+    This function returns array of tasks so we can iterate over them
+    */
+    function getAllTasks() public view returns(TaskInfo[] memory) {
+        uint256 length;
+        for (uint256 index = 0; index < count + 1; index++) {
+            if(tasks[index].projectId != 0) {
+                    length++;
+                }
+        }
+        TaskInfo[] memory sp = new TaskInfo[](length);
+        uint256 counter = 0;
+        for (uint256 index = 1; index < count + 1; index++) {
+            sp[counter] = tasks[index];
+            counter++;
+        }
+        return sp;
+    }
 }
