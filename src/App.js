@@ -10,6 +10,7 @@ import './configs/blockchain'
 import BoardingPage from './pages/boarding/BoardinPage';
 import FeedDetailPage from './pages/feed/FeedDetailPage';
 import FinancialManagerSidebar from './pages/financial_manager/FinancialManager';
+import ProcurementManagerSidebar from './pages/procurement_manager/ProcurementManager';
 
 
 const App = () => {
@@ -31,6 +32,7 @@ const App = () => {
         <Route path='/technical-admin/*' element={<TechnicalAdminSidebar />} />
         <Route path='/project-manager/*' element={<ProjectManagerSidebar />} />
         <Route path='/financial-manager/*' element={<FinancialManagerSidebar />} />
+        <Route path='/procurement-manager/*' element={<ProcurementManagerSidebar />} />
         <Route path='/feeds/*' element={<FeedsPage />} />
         <Route path='/feed-detail/:id' element={<FeedDetailPage />} />
 

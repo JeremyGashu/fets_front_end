@@ -1,9 +1,11 @@
 // import { AddOutlined } from '@mui/icons-material'
-import { Box, Grid, Tab, Tabs, Typography } from '@mui/material'
+import { Box, Button, Dialog, DialogActions, DialogContent, DialogTitle, Divider, Grid, Tab, Tabs, Typography, useAutocomplete } from '@mui/material'
 import { green, grey, } from '@mui/material/colors'
 import React, { useEffect } from 'react'
 import { useState } from 'react'
+import { useForm } from 'react-hook-form'
 import { useSelector } from 'react-redux'
+import { toast } from 'react-toastify'
 // import { useNavigate } from 'react-router-dom'
 import FullPageLoading from '../../components/FullPageLoadingPage'
 import ProjectOverview from '../../components/project/ProjectOverview'
@@ -32,15 +34,46 @@ function TabPanel(props) {
 }
 
 
-const FinancialOfficerProjectsPage = () => {
+const ProcurementManagerProjects = () => {
 
 
     const [loadingProjects, setLoadingProjects] = useState(false)
     const [projects, setProjects] = useState([])
     const [tasks, setTasks] = useState([])
     const [subProjects, setSubProjects] = useState([])
-    const { projectContract, mappingContract, } = useSelector(state => state.contracts)
-    // const { reset } = useForm()
+    const { projectContract, mappingContract, subProjectContract, taskContract, address } = useSelector(state => state.contracts)
+    const { register, handleSubmit, reset } = useForm()
+
+    const [addTaskModalOpen, setAddModalModalOpen] = useState(false)
+    const [addSubProjectModalOpen, setAddSubProjectModalOpen] = useState(false)
+
+
+    const handleAddSubProject = (data) => {
+
+        subProjectContract.methods.addSubProject(data.name, data.description, projectValue.id, (new Date(data.estimatedDuration)).getTime()).send({ from: address }).then(res => {
+            toast('Added Sub Project Successfully!', { type: 'success', position: toast.POSITION.BOTTOM_RIGHT, })
+            setAddSubProjectModalOpen(false)
+            reset()
+            // navigate('/project-manager')
+        }).catch(err => {
+            toast('Some error encountered!', { type: 'warning', position: toast.POSITION.BOTTOM_RIGHT, })
+            setAddSubProjectModalOpen(false)
+        })
+    }
+
+
+    const handleAddTask = (data) => {
+
+        taskContract.methods.addTask(data.name, data.description, projectValue.id, subProjectValue.id, (new Date(data.estimatedDuration)).getTime(), 0).send({ from: address }).then(res => {
+            toast('Added Task Successfully!', { type: 'success', position: toast.POSITION.BOTTOM_RIGHT, })
+            setAddModalModalOpen(false)
+            // navigate('/project-manager')
+        }).catch(err => {
+            toast('Some error encountered!', { type: 'warning', position: toast.POSITION.BOTTOM_RIGHT, })
+            setAddModalModalOpen(false)
+
+        })
+    }
 
 
     useEffect(() => {
@@ -155,6 +188,32 @@ const FinancialOfficerProjectsPage = () => {
         };
     }
 
+    const {
+        getRootProps,
+        getInputProps,
+        getListboxProps,
+        getOptionProps,
+        groupedOptions,
+        value: projectValue
+    } = useAutocomplete({
+        id: 'projects',
+        options: projects || [],
+        getOptionLabel: (option) => option.name,
+    });
+
+    const {
+        getRootProps: getRootPropsSubProject,
+        getInputProps: getInputPropsSubProject,
+        getListboxProps: getListboxPropsSubProject,
+        getOptionProps: getOptionPropsSubProject,
+        groupedOptions: groupedOptionsSubProject,
+        value: subProjectValue
+    } = useAutocomplete({
+        id: 'subprojects',
+        options: subProjects || [],
+        getOptionLabel: (option) => option.name,
+    });
+
     if (loadingProjects) {
         return <FullPageLoading />
     }
@@ -222,7 +281,7 @@ const FinancialOfficerProjectsPage = () => {
                         {
                             tasks.filter(task => task.status > 0 && task.status <= 2).map(t => {
                                 return (
-                                    <TaskDetailCardOngoing task={t} />
+                                    <TaskDetailCardOngoing task={t}/>
                                 )
                             })
                         }
@@ -250,14 +309,14 @@ const FinancialOfficerProjectsPage = () => {
                         <Typography sx={{ fontSize: 14, fontWeight: 'bold', color: grey[60] }}>NEED APPROVAL</Typography>
                         <Box sx={{ width: '100%', height: 2, backgroundColor: mainColor, mt: 1 }}></Box>
                         {
-                            tasks.filter(task => task.status === 0).length === 0 && <Typography sx={{ fontSize: 12, my: 2, color: grey[700], textAlign: 'center' }}>No Task needs your approval!</Typography>
+                            tasks.filter(task => task.status === 1).length === 0 && <Typography sx={{ fontSize: 12, my: 2, color: grey[700], textAlign: 'center' }}>No Task needs your approval!</Typography>
                         }
                         {
-                            tasks.filter(task => task.status === 0).map(t => {
+                            tasks.filter(task => task.status === 1).map(t => {
                                 return (
                                     <TaskDetailCardNeedApproval task={t} />
                                 )
-
+                                
                             })
                         }
                     </Grid>
@@ -273,4 +332,4 @@ const FinancialOfficerProjectsPage = () => {
     )
 }
 
-export default FinancialOfficerProjectsPage
+export default ProcurementManagerProjects

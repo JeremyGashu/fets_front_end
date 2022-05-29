@@ -9,7 +9,7 @@ import { toast } from 'react-toastify'
 // import { useNavigate } from 'react-router-dom'
 import FullPageLoading from '../../components/FullPageLoadingPage'
 import ProjectOverview from '../../components/project/ProjectOverview'
-import { TaskDetailCardCompleted, TaskDetailCardOngoing } from '../../components/project/TaskDetailCard'
+import { TaskDetailCardCompleted, TaskDetailCardNeedApproval, TaskDetailCardOngoing } from '../../components/project/TaskDetailCard'
 import { getUserName } from '../../configs/localstorage_handler'
 import { backgroundColor, lightYellowText, mainColor } from '../../themes/color'
 
@@ -518,12 +518,12 @@ const ProjectPage = () => {
                         <Typography sx={{ fontSize: 14, fontWeight: 'bold', color: grey[60] }}>IN PROGRESS</Typography>
                         <Box sx={{ width: '100%', height: 2, backgroundColor: lightYellowText, mt: 1 }}></Box>
                         {
-                            tasks.filter(task => task.status > 0 && task.status < 2).length === 0 && <Typography sx={{ fontSize: 12, my: 2, color: grey[700], textAlign: 'center' }}>No Task in Progress!</Typography>
+                            tasks.filter(task => task.status > 0 && task.status <= 2).length === 0 && <Typography sx={{ fontSize: 12, my: 2, color: grey[700], textAlign: 'center' }}>No Task in Progress!</Typography>
                         }
                         {
-                            tasks.filter(task => task.status > 0 && task.status < 2).map(t => {
+                            tasks.filter(task => task.status > 0 && task.status <= 2).map(t => {
                                 return (
-                                    <TaskDetailCardOngoing />
+                                    <TaskDetailCardOngoing task={t}/>
                                 )
                             })
                         }
@@ -539,7 +539,7 @@ const ProjectPage = () => {
                         {
                             tasks.filter(task => task.status === 3).map(t => {
                                 return (
-                                    <TaskDetailCardCompleted />
+                                    <TaskDetailCardCompleted task={t} />
                                 )
                             })
                         }
@@ -556,7 +556,7 @@ const ProjectPage = () => {
                         {
                             tasks.filter(task => task.status === 2).map(t => {
                                 return (
-                                    <TaskDetailCardCompleted />
+                                    <TaskDetailCardNeedApproval task={t} />
                                 )
                             })
                         }

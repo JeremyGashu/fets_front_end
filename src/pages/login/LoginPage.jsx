@@ -38,6 +38,9 @@ const LoginPage = () => {
                 else if (userType === 'FINANCIAL_OFFICER') {
                     navigate('/financial-manager')
                 }
+                else if (userType === ROLES.BUDGET_AND_PROCUREMENT_MANAGER) {
+                    navigate('/procurement-manager')
+                }
                 else { }
 
             }
