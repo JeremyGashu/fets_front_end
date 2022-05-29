@@ -1,18 +1,17 @@
 // import { AddOutlined } from '@mui/icons-material'
-import { Box, Grid, Tab, Tabs, Typography } from '@mui/material'
+import { Box, Button, Dialog, DialogActions, DialogContent, DialogTitle, Divider, Grid, Tab, Tabs, Typography, useAutocomplete } from '@mui/material'
 import { green, grey, } from '@mui/material/colors'
 import React, { useEffect } from 'react'
 import { useState } from 'react'
+import { useForm } from 'react-hook-form'
 import { useSelector } from 'react-redux'
+import { toast } from 'react-toastify'
 // import { useNavigate } from 'react-router-dom'
 import FullPageLoading from '../../components/FullPageLoadingPage'
 import ProjectOverview from '../../components/project/ProjectOverview'
 import { TaskDetailCardCompleted, TaskDetailCardOngoing } from '../../components/project/TaskDetailCard'
 import { getUserName } from '../../configs/localstorage_handler'
 import { backgroundColor, lightYellowText, mainColor } from '../../themes/color'
-
-
-
 
 function TabPanel(props) {
     const { children, value, index, ...other } = props;
@@ -39,12 +38,44 @@ const ProjectPage = () => {
 
 
     const [loadingProjects, setLoadingProjects] = useState(false)
-    const [projects, setProjects] = useState()
+    const [projects, setProjects] = useState([])
     const [tasks, setTasks] = useState([])
     const [subProjects, setSubProjects] = useState([])
-    const { projectContract, mappingContract } = useSelector(state => state.contracts)
-    // const navigate = useNavigate()
-    console.log(subProjects)
+    const { projectContract, mappingContract, subProjectContract, taskContract, address } = useSelector(state => state.contracts)
+    const { register, handleSubmit, reset } = useForm()
+
+    const [addTaskModalOpen, setAddModalModalOpen] = useState(false)
+    const [addSubProjectModalOpen, setAddSubProjectModalOpen] = useState(false)
+
+
+    const handleAddSubProject = (data) => {
+
+        subProjectContract.methods.addSubProject(data.name, data.description, projectValue.id, (new Date(data.estimatedDuration)).getTime()).send({ from: address }).then(res => {
+            toast('Added Sub Project Successfully!', { type: 'success', position: toast.POSITION.BOTTOM_RIGHT, })
+            setAddSubProjectModalOpen(false)
+            reset()
+            // navigate('/project-manager')
+        }).catch(err => {
+            toast('Some error encountered!', { type: 'warning', position: toast.POSITION.BOTTOM_RIGHT, })
+            setAddSubProjectModalOpen(false)
+
+        })
+    }
+
+
+    const handleAddTask = (data) => {
+
+        taskContract.methods.addTask(data.name, data.description, projectValue.id, subProjectValue.id, (new Date(data.estimatedDuration)).getTime(), 0).send({ from: address }).then(res => {
+            toast('Added Task Successfully!', { type: 'success', position: toast.POSITION.BOTTOM_RIGHT, })
+            setAddModalModalOpen(false)
+            // navigate('/project-manager')
+        }).catch(err => {
+            toast('Some error encountered!', { type: 'warning', position: toast.POSITION.BOTTOM_RIGHT, })
+            setAddModalModalOpen(false)
+
+        })
+    }
+
 
     useEffect(() => {
         setLoadingProjects(true)
@@ -109,9 +140,23 @@ const ProjectPage = () => {
                     })
 
                     setSubProjects(tempSubProjects)
-                    setTasks(tempTasks)
+                    let parsed = tempTasks.map(task => {
+                        return {
+                            allocatedBudget: +task.allocatedBudget,
+                            createdAt: +task.createdAt,
+                            description: task.description,
+                            estimatedDuration: +task.estimatedDuration,
+                            id: +task.id,
+                            name: task.name,
+                            projectId: +task.projectId,
+                            remark: task.remark,
+                            status: +task.status,
+                            subProjectId: +task.subProjectId,
+                        }
+                    })
+                    setTasks(parsed)
                     console.log(tempSubProjects)
-                    console.log(tempTasks)
+                    console.log(parsed)
                 })
 
 
@@ -144,6 +189,32 @@ const ProjectPage = () => {
         };
     }
 
+    const {
+        getRootProps,
+        getInputProps,
+        getListboxProps,
+        getOptionProps,
+        groupedOptions,
+        value: projectValue
+    } = useAutocomplete({
+        id: 'projects',
+        options: projects || [],
+        getOptionLabel: (option) => option.name,
+    });
+
+    const {
+        getRootProps: getRootPropsSubProject,
+        getInputProps: getInputPropsSubProject,
+        getListboxProps: getListboxPropsSubProject,
+        getOptionProps: getOptionPropsSubProject,
+        groupedOptions: groupedOptionsSubProject,
+        value: subProjectValue
+    } = useAutocomplete({
+        id: 'subprojects',
+        options: subProjects || [],
+        getOptionLabel: (option) => option.name,
+    });
+
     if (loadingProjects) {
         return <FullPageLoading />
     }
@@ -151,6 +222,7 @@ const ProjectPage = () => {
 
     return (
         <Box sx={{ minHeight: '100vh', backgroundColor: backgroundColor, p: 2, borderRadius: 2 }}>
+
             <Grid container alignItems='center' justifyContent='space-between'>
                 <Grid item>
                     <Grid container alignItems='center'>
@@ -169,19 +241,250 @@ const ProjectPage = () => {
 
                 </Grid>
                 <Grid item>
-                    {/* <input placeholder='Search...' type="text" style={{ borderRadius: 10, color: '#444', outline: 'none', border: `1px solid ${mainColor}`, padding: '8px 10px' }} /> */}
                 </Grid>
-                {/* <Grid item sx={{ mr: 2 }}>
-                    <IconButton sx={{
+                <Dialog
+                    open={addTaskModalOpen}
+                    onClose={() => {
+                        setAddModalModalOpen(false)
+                    }}
+                >
+                    <DialogTitle id="alert-dialog-title">
+                        <Typography variant='h6' sx={{ textAlign: 'center' }}>Add Task</Typography>
+                        <Divider sx={{ my: 1, color: grey }} />
+                    </DialogTitle>
+                    <DialogContent>
+                        <form autoComplete='false' onSubmit={handleSubmit(handleAddTask)}>
+
+                            <Box padding={2}>
+                                <Grid container justifyContent='space-between' alignItems='center'>
+                                    <Grid item sm={12} lg={5} xs={12} sx={{ mx: 2 }}>
+                                        <Typography sx={{ fontSize: 14, color: grey[400], my: 1 }}>Name</Typography>
+                                        <input {...register('name')} type="text" placeholder='Name' required={true}
+                                            style={{ width: "100%", outline: 'none', border: `1px solid ${mainColor}`, borderRadius: 5, padding: '8px 15px', color: '#444' }} />
+                                    </Grid>
+
+
+
+                                    <Grid item lg={5} xs={12} sx={{ mx: 2 }}>
+                                        <Typography sx={{ fontSize: 14, color: grey[400], my: 1 }}>Estimated Completion Date</Typography>
+                                        <input {...register('estimatedDuration')} type="date" placeholder='Estimated Completion Date...' required={true}
+                                            style={{ width: "100%", outline: 'none', border: `1px solid ${mainColor}`, borderRadius: 5, padding: '8px 15px', color: '#444' }} />
+                                    </Grid>
+
+                                    <Grid item lg={5} xs={12} sx={{ mx: 2 }}>
+
+                                        {
+                                            projects != null ? <div>
+                                                <div {...getRootProps()}>
+                                                    <Typography sx={{ fontSize: 14, color: grey[400], my: 1 }}>Project</Typography>
+                                                    <input placeholder='Project' style={{ width: "100%", outline: 'none', border: `1px solid ${mainColor}`, borderRadius: 5, padding: '8px 15px', color: '#444' }} {...getInputProps()} />
+                                                </div>
+                                                {groupedOptions.length > 0 ? (
+                                                    <ul style={{ margin: 0, padding: 0 }} {...getListboxProps()}>
+                                                        {groupedOptions.map((option, index) => (
+                                                            <Box sx={{ p: 0.5, px: 3, backgroundColor: grey[100], width: '100%', my: 0.5, borderRadius: 1, cursor: 'pointer' }}>
+                                                                <Typography sx={{ fontSize: 14 }} {...getOptionProps({ option, index })}>{option.name}</Typography>
+                                                            </Box>
+                                                        ))}
+                                                    </ul>
+                                                ) : null}
+                                            </div> : <></>
+                                        }
+
+                                    </Grid>
+
+                                    <Grid item lg={5} xs={12} sx={{ mx: 2 }}>
+
+                                        {
+                                            projects != null ? <div>
+                                                <div {...getRootPropsSubProject()}>
+                                                    <Typography sx={{ fontSize: 14, color: grey[400], my: 1 }}>Sub Project</Typography>
+                                                    <input placeholder='Sub Project' style={{ width: "100%", outline: 'none', border: `1px solid ${mainColor}`, borderRadius: 5, padding: '8px 15px', color: '#444' }} {...getInputPropsSubProject()} />
+                                                </div>
+                                                {groupedOptionsSubProject.length > 0 ? (
+                                                    <ul style={{ margin: 0, padding: 0 }} {...getListboxPropsSubProject()}>
+                                                        {groupedOptionsSubProject.map((option, index) => (
+                                                            <Box sx={{ p: 0.5, px: 3, backgroundColor: grey[100], width: '100%', my: 0.5, borderRadius: 1, cursor: 'pointer' }}>
+                                                                <Typography sx={{ fontSize: 14 }} {...getOptionPropsSubProject({ option, index })}>{option.name}</Typography>
+                                                            </Box>
+                                                        ))}
+                                                    </ul>
+                                                ) : null}
+                                            </div> : <></>
+                                        }
+
+                                    </Grid>
+
+                                    <Grid item lg={5} xs={12} sx={{ mx: 2 }}>
+
+                                        {
+                                            null ? <div>
+                                                <div {...getRootProps()}>
+                                                    <Typography sx={{ fontSize: 14, color: grey[400], my: 1 }}>Company</Typography>
+                                                    <input style={{ width: "100%", outline: 'none', border: `1px solid ${mainColor}`, borderRadius: 5, padding: '8px 15px', color: '#444' }} {...getInputProps()} />
+                                                </div>
+                                                {groupedOptions.length > 0 ? (
+                                                    <ul style={{ margin: 0, padding: 0 }} {...getListboxProps()}>
+                                                        {groupedOptions.map((option, index) => (
+                                                            <Box sx={{ p: 0.5, px: 3, backgroundColor: grey[100], width: '100%', my: 0.5, borderRadius: 1, cursor: 'pointer' }}>
+                                                                <Typography sx={{ fontSize: 14 }} {...getOptionProps({ option, index })}>{option.name}</Typography>
+                                                            </Box>
+                                                        ))}
+                                                    </ul>
+                                                ) : null}
+                                            </div> : <></>
+                                        }
+
+                                    </Grid>
+
+                                    <Grid item lg={12} xs={12} sx={{ mx: 2 }}>
+                                        <Typography sx={{ fontSize: 14, color: grey[400], my: 1 }}>Description</Typography>
+                                        <textarea {...register('description')} placeholder='Description about the company...' style={{ width: "100%", outline: 'none', border: `1px solid ${mainColor}`, borderRadius: 5, padding: '8px 15px', color: '#444' }} />
+                                    </Grid>
+
+                                </Grid>
+
+                                <DialogActions>
+                                    <Button sx={{ color: mainColor, mr: 1 }} onClick={() => { setAddModalModalOpen(false) }}>Cancel</Button>
+                                    <Button type='submit' sx={{ color: 'white', mr: 1, backgroundColor: mainColor, '&:hover': { backgroundColor: mainColor, } }} onClick={() => {
+                                        // setDeleteModalOpen(false)
+                                        // deleteCompanyMutation.mutate({ companyid: cellValue['row']['id'] })
+                                    }} autoFocus>
+                                        Create
+                                    </Button>
+                                </DialogActions>
+
+                            </Box>
+                        </form>
+                    </DialogContent>
+
+                </Dialog>
+
+
+
+                <Dialog
+                    open={addSubProjectModalOpen}
+                    onClose={() => {
+                        setAddSubProjectModalOpen(false)
+                    }}
+                >
+                    <DialogTitle id="alert-dialog-title">
+                        <Typography variant='h6' sx={{ textAlign: 'center' }}>Add Sub Project</Typography>
+                        <Divider sx={{ my: 1, color: grey }} />
+                    </DialogTitle>
+                    <DialogContent>
+                        <form autoComplete='false' onSubmit={handleSubmit(handleAddSubProject)}>
+
+                            <Box padding={2}>
+                                <Grid container justifyContent='space-between' alignItems='center'>
+                                    <Grid item sm={12} lg={5} xs={12} sx={{ mx: 2 }}>
+                                        <Typography sx={{ fontSize: 14, color: grey[400], my: 1 }}>Name</Typography>
+                                        <input {...register('name')} type="text" placeholder='Name' required={true}
+                                            style={{ width: "100%", outline: 'none', border: `1px solid ${mainColor}`, borderRadius: 5, padding: '8px 15px', color: '#444' }} />
+                                    </Grid>
+
+
+
+                                    <Grid item lg={5} xs={12} sx={{ mx: 2 }}>
+                                        <Typography sx={{ fontSize: 14, color: grey[400], my: 1 }}>Estimated Completion Date</Typography>
+                                        <input {...register('estimatedDuration')} type="date" placeholder='Estimated Completion Date...' required={true}
+                                            style={{ width: "100%", outline: 'none', border: `1px solid ${mainColor}`, borderRadius: 5, padding: '8px 15px', color: '#444' }} />
+                                    </Grid>
+
+                                    <Grid item lg={5} xs={12} sx={{ mx: 2 }}>
+
+                                        {
+                                            projects != null ? <div>
+                                                <div {...getRootProps()}>
+                                                    <Typography sx={{ fontSize: 14, color: grey[400], my: 1 }}>Project</Typography>
+                                                    <input placeholder='Project' style={{ width: "100%", outline: 'none', border: `1px solid ${mainColor}`, borderRadius: 5, padding: '8px 15px', color: '#444' }} {...getInputProps()} />
+                                                </div>
+                                                {groupedOptions.length > 0 ? (
+                                                    <ul style={{ margin: 0, padding: 0 }} {...getListboxProps()}>
+                                                        {groupedOptions.map((option, index) => (
+                                                            <Box sx={{ p: 0.5, px: 3, backgroundColor: grey[100], width: '100%', my: 0.5, borderRadius: 1, cursor: 'pointer' }}>
+                                                                <Typography sx={{ fontSize: 14 }} {...getOptionProps({ option, index })}>{option.name}</Typography>
+                                                            </Box>
+                                                        ))}
+                                                    </ul>
+                                                ) : null}
+                                            </div> : <></>
+                                        }
+
+                                    </Grid>
+
+                                    <Grid item lg={5} xs={12} sx={{ mx: 2 }}>
+
+                                        {
+                                            null ? <div>
+                                                <div {...getRootProps()}>
+                                                    <Typography sx={{ fontSize: 14, color: grey[400], my: 1 }}>Company</Typography>
+                                                    <input style={{ width: "100%", outline: 'none', border: `1px solid ${mainColor}`, borderRadius: 5, padding: '8px 15px', color: '#444' }} {...getInputProps()} />
+                                                </div>
+                                                {groupedOptions.length > 0 ? (
+                                                    <ul style={{ margin: 0, padding: 0 }} {...getListboxProps()}>
+                                                        {groupedOptions.map((option, index) => (
+                                                            <Box sx={{ p: 0.5, px: 3, backgroundColor: grey[100], width: '100%', my: 0.5, borderRadius: 1, cursor: 'pointer' }}>
+                                                                <Typography sx={{ fontSize: 14 }} {...getOptionProps({ option, index })}>{option.name}</Typography>
+                                                            </Box>
+                                                        ))}
+                                                    </ul>
+                                                ) : null}
+                                            </div> : <></>
+                                        }
+
+                                    </Grid>
+
+                                    <Grid item lg={12} xs={12} sx={{ mx: 2 }}>
+                                        <Typography sx={{ fontSize: 14, color: grey[400], my: 1 }}>Description</Typography>
+                                        <textarea {...register('description')} placeholder='Description about the company...' style={{ width: "100%", outline: 'none', border: `1px solid ${mainColor}`, borderRadius: 5, padding: '8px 15px', color: '#444' }} />
+                                    </Grid>
+
+                                </Grid>
+
+                            </Box>
+
+                            <DialogActions>
+                                <Button sx={{ color: mainColor, mr: 1 }} onClick={() => { setAddSubProjectModalOpen(false) }}>Cancel</Button>
+                                <Button type='submit' sx={{ color: 'white', mr: 1, backgroundColor: mainColor, '&:hover': { backgroundColor: mainColor, } }} onClick={() => {
+                                    // setDeleteModalOpen(false)
+                                    // deleteCompanyMutation.mutate({ companyid: cellValue['row']['id'] })
+                                }} autoFocus>
+                                    Create
+                                </Button>
+                            </DialogActions>
+                        </form>
+                    </DialogContent>
+                </Dialog>
+
+
+
+                <Grid item sx={{ mr: 2 }}>
+
+                    <Button onClick={() => {
+                        setAddModalModalOpen(true)
+                    }} sx={{
+                        color: 'white',
+                        mx: 2,
                         backgroundColor: mainColor, '&:hover': {
                             backgroundColor: mainColor,
                         }
-                    }} onClick={() => {
-                        
                     }}>
-                        <AddOutlined sx={{ color: 'white' }} />
-                    </IconButton>
-                </Grid> */}
+                        Add Task
+                    </Button>
+
+                    <Button onClick={() => {
+                        setAddSubProjectModalOpen(true)
+                    }} sx={{
+                        color: 'white',
+                        backgroundColor: mainColor, '&:hover': {
+                            backgroundColor: mainColor,
+                        }
+                    }}>
+                        Add Subproject
+                    </Button>
+
+                </Grid>
             </Grid>
 
             <Box sx={{}}>
@@ -205,7 +508,7 @@ const ProjectPage = () => {
                         {
                             tasks.filter(task => task.status === 0).map(t => {
                                 return (
-                                    <TaskDetailCardOngoing />
+                                    <TaskDetailCardOngoing task={t} />
                                 )
                             })
                         }

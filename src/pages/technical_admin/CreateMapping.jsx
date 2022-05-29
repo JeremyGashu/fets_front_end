@@ -49,6 +49,7 @@ const CreateMappingPage = () => {
         options: (users && users.filter(user => user.role === ROLES.FINANCIAL_OFFICER)) || [],
         getOptionLabel: (option) => option.name,
     });
+    //TODO add the props to accept changes
 
     const {
         getRootProps: getRootPropProcurement,
