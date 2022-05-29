@@ -87,29 +87,35 @@ const BoardingPage = () => {
 
 
                     {
-                        data && (data.length > 0) && <Box sx={{ m: 2 }}>
-                            {/* <Box sx={{ width: 100, height: 3, backgroundColor: '#444' }}>
+                        data && (data.length > 0) && <Box sx={{ m: 2, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                            <Box sx={{ width: 100, height: 2, backgroundColor: '#9e9e9e', mx: 2 }}>
 
-                            </Box> */}
-                            <Typography variant='h3'>Blogs</Typography>
+                            </Box>
+                            <Typography sx={{ textAlign: 'center', color: '#424242' }} variant='h3'>Blogs</Typography>
+
+                            <Box sx={{ width: 100, height: 2, backgroundColor: '#9e9e9e', mx: 2 }}>
+
+                            </Box>
                         </Box>
                     }
 
-                    <Grid container gap={3} justifyContent='start'>
+                    <Box sx={{ mx: 5 }}>
+                        <Grid container gap={4} justifyContent='center' alignItems='center'>
 
-                        {
-                            data && (data.length > 0) && data.map(feed => {
-                                return <FeedCard feed={feed} />
-                            })
-                        }
+                            {
+                                data && (data.length > 0) && data.map(feed => {
+                                    return <FeedCard feed={feed} />
+                                })
+                            }
 
-                        {
-                            data && data.length === 0 &&
-                            <Typography sx={{ color: grey[400] }}>
-                                No feed created...
-                            </Typography>
-                        }
-                    </Grid>
+                            {
+                                data && data.length === 0 &&
+                                <Typography sx={{ color: grey[400] }}>
+                                    No feed created...
+                                </Typography>
+                            }
+                        </Grid>
+                    </Box>
 
                     <Divider sx={{ mb: 3, backgroundColor: grey[50], height: 0.5 }} />
 

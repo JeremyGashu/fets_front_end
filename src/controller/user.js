@@ -16,7 +16,7 @@ export const getAllUsers = async () => {
             response.data.errors.forEach(error => toast(error, { type: 'error', position: toast.POSITION.BOTTOM_RIGHT, }))
         }
     }
-    console.log(response.data)
+    // console.log(response.data)
     return response.data.body
 }
 

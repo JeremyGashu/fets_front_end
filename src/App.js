@@ -8,6 +8,7 @@ import ProjectManagerSidebar from './pages/project_manager/ProjectManager';
 import TechnicalAdminSidebar from "./pages/technical_admin/TechnicalAdmin";
 import './configs/blockchain'
 import BoardingPage from './pages/boarding/BoardinPage';
+import FeedDetailPage from './pages/feed/FeedDetailPage';
 
 
 const App = () => {
@@ -29,6 +30,8 @@ const App = () => {
         <Route path='/technical-admin/*' element={<TechnicalAdminSidebar />} />
         <Route path='/project-manager/*' element={<ProjectManagerSidebar />} />
         <Route path='/feeds/*' element={<FeedsPage />} />
+        <Route path='/feed-detail/:id' element={<FeedDetailPage />} />
+
       </Routes>
 
       {/* <CreateFeed /> */}

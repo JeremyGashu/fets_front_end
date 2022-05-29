@@ -9,6 +9,7 @@ import { queryClient } from "../..";
 import { useNavigate } from "react-router-dom";
 import { getAllCompanies } from "../../controller/company";
 import { createUser } from "../../controller/user";
+import { ROLES } from "../../configs/roles";
 
 const CreateUser = () => {
 
@@ -54,7 +55,7 @@ const CreateUser = () => {
     const FontWeight = 600
     return (
         <>
-            
+
 
             <Box sx={{ backgroundColor: backgroundColor, p: 4, borderRadius: 1 }}>
                 <Box sx={{ backgroundColor: 'white', p: 2, borderRadius: 1 }}>
@@ -100,9 +101,10 @@ const CreateUser = () => {
                                             {/* <input {...register('role')} type="text" placeholder='Role' required={true}
                                         style={{ width: "100%", outline: 'none', border: `1px solid ${mainColor}`, borderRadius: 5, padding: '8px 15px', color: '#444' }} /> */}
                                             <select {...register('role')} style={{ backgroundColor: 'white', width: "100%", outline: 'none', border: `1px solid ${mainColor}`, borderRadius: 5, padding: '8px 15px', color: '#444' }}>
-                                                <option value='PROJECT_MANAGER'>Project Manager</option>
-                                                <option value='BUDGET_PROCUREMENT_MANAGER'>Budget and Procurement Manager</option>
-                                                <option value='FINANCIAL_OFFICER'>Financial Officer</option>
+                                                <option value={ROLES.PROJECT_MANAGER}>Project Manager</option>
+                                                <option value={ROLES.BUDGET_AND_PROCUREMENT_MANAGER}>Budget &amp; Procurement Manager</option>
+                                                <option value={ROLES.FINANCIAL_OFFICER}>Financial Officer</option>
+                                                <option value={ROLES.EXTERNAL_AUDITOR}>External Auditor</option>
                                                 {/* <option value='PROJECT_MANAGER'>Project Manager</option> */}
 
                                             </select>
@@ -114,7 +116,8 @@ const CreateUser = () => {
                                                 companies ? <div>
                                                     <div {...getRootProps()}>
                                                         <Typography sx={{ fontSize: 14, color: grey[400], my: 1 }}>Company</Typography>
-                                                        <input {...register('company')} style={{ width: "100%", outline: 'none', border: `1px solid ${mainColor}`, borderRadius: 5, padding: '8px 15px', color: '#444' }} {...getInputProps()} />
+
+                                                        <input placeholder='Company Manager' style={{ width: "100%", outline: 'none', border: `1px solid ${mainColor}`, borderRadius: 5, padding: '8px 15px', color: '#444' }} {...getInputProps()} />
                                                     </div>
                                                     {groupedOptions.length > 0 ? (
                                                         <ul style={{ margin: 0, padding: 0 }} {...getListboxProps()}>
