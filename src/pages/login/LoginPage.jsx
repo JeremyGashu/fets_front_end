@@ -48,21 +48,25 @@ const LoginPage = () => {
     }
 
     return (
-        <Grid direction='row' alignItems='center' container sx={{ p: 0, m: 0 }}>
-            <Grid item sm={12} md={7} lg={7} >
-                <Grid container direction='column' sx={{ height: '100%', p: 3 }} alignItems='center' justifyContent='center'>
-                    <Grid item>
+        <Grid direction='row' alignItems='center' container sx={{ px:40,py:20, m: 0,background:backgroundColor}} >
+            <Grid item sm={12} md={7} lg={7} sx={{height:'66.5vh',background:'white',display:'inline',alignItems:'flex-start'}} >
+                <Grid container direction='column' sx={{ height: '100%', p: 2}} alignItems='center' justifyContent='center'>
+                    <Grid item sx={{ml:-10,mb:3}}>
 
-                        <Box sx={{ width: '100%' }}>
-                            <img style={{ maxWidth: 185, margin: 5 }} src={company_logo} alt="Logo" />
+                        <Box sx={{ width: '100%' , m:0 }}>
+                            <img style={{ maxWidth: 195, margin: 0 }} src={company_logo} alt="Logo" />
                         </Box>
 
 
                     </Grid>
-                    <Grid item>
-                        <Typography variant='h6' sx={{ maxWidth: '280px', mb: 3 }}>
-                            Keep track of everything
-                            Manage projects and donors
+                    <Grid item sx={{ml:-10}}>
+                        <Typography variant='p' sx={{ fontSize:'13px', maxWidth: '280px', mb: 0 ,display:'flex',fontWeight:'bold'}}>
+                            Keep track of everything 
+                        </Typography>
+                        <Typography variant='p' sx={{ fontSize:'13px',maxWidth: '280px', mb: 0 ,display:'flex',fontWeight:'bold'}}>
+                            Manage projects and donors 
+                        </Typography>
+                        <Typography variant='p' sx={{ fontSize:'13px',maxWidth: '280px', mb: 5 ,display:'flex',fontWeight:'bold'}}>
                             in easy way.
                         </Typography>
                     </Grid>
@@ -76,27 +80,36 @@ const LoginPage = () => {
                 </Grid>
 
             </Grid>
-            <Grid item sm={12} md={5} lg={5} sx={{ height: '100vh', backgroundColor: backgroundColor, width: '100%', borderTopLeftRadius: 20 }}  >
+            <Grid item sm={12} md={5} lg={5} sx={{ height:'66.5vh', backgroundColor: '#DDE5FF', width: '100%', borderTopLeftRadius: 0 }}  >
+                
+                        
+                
                 <Grid container direction='column' sx={{ height: '100%', width: '100%' }} alignItems='center' justifyContent='center'>
+                    
+                    <Typography variant='h5' fontWeight='bold' sx={{marginBottom:'10px'}}>
+                        Login
+                    </Typography>
                     <form onSubmit={handleSubmit(onLogin)} >
-                        <Grid item>
-                            <input {...register("username", { required: true })} placeholder='Username' type="text" style={{ ...whitBackgroundInputStyle }} />
+                        <Grid item >
+                            <input {...register("username", { required: true })} placeholder='Username'  type="text" style={{ ...whitBackgroundInputStyle,width: '12vw' ,fontSize:'11px'}} />
                         </Grid>
-                        <Grid item>
-                            <input {...register("password", { required: true })} placeholder='Password' type="password" style={{ ...whitBackgroundInputStyle }} />
+                        <Grid item >
+                            <input {...register("password", { required: true })} placeholder='Password' type="password" style={{ ...whitBackgroundInputStyle ,width: '12vw',fontSize:'11px'}} />
                         </Grid>
-                        <Grid item>
+                        <Grid item alignItems='center'>
                             <input id='remember' type="checkbox" style={{ ...whitBackgroundInputStyle }} />
-                            <label style={{ color: '#444', }} htmlFor="remember">Remember Me</label>
+                            <label style={{ color: '#444',fontSize:12}} htmlFor="remember">remember me</label>
 
                         </Grid>
                         {
-                            isLoading ? <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', m: 3, }}><CircularProgress sx={{ color: mainColor }} /></Box> : <Grid item>
+                            isLoading ? <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', m: 3}}><CircularProgress sx={{ color: mainColor }} /></Box> : <Grid item>
                                 <Button type='submit' fullWidth sx={{
-                                    color: 'white', backgroundColor: mainColor, width: '275px', '&:hover': {
+                                    color: 'white', backgroundColor: mainColor, width: '13vw', '&:hover': {
                                         backgroundColor: mainColor
                                     }, m: 2
-                                }}>Log In</Button>
+                                }}><Typography textTransform='none' variant='p' sx={{fontSize:'11px'}}>
+                                    Login
+                                    </Typography></Button>
                             </Grid>
                         }
                     </form>
