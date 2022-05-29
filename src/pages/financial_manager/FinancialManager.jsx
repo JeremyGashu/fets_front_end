@@ -15,10 +15,11 @@ import { Avatar, Badge, Divider, Grid, Menu, MenuItem, Tooltip } from '@mui/mate
 import { Dashboard, GraphicEqOutlined, Logout, Notifications, } from '@mui/icons-material';
 import { mainColor } from '../../themes/color';
 import company_logo from '../../assets/company_logo.png'
-import SidebarProjectListItem from '../../components/project/SidebarProjectListItem';
+import { logOut } from '../../controller/auth';
 import { grey } from '@mui/material/colors';
 import FinancialOfficerDashboard from './FinancialOfficerDashboard';
 import FinancialOfficerProjectsPage from './Projects';
+import { useNavigate } from 'react-router-dom';
 
 
 const drawerWidth = 250;
@@ -27,6 +28,7 @@ const FinancialManagerSidebar = (props) => {
     const { window } = props;
     const [mobileOpen, setMobileOpen] = useState(false)
     const [selectedIndex, setSelectedIndex] = useState(0)
+    const navigate = useNavigate()
 
 
     const handleDrawerToggle = () => {
@@ -54,7 +56,7 @@ const FinancialManagerSidebar = (props) => {
         },
         {
             name: 'Projects',
-            component: <FinancialOfficerProjectsPage/>,
+            component: <FinancialOfficerProjectsPage />,
             icon: <GraphicEqOutlined sx={{ color: selectedIndex === 1 ? 'white' : '#444' }} />
         },
     ]
@@ -204,7 +206,11 @@ const FinancialManagerSidebar = (props) => {
                                         transformOrigin={{ horizontal: 'right', vertical: 'top' }}
                                         anchorOrigin={{ horizontal: 'right', vertical: 'bottom' }}
                                     >
-                                        <MenuItem>
+                                        <MenuItem onClick={async () => {
+                                            // console.log('Log out')
+                                            await logOut()
+                                            navigate('/')
+                                        }}>
                                             <ListItemIcon>
                                                 <Logout fontSize="small" sx={{ color: mainColor, fontSize: 14 }} />
                                             </ListItemIcon>

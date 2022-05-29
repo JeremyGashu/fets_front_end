@@ -187,15 +187,15 @@ const FinancialOfficerProjectsPage = () => {
 
             <Box sx={{}}>
                 <Tabs value={value} onChange={handleChange} aria-label="basic tabs example">
-                    <Tab label="Overview" {...a11yProps(0)} />
-                    <Tab label="Board" {...a11yProps(1)} />
-                    <Tab label="List" {...a11yProps(2)} />
+                    <Tab label="Board" {...a11yProps(0)} />
+                    <Tab label="Overview" {...a11yProps(1)} />
+                    {/* <Tab label="List" {...a11yProps(2)} /> */}
                 </Tabs>
             </Box>
-            <TabPanel value={value} index={0}>
+            <TabPanel value={value} index={1}>
                 <ProjectOverview projects={projects} />
             </TabPanel>
-            <TabPanel value={value} index={1}>
+            <TabPanel value={value} index={0}>
                 <Grid container alignItems='start' justifyContent='space-between'>
                     <Grid item lg={2.7}>
                         <Typography sx={{ fontSize: 14, fontWeight: 'bold', color: grey[60] }}>TODO</Typography>
@@ -263,9 +263,9 @@ const FinancialOfficerProjectsPage = () => {
                     </Grid>
                 </Grid>
             </TabPanel>
-            <TabPanel value={value} index={2}>
+            {/* <TabPanel value={value} index={2}>
                 Item Three
-            </TabPanel>
+            </TabPanel> */}
 
 
 

@@ -18,6 +18,8 @@ import company_logo from '../../assets/company_logo.png'
 import { grey } from '@mui/material/colors';
 import ProcurementManagerProjects from './ProcurementProjects';
 import ProcurementManagerDashboard from './ProcurementDashboard';
+import { logOut } from '../../controller/auth';
+import { useNavigate } from 'react-router-dom';
 
 
 const drawerWidth = 250;
@@ -26,6 +28,7 @@ const ProcurementManagerSidebar = (props) => {
     const { window } = props;
     const [mobileOpen, setMobileOpen] = useState(false)
     const [selectedIndex, setSelectedIndex] = useState(0)
+    const navigate = useNavigate()
 
 
     const handleDrawerToggle = () => {
@@ -203,7 +206,11 @@ const ProcurementManagerSidebar = (props) => {
                                         transformOrigin={{ horizontal: 'right', vertical: 'top' }}
                                         anchorOrigin={{ horizontal: 'right', vertical: 'bottom' }}
                                     >
-                                        <MenuItem>
+                                        <MenuItem onClick={async () => {
+                                            // console.log('Log out')
+                                            await logOut()
+                                            navigate('/')
+                                        }}>
                                             <ListItemIcon>
                                                 <Logout fontSize="small" sx={{ color: mainColor, fontSize: 14 }} />
                                             </ListItemIcon>

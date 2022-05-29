@@ -19,6 +19,8 @@ import ProjectPage from './Projects';
 import SidebarProjectListItem from '../../components/project/SidebarProjectListItem';
 import { grey } from '@mui/material/colors';
 import ProjectManagerDashboard from './ProjectManagerDashboard';
+import { logOut } from '../../controller/auth';
+import { useNavigate } from 'react-router-dom';
 
 
 const drawerWidth = 250;
@@ -34,6 +36,7 @@ const ProjectManagerSidebar = (props) => {
     };
 
     const [anchorEl, setAnchorEl] = React.useState(null);
+    const navigate = useNavigate()
     const open = Boolean(anchorEl);
     const handleClick = (event) => {
         setAnchorEl(event.currentTarget);
@@ -204,7 +207,11 @@ const ProjectManagerSidebar = (props) => {
                                         transformOrigin={{ horizontal: 'right', vertical: 'top' }}
                                         anchorOrigin={{ horizontal: 'right', vertical: 'bottom' }}
                                     >
-                                        <MenuItem>
+                                        <MenuItem onClick={async () => {
+                                            // console.log('Log out')
+                                            await logOut()
+                                            navigate('/')
+                                        }}>
                                             <ListItemIcon>
                                                 <Logout fontSize="small" sx={{ color: mainColor, fontSize: 14 }} />
                                             </ListItemIcon>
