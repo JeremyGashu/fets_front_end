@@ -42,7 +42,9 @@ const LoginPage = () => {
     })
 
     const onLogin = async (data) => {
-        mutate(data)
+        navigate('/technical-admin')
+        console.log(data)
+        // mutate(data)
     }
 
     return (
