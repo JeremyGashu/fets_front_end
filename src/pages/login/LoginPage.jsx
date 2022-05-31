@@ -14,7 +14,7 @@ import { ROLES } from '../../configs/roles'
 const LoginPage = () => {
 
 
-    const { register, handleSubmit } = useForm()
+    const { register, handleSubmit, formState: { errors } } = useForm()
 
     const navigate = useNavigate()
 
@@ -48,6 +48,7 @@ const LoginPage = () => {
     })
 
     const onLogin = async (data) => {
+        // console.log(data)
         mutate(data)
     }
 
@@ -84,10 +85,13 @@ const LoginPage = () => {
                 <Grid container direction='column' sx={{ height: '100%', width: '100%' }} alignItems='center' justifyContent='center'>
                     <form onSubmit={handleSubmit(onLogin)} >
                         <Grid item>
-                            <input {...register("username", { required: true })} placeholder='Username' type="text" style={{ ...whitBackgroundInputStyle }} />
+                            <input {...register("username", { required: true, })} placeholder='Username' type="text" style={{ ...whitBackgroundInputStyle }} />
+                            {errors.username && <Typography sx={{ fontSize: 11.5, color: 'red', ml: 3, mb: 1 }}>Please enter username.</Typography>}
                         </Grid>
                         <Grid item>
                             <input {...register("password", { required: true })} placeholder='Password' type="password" style={{ ...whitBackgroundInputStyle }} />
+                            {errors.password && <Typography sx={{ fontSize: 11.5, color: 'red', ml: 3, mb: 1 }}>Please enter password.</Typography>}
+
                         </Grid>
                         <Grid item>
                             <input id='remember' type="checkbox" style={{ ...whitBackgroundInputStyle }} />
