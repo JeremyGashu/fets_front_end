@@ -47,7 +47,7 @@ export const TaskDetailCardOngoing = ({ task = {} }) => {
                 {task.name}
             </Typography>
 
-            <Typography sx={{fontSize: 13, color: grey[600] }}>
+            <Typography sx={{ fontSize: 13, color: grey[600] }}>
                 {task.description}
             </Typography>
 
@@ -73,7 +73,7 @@ export const TaskDetailCardNeedApproval = ({ task = {} }) => {
 
     const { taskContract, address } = useSelector(state => state.contracts)
     const [approveModalOpen, setApproveModalOpen] = useState(false)
-    const { register, handleSubmit } = useForm()
+    const { register, handleSubmit, formState: { errors } } = useForm()
     const handleAddCompletion = (data) => {
         taskContract.methods.financialManagerSubmitBudgetAllocation(task.id, +data.amount).send({ from: address }).then(res => {
             toast('Approved task completion successfully!', { type: 'success', position: toast.POSITION.BOTTOM_RIGHT, })
@@ -106,7 +106,9 @@ export const TaskDetailCardNeedApproval = ({ task = {} }) => {
                 <DialogContent dividers>
                     <form onSubmit={handleSubmit(handleAddCompletion)}>
 
-                        <input placeholder='Amount Spended...' {...register('amount')} min={1} type="number" style={{ width: '100%', marginBottom: 5, outline: 'none', border: `1px solid ${mainColor}`, borderRadius: 5, padding: '8px 15px', color: '#444' }} />
+                        <input placeholder='Amount Spended...' {...register('amount', { required: true })} min={1} type="number" style={{ width: '100%', marginBottom: 5, outline: 'none', border: `1px solid ${mainColor}`, borderRadius: 5, padding: '8px 15px', color: '#444' }} />
+                        {errors.amount && <Typography sx={{ fontSize: 11.5, color: 'red', mb: 1, mt: 1, ml: 1 }}>Please enter amount</Typography>}
+
 
                         <DialogActions>
 
@@ -140,7 +142,7 @@ export const TaskDetailCardNeedApproval = ({ task = {} }) => {
                 {task.name}
             </Typography>
 
-            <Typography sx={{fontSize: 13, color: grey[600] }}>
+            <Typography sx={{ fontSize: 13, color: grey[600] }}>
                 {task.description}            </Typography>
 
             {/* <Typography sx={{ fontSize: 11, color: mainColor, py: 1, borderRadius: 2, }}>

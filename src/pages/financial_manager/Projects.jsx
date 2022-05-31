@@ -238,7 +238,7 @@ const FinancialOfficerProjectsPage = () => {
                         {
                             tasks.filter(task => task.status === 3).map(t => {
                                 return (
-                                    <TaskDetailCardCompleted />
+                                    <TaskDetailCardCompleted task={t}/>
                                 )
                             })
                         }
