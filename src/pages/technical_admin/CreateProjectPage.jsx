@@ -14,7 +14,7 @@ const CreateProjectsPage = () => {
 
     const navigate = useNavigate()
 
-    const { register, handleSubmit } = useForm()
+    const { register, handleSubmit, formState: { errors } } = useForm()
     const { data: companies } = useQuery('company', getAllCompanies)
     const { projectContract } = useSelector(state => state.contracts)
     const { address } = useSelector(state => state.contracts)
@@ -64,32 +64,43 @@ const CreateProjectsPage = () => {
                                     <Grid container justifyContent='space-between' alignItems='center'>
                                         <Grid item sm={12} lg={5} xs={12} sx={{ mx: 2 }}>
                                             <Typography sx={{ fontSize: 14, color: grey[400], my: 1 }}>Name</Typography>
-                                            <input {...register('name')} type="text" placeholder='Name' required={true}
+                                            <input {...register('name', { required: true })} type="text" placeholder='Name'
                                                 style={{ width: "100%", outline: 'none', border: `1px solid ${mainColor}`, borderRadius: 5, padding: '8px 15px', color: '#444' }} />
+                                            {errors.name && <Typography sx={{ fontSize: 11.5, color: 'red', ml: 3, mb: 1 }}>Please enter name.</Typography>}
+
                                         </Grid>
 
                                         <Grid item lg={5} xs={12} sx={{ mx: 2 }}>
                                             <Typography sx={{ fontSize: 14, color: grey[400], my: 1 }}>Location</Typography>
-                                            <input {...register('location')} type="text" placeholder='Location' required={true}
+                                            <input {...register('location', { required: true })} type="text" placeholder='Location'
                                                 style={{ width: "100%", outline: 'none', border: `1px solid ${mainColor}`, borderRadius: 5, padding: '8px 15px', color: '#444' }} />
+                                            {errors.location && <Typography sx={{ fontSize: 11.5, color: 'red', ml: 3, mb: 1 }}>Please enter location.</Typography>}
+
                                         </Grid>
 
                                         <Grid item lg={5} xs={12} sx={{ mx: 2 }}>
                                             <Typography sx={{ fontSize: 14, color: grey[400], my: 1 }}>Estimated Budget</Typography>
-                                            <input min={1} {...register('estimatedBudget')} type="number" placeholder='Estimated Budget...' required={true}
+                                            <input min={1} {...register('estimatedBudget', { required: true })} type="number" placeholder='Estimated Budget...'
                                                 style={{ width: "100%", outline: 'none', border: `1px solid ${mainColor}`, borderRadius: 5, padding: '8px 15px', color: '#444' }} />
+                                            {errors.estimatedBudget && <Typography sx={{ fontSize: 11.5, color: 'red', ml: 3, mb: 1 }}>Please enter budget.</Typography>}
+
                                         </Grid>
 
                                         <Grid item lg={5} xs={12} sx={{ mx: 2 }}>
                                             <Typography sx={{ fontSize: 14, color: grey[400], my: 1 }}>Estimated Completion Date</Typography>
-                                            <input {...register('estimatedDuration')} type="date" placeholder='Estimated Completion Date...' required={true}
+                                            <input {...register('estimatedDuration', { required: true })} type="date" placeholder='Estimated Completion Date...'
                                                 style={{ width: "100%", outline: 'none', border: `1px solid ${mainColor}`, borderRadius: 5, padding: '8px 15px', color: '#444' }} />
+
+                                            {errors.estimatedDuration && <Typography sx={{ fontSize: 11.5, color: 'red', ml: 3, mb: 1 }}>Please enter estimated duration.</Typography>}
+
                                         </Grid>
 
                                         <Grid item lg={5} xs={12} sx={{ mx: 2 }}>
                                             <Typography sx={{ fontSize: 14, color: grey[400], my: 1 }}>Account Number</Typography>
-                                            <input {...register('accountNumber')} type="text" placeholder='Account Number...' required={true}
+                                            <input {...register('accountNumber', { required: true })} type="text" placeholder='Account Number...'
                                                 style={{ width: "100%", outline: 'none', border: `1px solid ${mainColor}`, borderRadius: 5, padding: '8px 15px', color: '#444' }} />
+                                            {errors.accountNumber && <Typography sx={{ fontSize: 11.5, color: 'red', ml: 3, mb: 1 }}>Please enter account number.</Typography>}
+
                                         </Grid>
 
                                         <Grid item lg={5} xs={12} sx={{ mx: 2 }}>
@@ -98,7 +109,9 @@ const CreateProjectsPage = () => {
                                                 companies ? <div>
                                                     <div {...getRootProps()}>
                                                         <Typography sx={{ fontSize: 14, color: grey[400], my: 1 }}>Company</Typography>
-                                                        <input style={{ width: "100%", outline: 'none', border: `1px solid ${mainColor}`, borderRadius: 5, padding: '8px 15px', color: '#444' }} {...getInputProps()} />
+                                                        <input {...register('c', { required: true })} style={{ width: "100%", outline: 'none', border: `1px solid ${mainColor}`, borderRadius: 5, padding: '8px 15px', color: '#444' }} {...getInputProps()} />
+                                                        {errors.c && <Typography sx={{ fontSize: 11.5, color: 'red', ml: 3, mb: 1 }}>Please enter company.</Typography>}
+
                                                     </div>
                                                     {groupedOptions.length > 0 ? (
                                                         <ul style={{ margin: 0, padding: 0 }} {...getListboxProps()}>
@@ -116,7 +129,9 @@ const CreateProjectsPage = () => {
 
                                         <Grid item lg={5} xs={12} sx={{ mx: 2 }}>
                                             <Typography sx={{ fontSize: 14, color: grey[400], my: 1 }}>Description</Typography>
-                                            <textarea {...register('description')} placeholder='Description about the company...' style={{ width: "100%", outline: 'none', border: `1px solid ${mainColor}`, borderRadius: 5, padding: '8px 15px', color: '#444' }} />
+                                            <textarea {...register('description', { required: true })} placeholder='Description about the company...' style={{ width: "100%", outline: 'none', border: `1px solid ${mainColor}`, borderRadius: 5, padding: '8px 15px', color: '#444' }} />
+                                            {errors.description && <Typography sx={{ fontSize: 11.5, color: 'red', ml: 3, mb: 1 }}>Please enter some description.</Typography>}
+
                                         </Grid>
 
                                         <Grid item lg={12} xs={12} sx={{ mx: 2, my: 2 }} >
