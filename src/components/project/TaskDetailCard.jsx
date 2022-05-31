@@ -47,7 +47,7 @@ export const TaskDetailCardOngoing = ({ task = {} }) => {
                 {task.name}
             </Typography>
 
-            <Typography sx={{ fontSize: 13, color: grey[600] }}>
+            <Typography sx={{fontSize: 13, color: grey[600] }}>
                 {task.description}
             </Typography>
 
@@ -140,7 +140,7 @@ export const TaskDetailCardNeedApproval = ({ task = {} }) => {
                 {task.name}
             </Typography>
 
-            <Typography sx={{ fontSize: 13, color: grey[600] }}>
+            <Typography sx={{fontSize: 13, color: grey[600] }}>
                 {task.description}            </Typography>
 
             {/* <Typography sx={{ fontSize: 11, color: mainColor, py: 1, borderRadius: 2, }}>
