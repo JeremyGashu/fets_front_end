@@ -13,7 +13,7 @@ import { ROLES } from "../../configs/roles";
 
 const CreateUser = () => {
 
-    const { register, handleSubmit } = useForm()
+    const { register, handleSubmit, formState: { errors } } = useForm()
     const { data: companies } = useQuery('company', getAllCompanies)
 
 
@@ -71,36 +71,46 @@ const CreateUser = () => {
                                     <Grid container justifyContent='space-between' alignItems='center'>
                                         <Grid item sm={12} lg={5} xs={12} sx={{ mx: 2 }}>
                                             <Typography sx={{ fontSize: 14, color: grey[400], my: 1 }}>Name</Typography>
-                                            <input {...register('name')} type="text" placeholder='Name' required={true}
+                                            <input {...register('name', { required: true })} type="text" placeholder='Name'
                                                 style={{ width: "100%", outline: 'none', border: `1px solid ${mainColor}`, borderRadius: 5, padding: '8px 15px', color: '#444' }} />
+                                            {errors.name && <Typography sx={{ fontSize: 11.5, color: 'red', mb: 1, mt: 1, ml: 1 }}>Please enter name.</Typography>}
+
                                         </Grid>
                                         <Grid item lg={5} xs={12} sx={{ mx: 2 }}>
                                             <Typography sx={{ fontSize: 14, color: grey[400], my: 1 }}>Email</Typography>
-                                            <input {...register('email')} type="email" placeholder='Email' required={true}
+                                            <input {...register('email', { required: true })} type="email" placeholder='Email'
                                                 style={{ width: "100%", outline: 'none', border: `1px solid ${mainColor}`, borderRadius: 5, padding: '8px 15px', color: '#444' }} />
-                                        </Grid>
-                                        <Grid item lg={5} xs={12} sx={{ mx: 2 }}>
-                                            <Typography sx={{ fontSize: 14, color: grey[400], my: 1 }}>Phone</Typography>
-                                            <input {...register('address')} type="text" placeholder='Address' required={true}
-                                                style={{ width: "100%", outline: 'none', border: `1px solid ${mainColor}`, borderRadius: 5, padding: '8px 15px', color: '#444' }} />
+                                            {errors.email && <Typography sx={{ fontSize: 11.5, color: 'red', mb: 1, mt: 1, ml: 1 }}>Please enter E-mail.</Typography>}
+
                                         </Grid>
                                         <Grid item lg={5} xs={12} sx={{ mx: 2 }}>
                                             <Typography sx={{ fontSize: 14, color: grey[400], my: 1 }}>Address</Typography>
-                                            <input {...register('phone')} type="text" placeholder='Phone' required={true}
+                                            <input {...register('address', { required: true })} type="text" placeholder='Address'
                                                 style={{ width: "100%", outline: 'none', border: `1px solid ${mainColor}`, borderRadius: 5, padding: '8px 15px', color: '#444' }} />
+                                            {errors.address && <Typography sx={{ fontSize: 11.5, color: 'red', mb: 1, mt: 1, ml: 1 }}>Please enter addres.</Typography>}
+
+                                        </Grid>
+                                        <Grid item lg={5} xs={12} sx={{ mx: 2 }}>
+                                            <Typography sx={{ fontSize: 14, color: grey[400], my: 1 }}>Phone</Typography>
+                                            <input {...register('phone', { required: true,  })} type="tel" placeholder='Phone'
+                                                style={{ width: "100%", outline: 'none', border: `1px solid ${mainColor}`, borderRadius: 5, padding: '8px 15px', color: '#444' }} />
+                                            {errors.phone && <Typography sx={{ fontSize: 11.5, color: 'red', mb: 1, mt: 1, ml: 1 }}>Please enter phone number.</Typography>}
+
                                         </Grid>
 
                                         <Grid item lg={5} xs={12} sx={{ mx: 2 }}>
                                             <Typography sx={{ fontSize: 14, color: grey[400], my: 1 }}>Username</Typography>
-                                            <input {...register('username')} type="text" placeholder='Username' required={true}
+                                            <input {...register('username', { required: true })} type="text" placeholder='Username'
                                                 style={{ width: "100%", outline: 'none', border: `1px solid ${mainColor}`, borderRadius: 5, padding: '8px 15px', color: '#444' }} />
+                                            {errors.username && <Typography sx={{ fontSize: 11.5, color: 'red', mb: 1, mt: 1, ml: 1 }}>Please enter username.</Typography>}
+
                                         </Grid>
 
                                         <Grid item lg={5} xs={12} sx={{ mx: 2 }}>
                                             <Typography sx={{ fontSize: 14, color: grey[400], my: 1 }}>Role</Typography>
                                             {/* <input {...register('role')} type="text" placeholder='Role' required={true}
                                         style={{ width: "100%", outline: 'none', border: `1px solid ${mainColor}`, borderRadius: 5, padding: '8px 15px', color: '#444' }} /> */}
-                                            <select {...register('role')} style={{ backgroundColor: 'white', width: "100%", outline: 'none', border: `1px solid ${mainColor}`, borderRadius: 5, padding: '8px 15px', color: '#444' }}>
+                                            <select {...register('role', { required: true })} style={{ backgroundColor: 'white', width: "100%", outline: 'none', border: `1px solid ${mainColor}`, borderRadius: 5, padding: '8px 15px', color: '#444' }}>
                                                 <option value={ROLES.PROJECT_MANAGER}>Project Manager</option>
                                                 <option value={ROLES.BUDGET_AND_PROCUREMENT_MANAGER}>Budget &amp; Procurement Manager</option>
                                                 <option value={ROLES.FINANCIAL_OFFICER}>Financial Officer</option>
@@ -108,6 +118,9 @@ const CreateUser = () => {
                                                 {/* <option value='PROJECT_MANAGER'>Project Manager</option> */}
 
                                             </select>
+
+                                            {errors.role && <Typography sx={{ fontSize: 11.5, color: 'red', mb: 1, mt: 1, ml: 1 }}>Please select role for the user.</Typography>}
+
                                         </Grid>
 
                                         <Grid item lg={5} xs={12} sx={{ mx: 2 }}>
@@ -117,7 +130,9 @@ const CreateUser = () => {
                                                     <div {...getRootProps()}>
                                                         <Typography sx={{ fontSize: 14, color: grey[400], my: 1 }}>Company</Typography>
 
-                                                        <input placeholder='Company Manager' style={{ width: "100%", outline: 'none', border: `1px solid ${mainColor}`, borderRadius: 5, padding: '8px 15px', color: '#444' }} {...getInputProps()} />
+                                                        <input {...register('cid')} placeholder='Company Manager' style={{ width: "100%", outline: 'none', border: `1px solid ${mainColor}`, borderRadius: 5, padding: '8px 15px', color: '#444' }} {...getInputProps()} />
+                                                        {errors.cid && <Typography sx={{ fontSize: 11.5, color: 'red', mb: 1, mt: 1, ml: 1 }}>Please select company.</Typography>}
+
                                                     </div>
                                                     {groupedOptions.length > 0 ? (
                                                         <ul style={{ margin: 0, padding: 0 }} {...getListboxProps()}>
@@ -135,8 +150,10 @@ const CreateUser = () => {
 
                                         <Grid item lg={5} xs={12} sx={{ mx: 2 }}>
                                             <Typography sx={{ fontSize: 14, color: grey[400], my: 1 }}>Password</Typography>
-                                            <input {...register('password')} type="password" placeholder='Password' required={true}
+                                            <input {...register('password', { required: true })} type="password" placeholder='Password'
                                                 style={{ width: "100%", outline: 'none', border: `1px solid ${mainColor}`, borderRadius: 5, padding: '8px 15px', color: '#444' }} />
+                                            {errors.password && <Typography sx={{ fontSize: 11.5, color: 'red', mb: 1, mt: 1, ml: 1 }}>Please enter password.</Typography>}
+
                                         </Grid>
 
                                         <Grid item lg={5} xs={12} sx={{ mx: 2, my: 2 }} >
