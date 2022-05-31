@@ -167,27 +167,27 @@ const ProjectManagerDashboard = () => {
         },
 
 
-        {
-            headerName: 'Actions',
-            width: 200,
-            renderCell: (cellValue) => {
-                return (
-                    <Grid sx={{ p: 2 }} container direction='row' alignItems='center' justifyContent='center'>
-                        <Grid item>
-                            <IconButton onClick={() => {
-                                // navigate(`add-mapping/${cellValue['row']['id']}`)
-                            }}>
-                                <Visibility sx={{ color: mainColor }} />
-                            </IconButton>
-                        </Grid>
+        // {
+        //     headerName: 'Actions',
+        //     width: 200,
+        //     renderCell: (cellValue) => {
+        //         return (
+        //             <Grid sx={{ p: 2 }} container direction='row' alignItems='center' justifyContent='center'>
+        //                 <Grid item>
+        //                     <IconButton onClick={() => {
+        //                         // navigate(`add-mapping/${cellValue['row']['id']}`)
+        //                     }}>
+        //                         <Visibility sx={{ color: mainColor }} />
+        //                     </IconButton>
+        //                 </Grid>
 
-                        <Grid item>
-                            <Typography sx={{ fontSize: 12 }}>View Tasks</Typography>
-                        </Grid>
-                    </Grid>
-                )
-            }
-        },
+        //                 <Grid item>
+        //                     <Typography sx={{ fontSize: 12 }}>View Tasks</Typography>
+        //                 </Grid>
+        //             </Grid>
+        //         )
+        //     }
+        // },
     ]
     return (
         <>
