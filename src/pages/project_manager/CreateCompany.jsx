@@ -9,7 +9,7 @@ import { createCompany } from "../../controller/company"
 import { dashboardColor1, mainColor } from "../../themes/color"
 const CreateCompany = () => {
     const FontWeight = 600
-    const { register, handleSubmit } = useForm()
+    const { register, handleSubmit, formState: { errors } } = useForm()
     const navigate = useNavigate()
 
     const { mutate } = useMutation(createCompany, {
@@ -64,27 +64,37 @@ const CreateCompany = () => {
                                 <Grid container justifyContent='space-between' alignItems='center'>
                                     <Grid item lg={5} xs={12} sx={{ mx: 2 }}>
                                         <Typography sx={{ fontSize: 14, color: grey[400], my: 1 }}>Name</Typography>
-                                        <input {...register('name')} type="text" placeholder='Name' required={true}
+                                        <input {...register('name', { required: true })} type="text" placeholder='Name'
                                             style={{ width: "100%", outline: 'none', border: `1px solid ${mainColor}`, borderRadius: 5, padding: '8px 15px', color: '#444' }} />
+                                        {errors.name && <Typography sx={{ fontSize: 11.5, color: 'red', mb: 1, mt: 1, ml: 1 }}>Please enter company name.</Typography>}
+
                                     </Grid>
                                     <Grid item lg={5} xs={12} sx={{ mx: 2 }}>
                                         <Typography sx={{ fontSize: 14, color: grey[400], my: 1 }}>Email</Typography>
-                                        <input {...register('email')} type="email" placeholder='Email' required={true}
+                                        <input {...register('email', { required: true })} type="email" placeholder='Email'
                                             style={{ width: "100%", outline: 'none', border: `1px solid ${mainColor}`, borderRadius: 5, padding: '8px 15px', color: '#444' }} />
+                                        {errors.email && <Typography sx={{ fontSize: 11.5, color: 'red', mb: 1, mt: 1, ml: 1 }}>Please enter E-mail.</Typography>}
+
                                     </Grid>
                                     <Grid item lg={5} xs={12} sx={{ mx: 2 }}>
                                         <Typography sx={{ fontSize: 14, color: grey[400], my: 1 }}>Phone</Typography>
-                                        <input {...register('address')} type="text" placeholder='Address' required={true}
+                                        <input {...register('address', { required: true })} type="text" placeholder='Address'
                                             style={{ width: "100%", outline: 'none', border: `1px solid ${mainColor}`, borderRadius: 5, padding: '8px 15px', color: '#444' }} />
+                                        {errors.address && <Typography sx={{ fontSize: 11.5, color: 'red', mb: 1, mt: 1, ml: 1 }}>Please enter address.</Typography>}
+
                                     </Grid>
                                     <Grid item lg={5} xs={12} sx={{ mx: 2 }}>
                                         <Typography sx={{ fontSize: 14, color: grey[400], my: 1 }}>Address</Typography>
-                                        <input {...register('phone')} type="tel" placeholder='Phone' required={true}
+                                        <input {...register('phone', { required: true })} type="tel" placeholder='Phone'
                                             style={{ width: "100%", outline: 'none', border: `1px solid ${mainColor}`, borderRadius: 5, padding: '8px 15px', color: '#444' }} />
+                                        {errors.phone && <Typography sx={{ fontSize: 11.5, color: 'red', mb: 1, mt: 1, ml: 1 }}>Please enter phone.</Typography>}
+
                                     </Grid>
                                     <Grid item lg={5} xs={12} sx={{ mx: 2 }}>
                                         <Typography sx={{ fontSize: 14, color: grey[400], my: 1 }}>Description</Typography>
-                                        <textarea {...register('description')} placeholder='Description about the company...' style={{ width: "100%", outline: 'none', border: `1px solid ${mainColor}`, borderRadius: 5, padding: '8px 15px', color: '#444' }} />
+                                        <textarea {...register('description', { required: true })} placeholder='Description about the company...' style={{ width: "100%", outline: 'none', border: `1px solid ${mainColor}`, borderRadius: 5, padding: '8px 15px', color: '#444' }} />
+                                        {errors.description && <Typography sx={{ fontSize: 11.5, color: 'red', mb: 1, mt: 1, ml: 1 }}>Please enter description.</Typography>}
+
                                     </Grid>
 
                                 </Grid>
