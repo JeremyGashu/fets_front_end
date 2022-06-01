@@ -47,3 +47,14 @@ export const deleteUser = async ({ id }) => {
 
     return response.data
 }
+
+
+export const changeUserActivity = async (id, val) => {
+    let response = await axios.patch(`${BASE_URL}/user/change-status/${id}`, { status: val }, {
+        headers: {
+            'Authorization': `Bearer ${await getToken()}`
+
+        }
+    })
+    return response.data
+}
