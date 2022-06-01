@@ -62,7 +62,7 @@ export const TaskDetailCardOngoing = ({ task = {} }) => {
                     <CalendarMonthOutlined sx={{ color: grey[400] }} />
                 </Grid>
                 <Grid item sx={{ ml: 0.5 }}>
-                    <Typography sx={{ fontSize: 13, color: grey[700] }}>{(new Date(task.estimatedDuration)).toDateString()}</Typography>
+                    <Typography sx={{ fontSize: 13, color: grey[700] }}>{(new Date(task.estimatedDuration)).toLocaleDateString()}</Typography>
                 </Grid>
             </Grid>
         </Box>

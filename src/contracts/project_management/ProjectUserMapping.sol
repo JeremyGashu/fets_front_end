@@ -56,7 +56,7 @@ contract ProjectUserMapping {
         string memory externalAuditorUsername
     ) public {
         count += 1;
-        userProjectMappings[count] = MappingInfo(
+        userProjectMappings[projectId] = MappingInfo(
             projectId,
             financialOfficerUsername,
             projectManagerUsernmae,

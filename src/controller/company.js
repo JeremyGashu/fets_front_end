@@ -17,7 +17,7 @@ export const getAllCompanies = async () => {
 
 
 export const getCompanyById = async (id) => {
-    let response = await axios.get(`${BASE_URL}/feed/${id}`)
+    let response = await axios.get(`${BASE_URL}/company/${id}`)
     if (response.status === 200 && !response.data.error) {
     }
     else {

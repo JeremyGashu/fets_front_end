@@ -158,7 +158,7 @@ const DashboardPage = () => {
             width: 130,
             renderCell: (cellValue) => {
                 return (
-                    <Typography sx={{ fontSize: 13, }}>{`${new Date(cellValue['row']['createdAt'])}`}</Typography>
+                    <Typography sx={{ fontSize: 13, }}>{`${new Date(cellValue['row']['createdAt']).toLocaleDateString()}`}</Typography>
 
                 )
             }
@@ -175,7 +175,7 @@ const DashboardPage = () => {
                             <IconButton onClick={() => {
                                 navigate(`add-mapping/${cellValue['row']['id']}`)
                             }}>
-                                <EditOutlined sx={{ color: mainColor, fontSize : 14 }} />
+                                <EditOutlined sx={{ color: mainColor, fontSize: 14 }} />
                             </IconButton>
                         </Grid>
 

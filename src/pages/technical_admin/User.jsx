@@ -22,6 +22,7 @@ const UserPage = () => {
     const navigate = useNavigate()
     const { data, isLoading } = useQuery('users', getAllUsers)
     const [selectdUser, setSelectedUser] = useState()
+    // const navigate = useNavigate()
 
     const { mutate } = useMutation(deleteUser, {
         onError: (error, variables, context) => {
@@ -127,7 +128,16 @@ const UserPage = () => {
                 return (
                     <>
                         {
-                            cellValue['row']['role'] !== 'TECHNICAL_ADMIN' ? <Typography className='capitalize' sx={{ fontSize: 13, color: mainColor, textDecoration: 'underline', cursor: 'pointer', '&:hover': { color: green } }}>{cellValue['row']['company'] && cellValue['row']['company']['name']}</Typography> : <Typography sx={{ fontSize: 13, }}>---</Typography>
+                            cellValue['row']['role'] !== 'TECHNICAL_ADMIN'
+                                ?
+                                <div onClick={() => {
+                                    console.log(`company-detail/${cellValue['row']['company'] && cellValue['row']['company']['id']}`)
+                                    navigate(`company-detail/${cellValue['row']['company'] && cellValue['row']['company']['id']}`)
+                                }}>
+                                    <Typography className='capitalize' sx={{ fontSize: 13, color: mainColor, textDecoration: 'underline', cursor: 'pointer', '&:hover': { color: green } }}>{cellValue['row']['company'] && cellValue['row']['company']['name']}</Typography>
+                                </div>
+                                :
+                                <Typography sx={{ fontSize: 13, }}>---</Typography>
                         }
                     </>
 
