@@ -1,4 +1,4 @@
-import { AddOutlined, Check, LocalDiningOutlined, MoneyOutlined, PersonPin } from "@mui/icons-material"
+import { Check, EditOutlined, LocalDiningOutlined, MoneyOutlined, PersonPin } from "@mui/icons-material"
 import { Box, Divider, Grid, IconButton, LinearProgress, Typography } from "@mui/material"
 import { DataGrid } from "@mui/x-data-grid"
 import { useEffect } from "react"
@@ -175,7 +175,7 @@ const DashboardPage = () => {
                             <IconButton onClick={() => {
                                 navigate(`add-mapping/${cellValue['row']['id']}`)
                             }}>
-                                <AddOutlined sx={{ color: mainColor }} />
+                                <EditOutlined sx={{ color: mainColor, fontSize : 14 }} />
                             </IconButton>
                         </Grid>
 

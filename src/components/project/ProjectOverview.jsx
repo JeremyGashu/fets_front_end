@@ -9,6 +9,7 @@ import { getBackgroundColorFromStatus, getTextColorFromStatus } from "../../conf
 
 
 const ProjectOverview = ({ projects = [], tasks = [] }) => {
+    console.log(tasks)
 
     let taskColumns = [
         {
@@ -41,7 +42,7 @@ const ProjectOverview = ({ projects = [], tasks = [] }) => {
             width: 150,
             renderCell: (cellValue) => {
                 return (
-                    <Typography sx={{ fontSize: 13, }}>{`$${cellValue['row']['estimatedBudget'].toLocaleString()} ETB`}</Typography>
+                    <Typography sx={{ fontSize: 13, }}>{`$${cellValue['row']['allocatedBudget'].toLocaleString()} ETB`}</Typography>
 
                 )
             }
@@ -53,7 +54,7 @@ const ProjectOverview = ({ projects = [], tasks = [] }) => {
             width: 150,
             renderCell: (cellValue) => {
                 return (
-                    <Typography sx={{ fontSize: 13, }}>{`${new Date(cellValue['row']['createdAt'])}`}</Typography>
+                    <Typography sx={{ fontSize: 13, }}>{`${new Date(cellValue['row']['createdAt']).toLocaleDateString()}`}</Typography>
 
                 )
             }
@@ -64,7 +65,7 @@ const ProjectOverview = ({ projects = [], tasks = [] }) => {
             width: 150,
             renderCell: (cellValue) => {
                 return (
-                    <Typography sx={{ fontSize: 13, }}>{`${new Date(cellValue['row']['estimatedDuration'])}`}</Typography>
+                    <Typography sx={{ fontSize: 13, }}>{`${new Date(cellValue['row']['estimatedDuration']).toLocaleDateString()}`}</Typography>
 
                 )
             }
@@ -153,7 +154,7 @@ const ProjectOverview = ({ projects = [], tasks = [] }) => {
             width: 150,
             renderCell: (cellValue) => {
                 return (
-                    <Typography sx={{ fontSize: 13, }}>{`${new Date(cellValue['row']['createdAt'])}`}</Typography>
+                    <Typography sx={{ fontSize: 13, }}>{`${new Date(cellValue['row']['createdAt']).toLocaleDateString()}`}</Typography>
 
                 )
             }

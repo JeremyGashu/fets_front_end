@@ -6,7 +6,7 @@ import { useState } from "react"
 import { useMutation, useQuery } from "react-query"
 import { useNavigate } from "react-router-dom"
 import FullPageLoading from "../../components/FullPageLoadingPage"
-import { deleteUser, getAllUsers } from "../../controller/user"
+import { changeUserActivity, deleteUser, getAllUsers } from "../../controller/user"
 import { backgroundColor, mainColor } from "../../themes/color"
 
 import DialogTitle from '@mui/material/DialogTitle';
@@ -18,6 +18,7 @@ import { queryClient } from "../.."
 
 
 const UserPage = () => {
+
     const navigate = useNavigate()
     const { data, isLoading } = useQuery('users', getAllUsers)
     const [selectdUser, setSelectedUser] = useState()
@@ -41,6 +42,11 @@ const UserPage = () => {
     const filterUserByType = (data) => {
         if (userType === 'ALL') return data
         return data.filter(user => user.role === userType)
+    }
+
+    const handleChangeUserStatus = async (id, val) => {
+        await changeUserActivity(id, val)
+        queryClient.invalidateQueries('users')
     }
 
     const [open, setOpen] = useState(false);
@@ -89,7 +95,9 @@ const UserPage = () => {
                         {cellValue['row']['status'] === 'active' && <Check sx={{ fontSize: 13, color: green }} />}
                         {cellValue['row']['status'] === 'inactive' && <Warning sx={{ fontSize: 13, color: 'yellow' }} />}
                         <Typography sx={{ color: cellValue['row']['status'] ? mainColor : 'red', fontSize: 13, fontWeight: 'bold' }}>{cellValue['row']['status'] ? 'Active' : 'Inactive'}</Typography>
-                        <Switch color={cellValue['row']['status'] ? 'success' : 'error'} checked={cellValue['row']['status']} onChange={(e) => {
+                        <Switch onChangeCapture={(e) => {
+                            handleChangeUserStatus(cellValue['row']['id'], e.target.checked)
+                        }} color={cellValue['row']['status'] ? 'success' : 'error'} checked={cellValue['row']['status']} onChange={(e) => {
                             // setSelectedRole(cellValue['row'])
                             // disableRoleMutation.mutate({ ...cellValue['row'], status: e.target.checked ? 'active' : 'inactive' })
 
@@ -119,7 +127,7 @@ const UserPage = () => {
                 return (
                     <>
                         {
-                            cellValue['row']['role'] !== 'TECHNICAL_ADMIN' ? <Typography className='capitalize' sx={{ fontSize: 13, }}>{cellValue['row']['company'] && cellValue['row']['company']['name']}</Typography> : <Typography sx={{ fontSize: 13, }}>---</Typography>
+                            cellValue['row']['role'] !== 'TECHNICAL_ADMIN' ? <Typography className='capitalize' sx={{ fontSize: 13, color: mainColor, textDecoration: 'underline', cursor: 'pointer', '&:hover': { color: green } }}>{cellValue['row']['company'] && cellValue['row']['company']['name']}</Typography> : <Typography sx={{ fontSize: 13, }}>---</Typography>
                         }
                     </>
 
