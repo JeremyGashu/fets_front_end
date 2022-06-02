@@ -185,8 +185,11 @@ const UserPage = () => {
                         </Grid>
 
                         <Grid item>
-                            <IconButton>
-                                <Visibility sx={{ fontSize: 20 }} />
+                            <IconButton onClick={() => {
+                                console.log()
+                                navigate(`user-project-detail/${cellValue['row']['username']}`)
+                            }}>
+                                <Visibility sx={{ fontSize: 20, color : mainColor }} />
                             </IconButton>
                         </Grid>
                     </Grid>

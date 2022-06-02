@@ -20,6 +20,24 @@ export const getAllUsers = async () => {
     return response.data.body
 }
 
+
+export const getUserByUsername = async (id) => {
+    let response = await axios.get(`${BASE_URL}/user/username/${id}`, {
+        headers: {
+            'Authorization': `Bearer ${await getToken()}`
+        }
+    })
+    if (response.status === 200 && !response.data.error) {
+    }
+    else {
+        if (response.data && response.data.errors) {
+            response.data.errors.forEach(error => toast(error, { type: 'error' }))
+        }
+    }
+    console.log(response.data)
+    return response.data
+}
+
 export const createUser = async (data) => {
     const { name, email, phone, role, active, company_id, username, password, address } = data
     let response = await axios.post(`${BASE_URL}/user`, { name, email, phone, role, status: active, company_id, username, address, password }, {

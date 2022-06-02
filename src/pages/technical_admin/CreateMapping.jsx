@@ -10,16 +10,38 @@ import { useSelector } from "react-redux";
 import { useNavigate, useParams } from "react-router-dom";
 import { getAllUsers } from "../../controller/user";
 import { ROLES } from "../../configs/roles";
+import { useEffect } from "react";
+import { useState } from "react";
 
 const CreateMappingPage = () => {
+    const [mapping, setMapping] = useState()
 
     const navigate = useNavigate()
     const { id } = useParams()
 
     const { handleSubmit } = useForm()
+
     const { data: users } = useQuery('users', getAllUsers)
     const { mappingContract } = useSelector(state => state.contracts)
     const { address } = useSelector(state => state.contracts)
+
+    useEffect(() => {
+        mappingContract.methods.getMappingById(id).call().then(res => {
+            console.log(res)
+            let tempMapping = {
+                projectId: +res.projectId,
+                externalAuditorUsername: res.externalAuditorUsername,
+                projectManagerUsername: res.projectManagerUsernmae,
+                financialOfficerUsername: res.financialOfficerUsername,
+                budgetAndProcurementManagerUsername: res.budgetAndProcurementManagerUsername
+            }
+            console.log(tempMapping)
+            setMapping(tempMapping)
+        })
+            .catch(err => {
+                console.log(err)
+            })
+    }, [])
 
 
 
@@ -34,6 +56,7 @@ const CreateMappingPage = () => {
         id: 'users',
         options: (users && users.filter(user => user.role === ROLES.PROJECT_MANAGER)) || [],
         getOptionLabel: (option) => option.name,
+        // value: mapping && users.find(user => user.username === mapping.projectManagerUsername)
     });
 
 
@@ -48,6 +71,9 @@ const CreateMappingPage = () => {
         id: 'users',
         options: (users && users.filter(user => user.role === ROLES.FINANCIAL_OFFICER)) || [],
         getOptionLabel: (option) => option.name,
+        // value: mapping && users.find(user => user.username === mapping.financialOfficerUsername)
+
+
     });
     //TODO add the props to accept changes
 
@@ -61,6 +87,9 @@ const CreateMappingPage = () => {
     } = useAutocomplete({
         id: 'users',
         options: (users && users.filter(user => user.role === ROLES.BUDGET_AND_PROCUREMENT_MANAGER)) || [],
+        getOptionLabel: (option) => option.name,
+        defaultValue: (users && mapping) && {'name' : "Ermias"}
+
     });
 
     const {
@@ -74,13 +103,11 @@ const CreateMappingPage = () => {
         id: 'users',
         options: (users && users.filter(user => user.role === ROLES.EXTERNAL_AUDITOR)) || [],
         getOptionLabel: (option) => option.name,
+        // value: mapping && users.find(user => user.username === mapping.externalAuditorUsername)
+
     });
 
     const handleAddMapping = async (data) => {
-        console.log(valueProjectManager.username)
-        console.log(valueExternal.username)
-        console.log(valueFinancial.username)
-        console.log(valueProcurement.username)
 
         mappingContract.methods.addMapping(id, valueFinancial.username, valueProjectManager.username, valueProcurement.username, valueExternal.username).send({ from: address }).then(res => {
             console.log(res)

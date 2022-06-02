@@ -29,6 +29,7 @@ import CreateProjectsPage from './CreateProjectPage';
 import { logOut } from '../../controller/auth';
 import CreateMappingPage from './CreateMapping';
 import SingleCompanyDetail from './SingleCompanyInfoPage';
+import UserProjectDetail from './UserProjectDetail';
 
 
 
@@ -292,6 +293,7 @@ const TechnicalAdminSidebar = (props) => {
                             <Route path='create-project' element={<CreateProjectsPage />} />
                             <Route path='add-mapping/:id' element={<CreateMappingPage />} />
                             <Route path='company-detail/:id' element={<SingleCompanyDetail />} />
+                            <Route path='user-project-detail/:username' element={<UserProjectDetail />} />
                             {/* <Route path='assets/:departmentid' element={<AssetsComponent />} />
                             <Route path='associations/:departmentid' element={<AssociationComponent />} />
                             <Route path='association_members/:associationid' element={<AssociationMembersComponent />} />

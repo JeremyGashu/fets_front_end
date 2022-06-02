@@ -177,6 +177,14 @@ contract ProjectUserMapping {
         return _subprojectAccessor.getSubProjectsListByProjectId(_projectId);
     }
 
+    function getMappingById(uint256 _id)
+        public
+        view
+        returns (MappingInfo memory)
+    {
+        return userProjectMappings[_id];
+    }
+
     /*
     TODO - add only technical admin flag
     */

@@ -1,11 +1,12 @@
-import { Check, EditOutlined, LocalDiningOutlined, MoneyOutlined, PersonPin } from "@mui/icons-material"
-import { Box, Divider, Grid, IconButton, LinearProgress, Typography } from "@mui/material"
+import { Check, EditOutlined, Group, LocalDiningOutlined, MoneyOutlined, PersonPin } from "@mui/icons-material"
+import { Box, Divider, Grid, IconButton, LinearProgress, Popover, Tooltip, Typography } from "@mui/material"
 import { DataGrid } from "@mui/x-data-grid"
 import { useEffect } from "react"
 import { useState } from "react"
 import { useSelector } from "react-redux"
 import { useNavigate } from "react-router-dom"
 import FullPageLoading from "../../components/FullPageLoadingPage"
+import ProjectUserPopover from "../../components/project/ProjectUserPopover"
 import LineChart from "../../components/technical_admin/LineChartProject"
 import TechnicalAdminDashboardCard from "../../components/technical_admin/TechnicalAdminDashboardCard"
 import { getBackgroundColorFromStatus, getTextColorFromStatus } from "../../configs/statuses"
@@ -17,6 +18,8 @@ const DashboardPage = () => {
     const [projects, setProjects] = useState()
     const { projectContract, mappingContract } = useSelector(state => state.contracts)
     const navigate = useNavigate()
+    const [anchorEl, setAnchorEl] = useState(null);
+
 
     useEffect(() => {
         setLoadingProjects(true)
@@ -175,19 +178,22 @@ const DashboardPage = () => {
                             <IconButton onClick={() => {
                                 navigate(`add-mapping/${cellValue['row']['id']}`)
                             }}>
-                                <EditOutlined sx={{ color: mainColor, fontSize: 14 }} />
+                                <EditOutlined sx={{ color: mainColor, fontSize: 16 }} />
                             </IconButton>
                         </Grid>
 
-                        <Grid item>
+                        <ProjectUserPopover id={cellValue['row']['id']} />
+
+                        {/* <Grid item>
                             <Typography sx={{ fontSize: 12 }}>Add Mapping</Typography>
-                        </Grid>
+                        </Grid> */}
                     </Grid>
 
                 )
             }
         },
     ]
+
     return (
         <>
             <Grid container>

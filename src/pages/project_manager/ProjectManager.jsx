@@ -16,7 +16,6 @@ import { Dashboard, GraphicEqOutlined, Logout, Notifications, } from '@mui/icons
 import { mainColor } from '../../themes/color';
 import company_logo from '../../assets/company_logo.png'
 import ProjectPage from './Projects';
-import SidebarProjectListItem from '../../components/project/SidebarProjectListItem';
 import { grey } from '@mui/material/colors';
 import ProjectManagerDashboard from './ProjectManagerDashboard';
 import { logOut } from '../../controller/auth';
