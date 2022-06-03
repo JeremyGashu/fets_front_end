@@ -1,11 +1,10 @@
-import { House, PersonOutline, Phone } from "@mui/icons-material"
+import { EmailOutlined, House, PersonOutline, Phone } from "@mui/icons-material"
 import { Grid, Typography } from "@mui/material"
-import { grey } from "@mui/material/colors"
 import { useState } from "react"
 import { useEffect } from "react"
 import { useQuery } from "react-query"
 import { useSelector } from "react-redux"
-import { Link, useParams } from "react-router-dom"
+import { useNavigate, useParams } from "react-router-dom"
 import FullPageLoading from "../../components/FullPageLoadingPage"
 import ProjectOverview from "../../components/project/ProjectOverview"
 import { getUserByUsername } from "../../controller/user"
@@ -15,6 +14,7 @@ const UserProjectDetail = () => {
     const { username } = useParams()
     const { mappingContract, projectContract } = useSelector(state => state.contracts)
     const { data: user, isLoading } = useQuery(['users', username], () => getUserByUsername(username))
+    const navigate = useNavigate()
 
 
     const [loadingProjects, setLoadingProjects] = useState(false)
@@ -122,39 +122,50 @@ const UserProjectDetail = () => {
 
     return (
         <>
-            {
-                projects && tasks && <ProjectOverview tasks={tasks} projects={projects} />
-            }
             <Typography sx={{ my: 2 }} variant='h5'>User Info</Typography>
 
             {
                 <>
                     <Grid container alignItems='center'>
                         <Grid item>
-                            <PersonOutline sx={{ color: mainColor }} />
+                            <PersonOutline sx={{ color: mainColor, fontSize: 20 }} />
                         </Grid>
                         <Grid item>
-                            <Typography sx={{ fontSize: 14, ml: 1 }}>{user && user.user && user.user.name}</Typography>
-                        </Grid>
-
-                    </Grid>
-
-                    <Grid container alignItems='center'>
-                        <Grid item>
-                            <Phone sx={{ color: mainColor }} />
-                        </Grid>
-                        <Grid item>
-                            <Typography sx={{ fontSize: 14, ml: 1 }}>{user && user.user && user.user.phone}</Typography>
+                            <Typography sx={{ fontSize: 14, ml: 1, mb: 1 }}>{user && user.user && user.user.name}</Typography>
                         </Grid>
 
                     </Grid>
 
                     <Grid container alignItems='center'>
                         <Grid item>
-                            <House sx={{ color: mainColor }} />
+                            <Phone sx={{ color: mainColor, fontSize: 20 }} />
                         </Grid>
                         <Grid item>
-                            <Link to={`/technical-admin/company-detail/${user && user.user && user.user.company && user.user.company.id}`} style={{ fontSize: 14, marginLeft: 1, textDecoration: 'none', color: grey }}>{user && user.user && user.user.company && user.user.company.name}</Link>
+                            <Typography sx={{ fontSize: 14, ml: 1, mb: 1 }}>{user && user.user && user.user.phone}</Typography>
+                        </Grid>
+
+                    </Grid>
+
+                    <Grid container alignItems='center'>
+                        <Grid item>
+                            <EmailOutlined sx={{ color: mainColor, fontSize: 20 }} />
+                        </Grid>
+                        <Grid item>
+                            <Typography sx={{ fontSize: 14, ml: 1, mb: 1 }}>{user && user.user && user.user.email}</Typography>
+                        </Grid>
+
+                    </Grid>
+
+                    <Grid container alignItems='center'>
+                        <Grid item>
+                            <House sx={{ color: mainColor, fontSize: 20 }} />
+                        </Grid>
+                        <Grid item>
+                            <div style={{ cursor: 'pointer' }} onClick={() => {
+                                navigate(`/technical-admin/company-detail/${user && user.user && user.user.company && user.user.company.id}`)
+                            }}>
+                                <Typography sx={{ fontSize: 14, ml: 1, mb: 1 }}>{user && user.user && user.user.company && user.user.company.name}</Typography>
+                            </div>
                         </Grid>
 
                     </Grid>
@@ -164,6 +175,10 @@ const UserProjectDetail = () => {
 
 
             }
+            {
+                projects && tasks && <ProjectOverview tasks={tasks} projects={projects} />
+            }
+
         </>
     )
 }

@@ -14,7 +14,7 @@ import { useEffect } from "react";
 import { useState } from "react";
 
 const CreateMappingPage = () => {
-    const [mapping, setMapping] = useState()
+    const [mapping, setMapping] = useState({})
 
     const navigate = useNavigate()
     const { id } = useParams()
@@ -88,7 +88,7 @@ const CreateMappingPage = () => {
         id: 'users',
         options: (users && users.filter(user => user.role === ROLES.BUDGET_AND_PROCUREMENT_MANAGER)) || [],
         getOptionLabel: (option) => option.name,
-        defaultValue: (users && mapping) && {'name' : "Ermias"}
+        defaultValue: (users && mapping) && { 'name': "Ermias" }
 
     });
 
@@ -144,7 +144,7 @@ const CreateMappingPage = () => {
                                                 users ? <div>
                                                     <div {...getRootPropProjectManager()}>
                                                         <Typography sx={{ fontSize: 14, color: grey[400], my: 1 }}>Project Manager</Typography>
-                                                        <input placeholder='Project Manager' style={{ width: "100%", outline: 'none', border: `1px solid ${mainColor}`, borderRadius: 5, padding: '8px 15px', color: '#444' }} {...getInputPropsProjectManager()} />
+                                                        <input placeholder={mapping.projectManagerUsername !== null ? users.find(user => user.username === mapping.projectManagerUsername) && users.find(user => user.username === mapping.projectManagerUsername).name : 'Project Manager'} style={{ width: "100%", outline: 'none', border: `1px solid ${mainColor}`, borderRadius: 5, padding: '8px 15px', color: '#444' }} {...getInputPropsProjectManager()} />
                                                     </div>
                                                     {groupedOptionsProjectManager.length > 0 ? (
                                                         <ul style={{ margin: 0, padding: 0 }} {...getListboxPropsProjectManager()}>
@@ -167,7 +167,7 @@ const CreateMappingPage = () => {
                                                 users ? <div>
                                                     <div {...getRootPropFinancial()}>
                                                         <Typography sx={{ fontSize: 14, color: grey[400], my: 1 }}>Financial Officer</Typography>
-                                                        <input placeholder='Financial Officer' style={{ width: "100%", outline: 'none', border: `1px solid ${mainColor}`, borderRadius: 5, padding: '8px 15px', color: '#444' }} {...getInputPropsFinancial()} />
+                                                        <input placeholder={mapping.financialOfficerUsername !== null ? users.find(user => user.username === mapping.financialOfficerUsername) && users.find(user => user.username === mapping.financialOfficerUsername).name : 'Financial Officer'} style={{ width: "100%", outline: 'none', border: `1px solid ${mainColor}`, borderRadius: 5, padding: '8px 15px', color: '#444' }} {...getInputPropsFinancial()} />
                                                     </div>
                                                     {groupedOptionsFinancial.length > 0 ? (
                                                         <ul style={{ margin: 0, padding: 0 }} {...getListboxPropsFinancial()}>
@@ -189,7 +189,7 @@ const CreateMappingPage = () => {
                                                 users ? <div>
                                                     <div {...getRootPropProcurement()}>
                                                         <Typography sx={{ fontSize: 14, color: grey[400], my: 1 }}>Budget &amp; Procurement Manager</Typography>
-                                                        <input placeholder='Budget &amp; Procurement Manager' style={{ width: "100%", outline: 'none', border: `1px solid ${mainColor}`, borderRadius: 5, padding: '8px 15px', color: '#444' }} {...getInputPropsProcurement()} />
+                                                        <input placeholder={mapping.budgetAndProcurementManagerUsername !== null ? users.find(user => user.username === mapping.budgetAndProcurementManagerUsername) && users.find(user => user.username === mapping.budgetAndProcurementManagerUsername).name : 'Budget & Procurement Manager'} style={{ width: "100%", outline: 'none', border: `1px solid ${mainColor}`, borderRadius: 5, padding: '8px 15px', color: '#444' }} {...getInputPropsProcurement()} />
                                                     </div>
                                                     {groupedOptionsProcurement.length > 0 ? (
                                                         <ul style={{ margin: 0, padding: 0 }} {...getListboxPropsProcurement()}>
@@ -210,8 +210,8 @@ const CreateMappingPage = () => {
                                             {
                                                 users ? <div>
                                                     <div {...getRootPropExternal()}>
-                                                        <Typography sx={{ fontSize: 14, color: grey[400], my: 1 }}>Budget &amp; External Auditor</Typography>
-                                                        <input placeholder='Budget &amp; External Auditor' style={{ width: "100%", outline: 'none', border: `1px solid ${mainColor}`, borderRadius: 5, padding: '8px 15px', color: '#444' }} {...getInputPropsExternal()} />
+                                                        <Typography sx={{ fontSize: 14, color: grey[400], my: 1 }}>External Auditor</Typography>
+                                                        <input placeholder={mapping.externalAuditorUsername !== null ? users.find(user => user.username === mapping.externalAuditorUsername) && users.find(user => user.username === mapping.externalAuditorUsername).name : ''} style={{ width: "100%", outline: 'none', border: `1px solid ${mainColor}`, borderRadius: 5, padding: '8px 15px', color: '#444' }} {...getInputPropsExternal()} />
                                                     </div>
                                                     {groupedOptionsExternal.length > 0 ? (
                                                         <ul style={{ margin: 0, padding: 0 }} {...getListboxPropsExternal()}>

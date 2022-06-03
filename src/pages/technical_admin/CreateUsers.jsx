@@ -33,6 +33,10 @@ const CreateUser = () => {
     })
 
     const handleAddCompany = async (data) => {
+        if (data.password !== data.confirmPassword) {
+            toast('Password did not match', { type: 'warning', position: toast.POSITION.BOTTOM_RIGHT, })
+            return
+        }
         mutate({ ...data, company_id: value.id })
 
     }
@@ -92,7 +96,7 @@ const CreateUser = () => {
                                         </Grid>
                                         <Grid item lg={5} xs={12} sx={{ mx: 2 }}>
                                             <Typography sx={{ fontSize: 14, color: grey[400], my: 1 }}>Phone</Typography>
-                                            <input {...register('phone', { required: true,  })} type="tel" placeholder='Phone'
+                                            <input {...register('phone', { required: true, })} type="tel" placeholder='Phone'
                                                 style={{ width: "100%", outline: 'none', border: `1px solid ${mainColor}`, borderRadius: 5, padding: '8px 15px', color: '#444' }} />
                                             {errors.phone && <Typography sx={{ fontSize: 11.5, color: 'red', mb: 1, mt: 1, ml: 1 }}>Please enter phone number.</Typography>}
 
@@ -156,7 +160,14 @@ const CreateUser = () => {
 
                                         </Grid>
 
-                                        <Grid item lg={5} xs={12} sx={{ mx: 2, my: 2 }} >
+                                        <Grid item lg={5} xs={12} sx={{ mx: 2 }}>
+                                            <Typography sx={{ fontSize: 14, color: grey[400], my: 1 }}>Confirm Password</Typography>
+                                            <input {...register('confirmPassword', { required: true })} type="password" placeholder='Confirm Password'
+                                                style={{ width: "100%", outline: 'none', border: `1px solid ${mainColor}`, borderRadius: 5, padding: '8px 15px', color: '#444' }} />
+                                            {errors.confirmPassword && <Typography sx={{ fontSize: 11.5, color: 'red', mb: 1, mt: 1, ml: 1 }}>Please enter password.</Typography>}
+                                        </Grid>
+
+                                        <Grid item lg={12} xs={12} sx={{ mx: 2, my: 2 }} >
                                             <label style={{ fontSize: 12, color: 'black' }} for='active'>Active? </label>
 
                                             <input id='active' {...register('active')} type="checkbox" placeholder='Active'
