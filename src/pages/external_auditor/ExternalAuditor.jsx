@@ -12,33 +12,19 @@ import Toolbar from '@mui/material/Toolbar';
 import Typography from '@mui/material/Typography';
 import React, { useState } from 'react'
 import { Avatar, Badge, Divider, Grid, Menu, MenuItem, Tooltip } from '@mui/material';
-import { Dashboard, EditOutlined, GraphicEqOutlined, GroupOutlined, HouseOutlined, Logout, Notifications } from '@mui/icons-material';
+import { Dashboard, GraphicEqOutlined, Logout, Notifications, } from '@mui/icons-material';
 import { mainColor } from '../../themes/color';
 import company_logo from '../../assets/company_logo.png'
-import DashboardPage from './Dashboard';
-import CompanyPage from './Company';
-import { Navigate, Route, Routes, useNavigate } from 'react-router-dom';
-import CreateCompany from '../project_manager/CreateCompany';
-import FeedsPage from '../feed/FeedsPage';
-import CreateFeed from '../feed/CreateFeed';
-import FeedDetailPage from '../feed/FeedDetailPage';
-import UserPage from './User';
-import CreateUser from './CreateUsers';
-import TechnicalAdminProjectManagement from './ProjectsPage';
-import CreateProjectsPage from './CreateProjectPage';
 import { logOut } from '../../controller/auth';
-import CreateMappingPage from './CreateMapping';
-import SingleCompanyDetail from './SingleCompanyInfoPage';
-import UserProjectDetail from './UserProjectDetail';
-import ProjectDetail from '../project/ProjectDetail';
-
-
-
+import { grey } from '@mui/material/colors';
+import { useNavigate } from 'react-router-dom';
+import ExternalAuditorDashboard from './ExternalAuditorDasboard';
+import ExternalAuditorProjectsPage from './ExternalAuditorProjects';
 
 
 const drawerWidth = 250;
 
-const TechnicalAdminSidebar = (props) => {
+const ExternalAuditorSidebar = (props) => {
     const { window } = props;
     const [mobileOpen, setMobileOpen] = useState(false)
     const [selectedIndex, setSelectedIndex] = useState(0)
@@ -58,37 +44,20 @@ const TechnicalAdminSidebar = (props) => {
         setAnchorEl(null);
     };
 
-    if (!localStorage.getItem('authData')) {
-        return <Navigate to='/login' />
-    }
+
+
 
     const dashboardElement = [
         {
             name: 'Dashboard',
-            component: <DashboardPage />,
+            component: <ExternalAuditorDashboard />,
             icon: <Dashboard sx={{ color: selectedIndex === 0 ? 'white' : '#444' }} />
 
         },
         {
             name: 'Projects',
-            component: <TechnicalAdminProjectManagement />,
+            component: <ExternalAuditorProjectsPage />,
             icon: <GraphicEqOutlined sx={{ color: selectedIndex === 1 ? 'white' : '#444' }} />
-        },
-
-        {
-            name: 'Users',
-            component: <UserPage />,
-            icon: <GroupOutlined sx={{ color: selectedIndex === 2 ? 'white' : '#444' }} />
-        },
-        {
-            name: 'Companies',
-            component: <CompanyPage />,
-            icon: <HouseOutlined sx={{ color: selectedIndex === 3 ? 'white' : '#444' }} />
-        },
-        {
-            name: 'Feeds',
-            component: <FeedsPage />,
-            icon: <EditOutlined sx={{ color: selectedIndex === 4 ? 'white' : '#444' }} />
         },
     ]
 
@@ -105,10 +74,10 @@ const TechnicalAdminSidebar = (props) => {
                 </Box>
                 <Grid item>
                     <Typography sx={{ fontSize: 13 }}>
-                        Technical Admin
+                        External Auditor
                     </Typography>
                     <Typography sx={{ fontSize: 10, color: '#444' }}>
-                        TA Name
+                        PM Name
                     </Typography>
                 </Grid>
 
@@ -116,9 +85,9 @@ const TechnicalAdminSidebar = (props) => {
             <Divider sx={{ m: 2, p: 1, mt: 1 }} />
             <List>
                 {dashboardElement.map((menu, index) => (
-                    <Box key={Math.random()} sx={{ m: 1 }}>
+                    <Box sx={{ m: 1 }}>
                         <ListItem style={{ borderRadius: 7 }} onClick={() => {
-                            navigate('/technical-admin')
+                            // navigate('/dashboard')
                             setSelectedIndex(index)
                         }} button key={menu.name} sx={{ backgroundColor: selectedIndex === index ? mainColor : 'white', my: 0, py: 1, '&:hover': { backgroundColor: selectedIndex === index ? mainColor : 'white', } }}>
                             <ListItemIcon>
@@ -134,6 +103,19 @@ const TechnicalAdminSidebar = (props) => {
 
 
             </List>
+
+
+            <Box sx={{ mt: 3, p: 2 }}>
+                <Typography sx={{ mb: 1, fontSize: 15, color: grey[600] }}>Projects</Typography>
+                {/* <SidebarProjectListItem name='Tikur Anbesa' />
+                <SidebarProjectListItem name='Tikur Anbesa' />
+                <SidebarProjectListItem name='Tikur Anbesa' />
+                <SidebarProjectListItem name='Tikur Anbesa' />
+                <SidebarProjectListItem name='Tikur Anbesa' />
+                <SidebarProjectListItem name='Tikur Anbesa' />
+                <SidebarProjectListItem name='Tikur Anbesa' />
+                <SidebarProjectListItem name='Tikur Anbesa' /> */}
+            </Box>
         </Box>
     )
 
@@ -230,10 +212,7 @@ const TechnicalAdminSidebar = (props) => {
                                             navigate('/')
                                         }}>
                                             <ListItemIcon>
-                                                <IconButton>
-                                                    <Logout fontSize="small" sx={{ color: mainColor, fontSize: 14 }} />
-                                                </IconButton>
-
+                                                <Logout fontSize="small" sx={{ color: mainColor, fontSize: 14 }} />
                                             </ListItemIcon>
                                             <Typography sx={{ fontSize: 14 }}>Logout</Typography>
                                         </MenuItem>
@@ -283,25 +262,7 @@ const TechnicalAdminSidebar = (props) => {
                 >
                     <Toolbar />
 
-
-                    {
-                        <Routes>
-                            <Route path='*' element={dashboardElement[selectedIndex]['component']} />
-                            <Route path='add-company' element={<CreateCompany />} />
-                            <Route path='create-feed' element={<CreateFeed />} />
-                            <Route path='feed-detail/:id' element={<FeedDetailPage />} />
-                            <Route path='create-user' element={<CreateUser />} />
-                            <Route path='create-project' element={<CreateProjectsPage />} />
-                            <Route path='add-mapping/:id' element={<CreateMappingPage />} />
-                            <Route path='company-detail/:id' element={<SingleCompanyDetail />} />
-                            <Route path='user-project-detail/:username' element={<UserProjectDetail />} />
-                            <Route path='project-detail/:id' element={<ProjectDetail />} />
-                            {/* <Route path='assets/:departmentid' element={<AssetsComponent />} />
-                            <Route path='associations/:departmentid' element={<AssociationComponent />} />
-                            <Route path='association_members/:associationid' element={<AssociationMembersComponent />} />
-                            <Route path='company_members/:companyid' element={<CompanyMembersComponent />} /> */}
-                        </Routes>
-                    }
+                    {dashboardElement[selectedIndex]['component']}
                 </Box>
             </Box>
 
@@ -310,4 +271,4 @@ const TechnicalAdminSidebar = (props) => {
 }
 
 
-export default TechnicalAdminSidebar
+export default ExternalAuditorSidebar

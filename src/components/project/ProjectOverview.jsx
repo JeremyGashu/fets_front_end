@@ -1,14 +1,16 @@
-import { Box, CircularProgress, Grid, Typography, LinearProgress, Button } from "@mui/material"
+import { Box, CircularProgress, Grid, Typography, LinearProgress, Button, IconButton } from "@mui/material"
 import { DataGrid } from "@mui/x-data-grid"
 import DoughnutChart from "./DonutChartProject"
 import { mainColor } from "../../themes/color"
 import { grey } from "@mui/material/colors"
-import { Check } from "@mui/icons-material"
+import { Check, Visibility } from "@mui/icons-material"
 import ProjectBarChart from "./BarChartProject"
 import { getBackgroundColorFromStatus, getTextColorFromStatus } from "../../configs/statuses"
+import { useNavigate } from "react-router-dom"
 
 
 const ProjectOverview = ({ projects = [], tasks = [] }) => {
+    const navigate = useNavigate()
     console.log(tasks)
 
     let taskColumns = [
@@ -159,6 +161,27 @@ const ProjectOverview = ({ projects = [], tasks = [] }) => {
                 )
             }
         },
+
+        {
+            // field: 'createdAt',
+            headerName: 'Actions',
+            width: 100,
+            renderCell: (cellValue) => {
+                return (
+                    <Grid container>
+                        <Grid item>
+                            <IconButton onClick={() => {
+                                navigate(`project-detail/${cellValue['row']['id']}`)
+                            }}>
+                                <Visibility sx={{ color: mainColor, fontSize: 14 }} />
+                            </IconButton>
+                        </Grid>
+                    </Grid>
+                )
+            }
+        },
+
+
     ]
     return (
         <>

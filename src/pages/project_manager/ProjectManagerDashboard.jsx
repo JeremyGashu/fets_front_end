@@ -1,5 +1,5 @@
-import { Check, LocalDiningOutlined, MoneyOutlined, PersonPin, Visibility } from "@mui/icons-material"
-import { Box, Divider, Grid, IconButton, LinearProgress, Typography } from "@mui/material"
+import { Check, LocalDiningOutlined, MoneyOutlined, PersonPin } from "@mui/icons-material"
+import { Box, Divider, Grid, LinearProgress, Typography } from "@mui/material"
 import { DataGrid } from "@mui/x-data-grid"
 import { useEffect } from "react"
 import { useState } from "react"
@@ -10,16 +10,15 @@ import LineChart from "../../components/technical_admin/LineChartProject"
 import TechnicalAdminDashboardCard from "../../components/technical_admin/TechnicalAdminDashboardCard"
 import { getUserName } from "../../configs/localstorage_handler"
 import { getBackgroundColorFromStatus, getTextColorFromStatus } from "../../configs/statuses"
-import { dashboardColor1, dashboardColor2, dashboardColor3, dashboardColor4, mainColor } from "../../themes/color"
+import { dashboardColor1, dashboardColor2, dashboardColor3, dashboardColor4, } from "../../themes/color"
 
 const ProjectManagerDashboard = () => {
 
     const [loadingProjects, setLoadingProjects] = useState(false)
     const [projects, setProjects] = useState()
-    const { projectContract, mappingContract } = useSelector(state => state.contracts)
+    const { projectContract, mappingContract, taskContract, subProjectContract } = useSelector(state => state.contracts)
     // const navigate = useNavigate()
-
-    useEffect(() => {
+    const loadProjectsAndSubProject = async () => {
         setLoadingProjects(true)
         const username = getUserName() || ''
 
@@ -71,6 +70,25 @@ const ProjectManagerDashboard = () => {
                 console.log(err)
                 setLoadingProjects(false)
             })
+    }
+
+    useEffect(() => {
+        loadProjectsAndSubProject()
+
+        taskContract && taskContract.events
+            .AddedTask({})
+            .on("data", (event) => {
+                console.log('ADDED TASK', event)
+                loadProjectsAndSubProject()
+            });
+
+        subProjectContract && subProjectContract.events
+            .AddedSubProject({})
+            .on("data", (event) => {
+                console.log('ADDED SUB TASK', event)
+
+                loadProjectsAndSubProject()
+            });
         // eslint-disable-next-line 
     }, [projectContract, mappingContract])
 

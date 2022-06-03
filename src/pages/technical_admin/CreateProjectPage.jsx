@@ -98,10 +98,10 @@ const CreateProjectsPage = () => {
                                                         return d > (new Date()) && d < last
                                                     }
                                                 }
-                                            })} type="date" placeholder='Estimated Completion Date...'
+                                            })} type="date" placeholder='Estimated Completion Date'
                                                 style={{ width: "100%", outline: 'none', border: `1px solid ${mainColor}`, borderRadius: 5, padding: '8px 15px', color: '#444' }} />
 
-                                            {errors.estimatedDuration && <Typography sx={{ fontSize: 11.5, color: 'red', mb: 1, mt: 0.5 }}>Please check estimated duration.</Typography>}
+                                            {errors.estimatedDuration && <Typography sx={{ fontSize: 11.5, color: 'red', mb: 1, mt: 0.5 }}>Please check completion page</Typography>}
 
                                         </Grid>
 
