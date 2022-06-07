@@ -42,7 +42,7 @@ const ProjectPage = () => {
     const [tasks, setTasks] = useState([])
     const [subProjects, setSubProjects] = useState([])
     const { projectContract, mappingContract, subProjectContract, taskContract, address } = useSelector(state => state.contracts)
-    const { register, handleSubmit, reset, formState: { errors } } = useForm()
+    const { register, handleSubmit, reset, formStateForFinancial: { errors } } = useForm()
 
     const [addTaskModalOpen, setAddModalModalOpen] = useState(false)
     const [addSubProjectModalOpen, setAddSubProjectModalOpen] = useState(false)
@@ -193,6 +193,20 @@ const ProjectPage = () => {
             .on("data", (event) => {
                 loadData()
             });
+
+        subProjectContract
+            .events
+            .AddedSubProject({})
+            .on("data", (event) => {
+                loadData()
+            });
+
+        taskContract.events
+            .AddedTask({})
+            .on("data", (event) => {
+                loadData()
+            });
+
         // eslint-disable-next-line 
     }, [projectContract, mappingContract])
 

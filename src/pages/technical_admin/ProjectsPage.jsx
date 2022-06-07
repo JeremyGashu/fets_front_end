@@ -61,6 +61,7 @@ const TechnicalAdminProjectManagement = () => {
                     projectStatus = 'In Progress'
                 }
                 // console.log(mappingContract)
+            
                 return {
                     accountNumber: project.accountNumber,
                     companyId: +project.companyId,

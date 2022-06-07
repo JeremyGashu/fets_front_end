@@ -26,7 +26,7 @@ const CreateMappingPage = () => {
     const { address } = useSelector(state => state.contracts)
 
     useEffect(() => {
-        mappingContract.methods.getMappingById(id).call().then(res => {
+        mappingContract && mappingContract.methods.getMappingById(id).call().then(res => {
             console.log(res)
             let tempMapping = {
                 projectId: +res.projectId,
@@ -41,7 +41,9 @@ const CreateMappingPage = () => {
             .catch(err => {
                 console.log(err)
             })
-    }, [])
+
+        // eslint-disable-next-line
+    }, [id])
 
 
 
@@ -88,8 +90,6 @@ const CreateMappingPage = () => {
         id: 'users',
         options: (users && users.filter(user => user.role === ROLES.BUDGET_AND_PROCUREMENT_MANAGER)) || [],
         getOptionLabel: (option) => option.name,
-        defaultValue: (users && mapping) && { 'name': "Ermias" }
-
     });
 
     const {

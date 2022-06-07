@@ -100,27 +100,32 @@ contract Task {
     //TODO add modifier to check wheather the money is valid or not
     function financialManagerSubmitBudgetAllocation(
         uint256 taskid,
-        uint256 allocatedBudget
+        uint256 allocatedBudget,
+        string memory remark
     ) public {
         tasks[taskid].allocatedBudget = allocatedBudget;
         tasks[taskid].status = TaskStatus.ALLOCATED_BY_FINANCIAL_MANAGER;
+        tasks[taskid].remark = remark;
         emit ChangeedTaskStatus(taskid ,TaskStatus.CREATED, TaskStatus.ALLOCATED_BY_FINANCIAL_MANAGER, block.timestamp, msg.sender);
     }
 
-    function budgetAndProcurementManagerApproveTaskCompletion(uint256 _taskId)
+    function budgetAndProcurementManagerApproveTaskCompletion(uint256 _taskId, string memory remark)
         public
     {
         tasks[_taskId].status = TaskStatus.APPROVED_BY_BUDGET_AND_PROCUREMENT_MANAGER;
+        tasks[_taskId].remark = remark;
         emit ChangeedTaskStatus(_taskId ,TaskStatus.ALLOCATED_BY_FINANCIAL_MANAGER, TaskStatus.APPROVED_BY_BUDGET_AND_PROCUREMENT_MANAGER, block.timestamp, msg.sender);
     }
 
-    function projectManagerApproveTaskCompletion(uint256 _taskId) public {
+    function projectManagerApproveTaskCompletion(uint256 _taskId, string memory remark) public {
         tasks[_taskId].status = TaskStatus.APPROVED_BY_PROJECT_MANAGER;
+        tasks[_taskId].remark = remark;
         emit ChangeedTaskStatus(_taskId ,TaskStatus.APPROVED_BY_BUDGET_AND_PROCUREMENT_MANAGER, TaskStatus.APPROVED_BY_PROJECT_MANAGER, block.timestamp, msg.sender);
     }
 
-    function externalAuditorApproveTaskCompletion(uint256 _taskId) public {
-         tasks[_taskId].status = TaskStatus.APPROVED_BY_EXTERNAL_AUDITOR;
+    function externalAuditorApproveTaskCompletion(uint256 _taskId, string memory remark) public {
+        tasks[_taskId].status = TaskStatus.APPROVED_BY_EXTERNAL_AUDITOR;
+        tasks[_taskId].remark = remark;
         emit ChangeedTaskStatus(_taskId ,TaskStatus.APPROVED_BY_PROJECT_MANAGER, TaskStatus.APPROVED_BY_EXTERNAL_AUDITOR, block.timestamp, msg.sender);
     }
 
