@@ -37,12 +37,11 @@ const ExternalAuditorProjectsPage = () => {
     const [loadingProjects, setLoadingProjects] = useState(false)
     const [projects, setProjects] = useState([])
     const [tasks, setTasks] = useState([])
-    const [subProjects, setSubProjects] = useState([])
     const { projectContract, mappingContract, taskContract, subProjectContract } = useSelector(state => state.contracts)
 
 
 
-    const loadProjectsAndTasks = async () => {
+    const loadData = async () => {
         setLoadingProjects(true)
         const username = getUserName() || ''
 
@@ -92,7 +91,7 @@ const ExternalAuditorProjectsPage = () => {
                         tempSubProjects = [...tempSubProjects, ...res]
                     })
 
-                    setSubProjects(tempSubProjects)
+                    // setSubProjects(tempSubProjects)
 
                 })
 
@@ -104,7 +103,7 @@ const ExternalAuditorProjectsPage = () => {
                         tempTasks = [...tempTasks, ...res]
                     })
 
-                    setSubProjects(tempSubProjects)
+                    // setSubProjects(tempSubProjects)
                     let parsed = tempTasks.map(task => {
                         return {
                             allocatedBudget: +task.allocatedBudget,
@@ -141,13 +140,12 @@ const ExternalAuditorProjectsPage = () => {
 
 
     useEffect(() => {
-        loadProjectsAndTasks()
+        loadData()
 
         taskContract.events
-            .AddedTask({})
+            .ChangeedTaskStatus({})
             .on("data", (event) => {
-                console.log(event)
-                loadProjectsAndTasks()
+                loadData()
             });
 
         subProjectContract.events
@@ -155,7 +153,7 @@ const ExternalAuditorProjectsPage = () => {
             .on("data", (event) => {
                 console.log(event)
 
-                loadProjectsAndTasks()
+                loadData()
             });
 
         // eslint-disable-next-line 

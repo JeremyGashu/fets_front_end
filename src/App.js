@@ -12,6 +12,7 @@ import FeedDetailPage from './pages/feed/FeedDetailPage';
 import FinancialManagerSidebar from './pages/financial_manager/FinancialManager';
 import ProcurementManagerSidebar from './pages/procurement_manager/ProcurementManager';
 import ExternalAuditorSidebar from './pages/external_auditor/ExternalAuditor';
+import ProjectDetail from './pages/project/ProjectDetail';
 
 
 const App = () => {

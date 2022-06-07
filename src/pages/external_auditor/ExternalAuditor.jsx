@@ -17,9 +17,10 @@ import { mainColor } from '../../themes/color';
 import company_logo from '../../assets/company_logo.png'
 import { logOut } from '../../controller/auth';
 import { grey } from '@mui/material/colors';
-import { useNavigate } from 'react-router-dom';
+import { Route, Routes, useNavigate } from 'react-router-dom';
 import ExternalAuditorDashboard from './ExternalAuditorDasboard';
 import ExternalAuditorProjectsPage from './ExternalAuditorProjects';
+import ProjectDetail from '../project/ProjectDetail';
 
 
 const drawerWidth = 250;
@@ -87,7 +88,7 @@ const ExternalAuditorSidebar = (props) => {
                 {dashboardElement.map((menu, index) => (
                     <Box sx={{ m: 1 }}>
                         <ListItem style={{ borderRadius: 7 }} onClick={() => {
-                            // navigate('/dashboard')
+                            navigate('/external-auditor')
                             setSelectedIndex(index)
                         }} button key={menu.name} sx={{ backgroundColor: selectedIndex === index ? mainColor : 'white', my: 0, py: 1, '&:hover': { backgroundColor: selectedIndex === index ? mainColor : 'white', } }}>
                             <ListItemIcon>
@@ -262,7 +263,16 @@ const ExternalAuditorSidebar = (props) => {
                 >
                     <Toolbar />
 
-                    {dashboardElement[selectedIndex]['component']}
+                    {
+                        <Routes>
+                            <Route path='*' element={dashboardElement[selectedIndex]['component']} />
+                            <Route path='project-detail/:id' element={<ProjectDetail />} />
+                            {/* <Route path='assets/:departmentid' element={<AssetsComponent />} />
+                            <Route path='associations/:departmentid' element={<AssociationComponent />} />
+                            <Route path='association_members/:associationid' element={<AssociationMembersComponent />} />
+                            <Route path='company_members/:companyid' element={<CompanyMembersComponent />} /> */}
+                        </Routes>
+                    }
                 </Box>
             </Box>
 

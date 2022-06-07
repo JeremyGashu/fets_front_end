@@ -38,12 +38,10 @@ const FinancialOfficerProjectsPage = () => {
     const [loadingProjects, setLoadingProjects] = useState(false)
     const [projects, setProjects] = useState([])
     const [tasks, setTasks] = useState([])
-    const [subProjects, setSubProjects] = useState([])
-    const { projectContract, mappingContract, } = useSelector(state => state.contracts)
+    const { projectContract, mappingContract, taskContract } = useSelector(state => state.contracts)
     // const { reset } = useForm()
 
-
-    useEffect(() => {
+    const loadData = async () => {
         setLoadingProjects(true)
         const username = getUserName() || ''
 
@@ -93,7 +91,6 @@ const FinancialOfficerProjectsPage = () => {
                         tempSubProjects = [...tempSubProjects, ...res]
                     })
 
-                    setSubProjects(tempSubProjects)
 
                 })
 
@@ -105,7 +102,6 @@ const FinancialOfficerProjectsPage = () => {
                         tempTasks = [...tempTasks, ...res]
                     })
 
-                    setSubProjects(tempSubProjects)
                     let parsed = tempTasks.map(task => {
                         return {
                             allocatedBudget: +task.allocatedBudget,
@@ -137,6 +133,17 @@ const FinancialOfficerProjectsPage = () => {
                 console.log(err)
                 setLoadingProjects(false)
             })
+    }
+
+
+    useEffect(() => {
+        loadData()
+
+        taskContract.events
+            .ChangeedTaskStatus({})
+            .on("data", (event) => {
+                loadData()
+            });
         // eslint-disable-next-line 
     }, [projectContract, mappingContract])
 
@@ -238,7 +245,7 @@ const FinancialOfficerProjectsPage = () => {
                         {
                             tasks.filter(task => task.status === 3).map(t => {
                                 return (
-                                    <TaskDetailCardCompleted task={t}/>
+                                    <TaskDetailCardCompleted task={t} />
                                 )
                             })
                         }

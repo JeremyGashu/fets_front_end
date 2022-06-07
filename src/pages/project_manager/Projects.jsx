@@ -89,8 +89,7 @@ const ProjectPage = () => {
         })
     }
 
-
-    useEffect(() => {
+    const loadData = async () => {
         setLoadingProjects(true)
         const username = getUserName() || ''
 
@@ -184,6 +183,16 @@ const ProjectPage = () => {
                 console.log(err)
                 setLoadingProjects(false)
             })
+    }
+
+
+    useEffect(() => {
+        loadData()
+        taskContract.events
+            .ChangeedTaskStatus({})
+            .on("data", (event) => {
+                loadData()
+            });
         // eslint-disable-next-line 
     }, [projectContract, mappingContract])
 

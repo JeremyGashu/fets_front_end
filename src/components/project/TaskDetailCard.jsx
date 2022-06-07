@@ -162,8 +162,7 @@ export const TaskDetailCardNeedApproval = ({ task = {} }) => {
                             case ROLES.BUDGET_AND_PROCUREMENT_MANAGER:
                                 taskContract.methods.budgetAndProcurementManagerApproveTaskCompletion(task.id).send({ from: address }).then(res => {
                                     toast('Approved task completion successfully!', { type: 'success', position: toast.POSITION.BOTTOM_RIGHT, })
-                                    //TODO - add money
-                                    // window.location.r
+
                                 })
                                     .catch(err => {
 
@@ -172,13 +171,22 @@ export const TaskDetailCardNeedApproval = ({ task = {} }) => {
                             case ROLES.PROJECT_MANAGER:
                                 taskContract.methods.projectManagerApproveTaskCompletion(task.id).send({ from: address }).then(res => {
                                     toast('Approved task completion successfully!', { type: 'success', position: toast.POSITION.BOTTOM_RIGHT, })
-                                    //TODO - add money
-                                    // window.location.r
+
                                 })
                                     .catch(err => {
 
                                     })
                                 break;
+                            case ROLES.EXTERNAL_AUDITOR:
+
+                                taskContract.methods.externalAuditorApproveTaskCompletion(task.id).send({ from: address }).then(res => {
+                                    toast('Approved task completion successfully!', { type: 'success', position: toast.POSITION.BOTTOM_RIGHT, })
+
+                                })
+                                    .catch(err => {
+
+                                    })
+                                    break
                             default:
                                 break;
                         }
