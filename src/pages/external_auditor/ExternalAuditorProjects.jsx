@@ -143,7 +143,7 @@ const ExternalAuditorProjectsPage = () => {
         loadData()
 
         taskContract.events
-            .ChangeedTaskStatus({})
+            .ChangedTaskStatus({})
             .on("data", (event) => {
                 loadData()
             });

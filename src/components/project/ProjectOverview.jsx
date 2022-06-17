@@ -1,9 +1,9 @@
-import { Box, CircularProgress, Grid, Typography, LinearProgress, Button, IconButton } from "@mui/material"
+import { Box, CircularProgress, Grid, Typography, LinearProgress, Button, IconButton, Tooltip } from "@mui/material"
 import { DataGrid } from "@mui/x-data-grid"
 import DoughnutChart from "./DonutChartProject"
 import { mainColor } from "../../themes/color"
 import { grey } from "@mui/material/colors"
-import { Check, Visibility } from "@mui/icons-material"
+import { Check, DashboardOutlined, Visibility } from "@mui/icons-material"
 import ProjectBarChart from "./BarChartProject"
 import { getBackgroundColorFromStatus, getTextColorFromStatus } from "../../configs/statuses"
 import { useNavigate } from "react-router-dom"
@@ -170,11 +170,23 @@ const ProjectOverview = ({ projects = [], tasks = [] }) => {
                 return (
                     <Grid container>
                         <Grid item>
-                            <IconButton onClick={() => {
-                                navigate(`project-detail/${cellValue['row']['id']}`)
-                            }}>
-                                <Visibility sx={{ color: mainColor, fontSize: 14 }} />
-                            </IconButton>
+                            <Tooltip title='Detail'>
+                                <IconButton onClick={() => {
+                                    navigate(`project-detail/${cellValue['row']['id']}`)
+                                }}>
+                                    <Visibility sx={{ color: mainColor, fontSize: 14 }} />
+                                </IconButton>
+                            </Tooltip>
+                        </Grid>
+
+                        <Grid item>
+                            <Tooltip title='Dashboard'>
+                                <IconButton onClick={() => {
+                                    navigate(`dashboard/${cellValue['row']['id']}`)
+                                }}>
+                                    <DashboardOutlined sx={{ color: mainColor, fontSize: 14 }} />
+                                </IconButton>
+                            </Tooltip>
                         </Grid>
                     </Grid>
                 )

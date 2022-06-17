@@ -140,7 +140,7 @@ const ProcurementManagerProjects = () => {
         loadData()
 
         taskContract.events
-            .ChangeedTaskStatus({})
+            .ChangedTaskStatus({})
             .on("data", (event) => {
                 loadData()
             });
