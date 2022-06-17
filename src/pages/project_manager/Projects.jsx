@@ -42,7 +42,7 @@ const ProjectPage = () => {
     const [tasks, setTasks] = useState([])
     const [subProjects, setSubProjects] = useState([])
     const { projectContract, mappingContract, subProjectContract, taskContract, address } = useSelector(state => state.contracts)
-    const { register, handleSubmit, reset, formStateForFinancial: { errors } } = useForm()
+    const { register, handleSubmit, reset, formState: { errors } } = useForm()
 
     const [addTaskModalOpen, setAddModalModalOpen] = useState(false)
     const [addSubProjectModalOpen, setAddSubProjectModalOpen] = useState(false)
