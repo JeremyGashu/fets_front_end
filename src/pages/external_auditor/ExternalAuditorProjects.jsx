@@ -1,4 +1,3 @@
-// import { AddOutlined } from '@mui/icons-material'
 import { Box, Grid, Tab, Tabs, Typography } from '@mui/material'
 import { green, grey, } from '@mui/material/colors'
 import React, { useEffect } from 'react'
@@ -32,14 +31,15 @@ function TabPanel(props) {
 }
 
 
-const FinancialOfficerProjectsPage = () => {
+const ExternalAuditorProjectsPage = () => {
 
 
     const [loadingProjects, setLoadingProjects] = useState(false)
     const [projects, setProjects] = useState([])
     const [tasks, setTasks] = useState([])
-    const { projectContract, mappingContract, taskContract } = useSelector(state => state.contracts)
-    // const { reset } = useForm()
+    const { projectContract, mappingContract, taskContract, subProjectContract } = useSelector(state => state.contracts)
+
+
 
     const loadData = async () => {
         setLoadingProjects(true)
@@ -91,6 +91,7 @@ const FinancialOfficerProjectsPage = () => {
                         tempSubProjects = [...tempSubProjects, ...res]
                     })
 
+                    // setSubProjects(tempSubProjects)
 
                 })
 
@@ -102,6 +103,7 @@ const FinancialOfficerProjectsPage = () => {
                         tempTasks = [...tempTasks, ...res]
                     })
 
+                    // setSubProjects(tempSubProjects)
                     let parsed = tempTasks.map(task => {
                         return {
                             allocatedBudget: +task.allocatedBudget,
@@ -136,6 +138,7 @@ const FinancialOfficerProjectsPage = () => {
     }
 
 
+
     useEffect(() => {
         loadData()
 
@@ -144,6 +147,15 @@ const FinancialOfficerProjectsPage = () => {
             .on("data", (event) => {
                 loadData()
             });
+
+        subProjectContract.events
+            .AddedSubProject({})
+            .on("data", (event) => {
+                console.log(event)
+
+                loadData()
+            });
+
         // eslint-disable-next-line 
     }, [projectContract, mappingContract])
 
@@ -224,10 +236,10 @@ const FinancialOfficerProjectsPage = () => {
                         <Typography sx={{ fontSize: 14, fontWeight: 'bold', color: grey[60] }}>IN PROGRESS</Typography>
                         <Box sx={{ width: '100%', height: 2, backgroundColor: lightYellowText, mt: 1 }}></Box>
                         {
-                            tasks.filter(task => task.status > 0 && task.status <= 2).length === 0 && <Typography sx={{ fontSize: 12, my: 2, color: grey[700], textAlign: 'center' }}>No Task in Progress!</Typography>
+                            tasks.filter(task => task.status > 0 && task.status <= 3).length === 0 && <Typography sx={{ fontSize: 12, my: 2, color: grey[700], textAlign: 'center' }}>No Task in Progress!</Typography>
                         }
                         {
-                            tasks.filter(task => task.status > 0 && task.status <= 2).map(t => {
+                            tasks.filter(task => task.status > 0 && task.status <= 3).map(t => {
                                 return (
                                     <TaskDetailCardOngoing task={t} />
                                 )
@@ -240,10 +252,10 @@ const FinancialOfficerProjectsPage = () => {
                         <Box sx={{ width: '100%', height: 2, backgroundColor: green[700], mt: 1 }}></Box>
 
                         {
-                            tasks.filter(task => task.status === 3).length === 0 && <Typography sx={{ fontSize: 12, my: 2, color: grey[700], textAlign: 'center' }}>No Task is Completed!!</Typography>
+                            tasks.filter(task => task.status === 4).length === 0 && <Typography sx={{ fontSize: 12, my: 2, color: grey[700], textAlign: 'center' }}>No Task is Completed!!</Typography>
                         }
                         {
-                            tasks.filter(task => task.status === 3).map(t => {
+                            tasks.filter(task => task.status === 4).map(t => {
                                 return (
                                     <TaskDetailCardCompleted task={t} />
                                 )
@@ -257,10 +269,10 @@ const FinancialOfficerProjectsPage = () => {
                         <Typography sx={{ fontSize: 14, fontWeight: 'bold', color: grey[60] }}>NEED APPROVAL</Typography>
                         <Box sx={{ width: '100%', height: 2, backgroundColor: mainColor, mt: 1 }}></Box>
                         {
-                            tasks.filter(task => task.status === 0).length === 0 && <Typography sx={{ fontSize: 12, my: 2, color: grey[700], textAlign: 'center' }}>No Task needs your approval!</Typography>
+                            tasks.filter(task => task.status === 3).length === 0 && <Typography sx={{ fontSize: 12, my: 2, color: grey[700], textAlign: 'center' }}>No Task needs your approval!</Typography>
                         }
                         {
-                            tasks.filter(task => task.status === 0).map(t => {
+                            tasks.filter(task => task.status === 3).map(t => {
                                 return (
                                     <TaskDetailCardNeedApproval task={t} />
                                 )
@@ -280,4 +292,4 @@ const FinancialOfficerProjectsPage = () => {
     )
 }
 
-export default FinancialOfficerProjectsPage
+export default ExternalAuditorProjectsPage

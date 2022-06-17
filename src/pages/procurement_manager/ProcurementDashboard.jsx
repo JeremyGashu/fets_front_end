@@ -160,7 +160,7 @@ const ProcurementManagerDashboard = () => {
             width: 130,
             renderCell: (cellValue) => {
                 return (
-                    <Typography sx={{ fontSize: 13, }}>{`${new Date(cellValue['row']['createdAt'])}`}</Typography>
+                    <Typography sx={{ fontSize: 13, }}>{`${new Date(cellValue['row']['createdAt']).toLocaleDateString()}`}</Typography>
 
                 )
             }

@@ -49,6 +49,10 @@ const ProjectPage = () => {
 
 
     const handleAddSubProject = (data) => {
+        if (!projectValue || projectValue.id === null) {
+            toast('Please select project!', { type: 'warning', position: toast.POSITION.BOTTOM_RIGHT, })
+            return
+        }
 
         subProjectContract.methods.addSubProject(data.name, data.description, projectValue.id, (new Date(data.estimatedDuration)).getTime()).send({ from: address }).then(res => {
             toast('Added Sub Project Successfully!', { type: 'success', position: toast.POSITION.BOTTOM_RIGHT, })
@@ -63,6 +67,16 @@ const ProjectPage = () => {
 
 
     const handleAddTask = (data) => {
+        if (!projectValue || projectValue.id === null) {
+            toast('Please select project!', { type: 'warning', position: toast.POSITION.BOTTOM_RIGHT, })
+            return
+        }
+
+        if (!subProjectValue || subProjectValue.id === null) {
+            toast('Please select sub project!', { type: 'warning', position: toast.POSITION.BOTTOM_RIGHT, })
+            return
+        }
+
 
         taskContract.methods.addTask(data.name, data.description, projectValue.id, subProjectValue.id, (new Date(data.estimatedDuration)).getTime(), 0).send({ from: address }).then(res => {
             toast('Added Task Successfully!', { type: 'success', position: toast.POSITION.BOTTOM_RIGHT, })
@@ -75,8 +89,7 @@ const ProjectPage = () => {
         })
     }
 
-
-    useEffect(() => {
+    const loadData = async () => {
         setLoadingProjects(true)
         const username = getUserName() || ''
 
@@ -170,6 +183,30 @@ const ProjectPage = () => {
                 console.log(err)
                 setLoadingProjects(false)
             })
+    }
+
+
+    useEffect(() => {
+        loadData()
+        taskContract.events
+            .ChangeedTaskStatus({})
+            .on("data", (event) => {
+                loadData()
+            });
+
+        subProjectContract
+            .events
+            .AddedSubProject({})
+            .on("data", (event) => {
+                loadData()
+            });
+
+        taskContract.events
+            .AddedTask({})
+            .on("data", (event) => {
+                loadData()
+            });
+
         // eslint-disable-next-line 
     }, [projectContract, mappingContract])
 
@@ -268,9 +305,17 @@ const ProjectPage = () => {
 
                                     <Grid item lg={5} xs={12} sx={{ mx: 2 }}>
                                         <Typography sx={{ fontSize: 14, color: grey[400], my: 1 }}>Estimated Completion Date</Typography>
-                                        <input {...register('estimatedDuration', { required: true })} type="date" placeholder='Estimated Completion Date...'
+                                        <input {...register('estimatedDuration', {
+                                            required: true, validate: {
+                                                validDate: (date) => {
+                                                    let d = new Date(date)
+                                                    let last = new Date('01/01/2025')
+                                                    return d > (new Date()) && d < last
+                                                }
+                                            }
+                                        })} type="date" placeholder='Estimated Completion Date...'
                                             style={{ width: "100%", outline: 'none', border: `1px solid ${mainColor}`, borderRadius: 5, padding: '8px 15px', color: '#444' }} />
-                                        {errors.estimatedDuration && <Typography sx={{ fontSize: 11.5, color: 'red', mb: 1, mt: 1, ml: 1 }}>Please enter the estimated duration..</Typography>}
+                                        {errors.estimatedDuration && <Typography sx={{ fontSize: 11.5, color: 'red', mb: 1, mt: 1, ml: 1 }}>Please check completion date.</Typography>}
 
                                     </Grid>
 
@@ -280,8 +325,8 @@ const ProjectPage = () => {
                                             projects != null ? <div>
                                                 <div {...getRootProps()}>
                                                     <Typography sx={{ fontSize: 14, color: grey[400], my: 1 }}>Project</Typography>
-                                                    <input {...register('p', { required: true })} placeholder='Project' style={{ width: "100%", outline: 'none', border: `1px solid ${mainColor}`, borderRadius: 5, padding: '8px 15px', color: '#444' }} {...getInputProps()} />
-                                                    {errors.p && <Typography sx={{ fontSize: 11.5, color: 'red', mb: 1, mt: 1, ml: 1 }}>Please select the project the task belongs to.</Typography>}
+                                                    <input placeholder='Project' style={{ width: "100%", outline: 'none', border: `1px solid ${mainColor}`, borderRadius: 5, padding: '8px 15px', color: '#444' }} {...getInputProps()} />
+                                                    {/* {errors.p && <Typography sx={{ fontSize: 11.5, color: 'red', mb: 1, mt: 1, ml: 1 }}>Please select the project the task belongs to.</Typography>} */}
 
                                                 </div>
                                                 {groupedOptions.length > 0 ? (
@@ -304,8 +349,8 @@ const ProjectPage = () => {
                                             projects != null ? <div>
                                                 <div {...getRootPropsSubProject()}>
                                                     <Typography sx={{ fontSize: 14, color: grey[400], my: 1 }}>Sub Project</Typography>
-                                                    <input {...register('sp', { required: true })} placeholder='Sub Project' style={{ width: "100%", outline: 'none', border: `1px solid ${mainColor}`, borderRadius: 5, padding: '8px 15px', color: '#444' }} {...getInputPropsSubProject()} />
-                                                    {errors.sp && <Typography sx={{ fontSize: 11.5, color: 'red', mb: 1, mt: 1, ml: 1 }}>Please enter the sub project the task belongs to.</Typography>}
+                                                    <input placeholder='Sub Project' style={{ width: "100%", outline: 'none', border: `1px solid ${mainColor}`, borderRadius: 5, padding: '8px 15px', color: '#444' }} {...getInputPropsSubProject()} />
+                                                    {/* {errors.sp && <Typography sx={{ fontSize: 11.5, color: 'red', mb: 1, mt: 1, ml: 1 }}>Please enter the sub project the task belongs to.</Typography>} */}
 
                                                 </div>
                                                 {groupedOptionsSubProject.length > 0 ? (
@@ -398,9 +443,17 @@ const ProjectPage = () => {
 
                                     <Grid item lg={5} xs={12} sx={{ mx: 2 }}>
                                         <Typography sx={{ fontSize: 14, color: grey[400], my: 1 }}>Estimated Completion Date</Typography>
-                                        <input {...register('estimatedDuration', { required: true })} type="date" placeholder='Estimated Completion Date...'
+                                        <input {...register('estimatedDuration', {
+                                            required: true, validate: {
+                                                validDate: (date) => {
+                                                    let d = new Date(date)
+                                                    let last = new Date('01/01/2025')
+                                                    return d > (new Date()) && d < last
+                                                }
+                                            }
+                                        })} type="date" placeholder='Estimated Completion Date'
                                             style={{ width: "100%", outline: 'none', border: `1px solid ${mainColor}`, borderRadius: 5, padding: '8px 15px', color: '#444' }} />
-                                        {errors.estimatedDuration && <Typography sx={{ fontSize: 11.5, color: 'red', mb: 1, mt: 1, ml: 1 }}>Please enter estimated duration.</Typography>}
+                                        {errors.estimatedDuration && <Typography sx={{ fontSize: 11.5, color: 'red', mb: 1, mt: 1, ml: 1 }}>Please check completion date.</Typography>}
 
                                     </Grid>
 
@@ -410,8 +463,8 @@ const ProjectPage = () => {
                                             projects != null ? <div>
                                                 <div {...getRootProps()}>
                                                     <Typography sx={{ fontSize: 14, color: grey[400], my: 1 }}>Project</Typography>
-                                                    <input {...register('p', { required: true })} placeholder='Project' style={{ width: "100%", outline: 'none', border: `1px solid ${mainColor}`, borderRadius: 5, padding: '8px 15px', color: '#444' }} {...getInputProps()} />
-                                                    {errors.p && <Typography sx={{ fontSize: 11.5, color: 'red', mb: 1, mt: 1, ml: 1 }}>Please enter E-mail.</Typography>}
+                                                    <input placeholder='Project' style={{ width: "100%", outline: 'none', border: `1px solid ${mainColor}`, borderRadius: 5, padding: '8px 15px', color: '#444' }} {...getInputProps()} />
+                                                    {/* {errors.p && <Typography sx={{ fontSize: 11.5, color: 'red', mb: 1, mt: 1, ml: 1 }}>Please enter E-mail.</Typography>} */}
 
                                                 </div>
                                                 {groupedOptions.length > 0 ? (
@@ -434,8 +487,8 @@ const ProjectPage = () => {
                                             null ? <div>
                                                 <div {...getRootProps()}>
                                                     <Typography sx={{ fontSize: 14, color: grey[400], my: 1 }}>Company</Typography>
-                                                    <input {...register('c', { required: true })} style={{ width: "100%", outline: 'none', border: `1px solid ${mainColor}`, borderRadius: 5, padding: '8px 15px', color: '#444' }} {...getInputProps()} />
-                                                    {errors.c && <Typography sx={{ fontSize: 11.5, color: 'red', mb: 1, mt: 1, ml: 1 }}>Please enter Company.</Typography>}
+                                                    <input style={{ width: "100%", outline: 'none', border: `1px solid ${mainColor}`, borderRadius: 5, padding: '8px 15px', color: '#444' }} {...getInputProps()} />
+                                                    {/* {errors.c && <Typography sx={{ fontSize: 11.5, color: 'red', mb: 1, mt: 1, ml: 1 }}>Please enter Company.</Typography>} */}
 
                                                 </div>
                                                 {groupedOptions.length > 0 ? (
@@ -455,7 +508,7 @@ const ProjectPage = () => {
                                     <Grid item lg={12} xs={12} sx={{ mx: 2 }}>
                                         <Typography sx={{ fontSize: 14, color: grey[400], my: 1 }}>Description</Typography>
                                         <textarea {...register('description', { required: true })} placeholder='Description about the company...' style={{ width: "100%", outline: 'none', border: `1px solid ${mainColor}`, borderRadius: 5, padding: '8px 15px', color: '#444' }} />
-                                        {errors.description && <Typography sx={{ fontSize: 11.5, color: 'red', mb: 1, mt: 1, ml: 1 }}>Please enter E-mail.</Typography>}
+                                        {errors.description && <Typography sx={{ fontSize: 11.5, color: 'red', mb: 1, mt: 1, ml: 1 }}>Please enter description.</Typography>}
 
                                     </Grid>
 

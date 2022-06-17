@@ -37,7 +37,7 @@ const store = createStore(
   applyMiddleware(...middleware),
 )
 
-const web3 = new Web3(Web3.givenProvider || "http://localhost:7545")
+const web3 = new Web3(Web3.givenProvider || "https://ropsten.infura.io/v3/29935ed5b45743c2ac82eee5bbfcdecf")
 web3.eth.requestAccounts().then(accounts => {
   console.log(accounts)
   //TODO save the address here

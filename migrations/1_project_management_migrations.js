@@ -2,8 +2,10 @@ const Project = artifacts.require("Project");
 const SubProject = artifacts.require("SubProject");
 const Task = artifacts.require("Task");
 const ProjectUserMapping = artifacts.require("ProjectUserMapping");
+// const account = '0x4299e6Ce4a7EEF69FD8bf6b78250B96E5C77000f'
 
 module.exports = async (deployer) => {
+    // console.log(accounts)
     await deployer.deploy(Project);
     await deployer.deploy(SubProject);
     await deployer.deploy(Task);

@@ -37,7 +37,7 @@ const FeedCard = ({ feed }) => {
                             </Grid>
 
                             <Grid item>
-                                <Typography sx={{ color: grey[800], fontSize: 13 }}>{(new Date(feed.createdAt)).toDateString()}</Typography>
+                                <Typography sx={{ color: grey[800], fontSize: 13 }}>{(new Date(feed.createdAt)).toLocaleDateString()}</Typography>
                             </Grid>
                         </Grid>
                     </Grid>

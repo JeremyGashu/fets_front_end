@@ -1,31 +1,30 @@
-import { Check, EditOutlined, House, LocalDiningOutlined, MoneyOutlined, PersonPin } from "@mui/icons-material"
-import { Box, Divider, Grid, IconButton, LinearProgress, Tooltip, Typography } from "@mui/material"
+import { Check, LocalDiningOutlined, MoneyOutlined, PersonPin } from "@mui/icons-material"
+import { Box, Divider, Grid, LinearProgress, Typography } from "@mui/material"
 import { DataGrid } from "@mui/x-data-grid"
 import { useEffect } from "react"
 import { useState } from "react"
 import { useSelector } from "react-redux"
-import { useNavigate } from "react-router-dom"
+// import { useNavigate } from "react-router-dom"
 import FullPageLoading from "../../components/FullPageLoadingPage"
-import ProjectUserPopover from "../../components/project/ProjectUserPopover"
 import LineChart from "../../components/technical_admin/LineChartProject"
 import TechnicalAdminDashboardCard from "../../components/technical_admin/TechnicalAdminDashboardCard"
+import { getUserName } from "../../configs/localstorage_handler"
 import { getBackgroundColorFromStatus, getTextColorFromStatus } from "../../configs/statuses"
-import { dashboardColor1, dashboardColor2, dashboardColor3, dashboardColor4, mainColor } from "../../themes/color"
+import { dashboardColor1, dashboardColor2, dashboardColor3, dashboardColor4 } from "../../themes/color"
 
-const DashboardPage = () => {
+const ExternalAuditorDashboard = () => {
 
     const [loadingProjects, setLoadingProjects] = useState(false)
     const [projects, setProjects] = useState()
     const { projectContract, mappingContract } = useSelector(state => state.contracts)
-    const navigate = useNavigate()
-    const [anchorEl, setAnchorEl] = useState(null);
-
+    // const navigate = useNavigate()
 
     useEffect(() => {
         setLoadingProjects(true)
+        const username = getUserName() || ''
 
-
-        projectContract && projectContract.methods.getAllProjects().call().then(res => {
+        mappingContract && mappingContract.methods.getProjectsListByUsername(username).call().then(res => {
+            console.log(res)
 
             Promise.all(res.map(async (project) => {
                 let s = await mappingContract.methods.getTaskStatusByProjectId(+project.id).call()
@@ -73,7 +72,7 @@ const DashboardPage = () => {
                 setLoadingProjects(false)
             })
         // eslint-disable-next-line 
-    }, [projectContract])
+    }, [projectContract, mappingContract])
 
     if (loadingProjects) {
         return <FullPageLoading />
@@ -166,46 +165,7 @@ const DashboardPage = () => {
                 )
             }
         },
-
-
-        {
-            headerName: 'Actions',
-            width: 250,
-            renderCell: (cellValue) => {
-                return (
-                    <Grid sx={{ p: 2 }} container direction='row' alignItems='center' justifyContent='center'>
-                        <Grid item>
-                            <Tooltip title='Check Mapping'>
-                                <IconButton onClick={() => {
-                                    navigate(`add-mapping/${cellValue['row']['id']}`)
-                                }}>
-                                    <EditOutlined sx={{ color: mainColor, fontSize: 16 }} />
-                                </IconButton>
-                            </Tooltip>
-                        </Grid>
-
-                        <Grid item>
-                            <Tooltip title='Check User'>
-                                <ProjectUserPopover id={cellValue['row']['id']} />
-                            </Tooltip>
-                        </Grid>
-
-                        <Grid item>
-                            <Tooltip title='Check Company'>
-                                <IconButton onClick={() => {
-                                    navigate(`company-detail/${cellValue['row']['companyId']}`)
-                                }}>
-                                    <House sx={{ color: mainColor, fontSize: 16 }} />
-                                </IconButton>
-                            </Tooltip>
-                        </Grid>
-                    </Grid>
-
-                )
-            }
-        },
     ]
-
     return (
         <>
             <Grid container>
@@ -248,4 +208,4 @@ const DashboardPage = () => {
     )
 }
 
-export default DashboardPage
+export default ExternalAuditorDashboard

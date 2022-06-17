@@ -41,6 +41,9 @@ const LoginPage = () => {
                 else if (userType === ROLES.BUDGET_AND_PROCUREMENT_MANAGER) {
                     navigate('/procurement-manager')
                 }
+                else if (userType === ROLES.EXTERNAL_AUDITOR) {
+                    navigate('/external-auditor')
+                }
                 else { }
 
             }

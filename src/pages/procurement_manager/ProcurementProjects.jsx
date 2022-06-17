@@ -1,11 +1,9 @@
 // import { AddOutlined } from '@mui/icons-material'
-import { Box, Button, Dialog, DialogActions, DialogContent, DialogTitle, Divider, Grid, Tab, Tabs, Typography, useAutocomplete } from '@mui/material'
+import { Box, Grid, Tab, Tabs, Typography } from '@mui/material'
 import { green, grey, } from '@mui/material/colors'
 import React, { useEffect } from 'react'
 import { useState } from 'react'
-import { useForm } from 'react-hook-form'
 import { useSelector } from 'react-redux'
-import { toast } from 'react-toastify'
 // import { useNavigate } from 'react-router-dom'
 import FullPageLoading from '../../components/FullPageLoadingPage'
 import ProjectOverview from '../../components/project/ProjectOverview'
@@ -40,43 +38,10 @@ const ProcurementManagerProjects = () => {
     const [loadingProjects, setLoadingProjects] = useState(false)
     const [projects, setProjects] = useState([])
     const [tasks, setTasks] = useState([])
-    const [subProjects, setSubProjects] = useState([])
-    const { projectContract, mappingContract, subProjectContract, taskContract, address } = useSelector(state => state.contracts)
-    const { register, handleSubmit, reset } = useForm()
-
-    const [addTaskModalOpen, setAddModalModalOpen] = useState(false)
-    const [addSubProjectModalOpen, setAddSubProjectModalOpen] = useState(false)
+    const { projectContract, mappingContract, taskContract } = useSelector(state => state.contracts)
 
 
-    const handleAddSubProject = (data) => {
-
-        subProjectContract.methods.addSubProject(data.name, data.description, projectValue.id, (new Date(data.estimatedDuration)).getTime()).send({ from: address }).then(res => {
-            toast('Added Sub Project Successfully!', { type: 'success', position: toast.POSITION.BOTTOM_RIGHT, })
-            setAddSubProjectModalOpen(false)
-            reset()
-            // navigate('/project-manager')
-        }).catch(err => {
-            toast('Some error encountered!', { type: 'warning', position: toast.POSITION.BOTTOM_RIGHT, })
-            setAddSubProjectModalOpen(false)
-        })
-    }
-
-
-    const handleAddTask = (data) => {
-
-        taskContract.methods.addTask(data.name, data.description, projectValue.id, subProjectValue.id, (new Date(data.estimatedDuration)).getTime(), 0).send({ from: address }).then(res => {
-            toast('Added Task Successfully!', { type: 'success', position: toast.POSITION.BOTTOM_RIGHT, })
-            setAddModalModalOpen(false)
-            // navigate('/project-manager')
-        }).catch(err => {
-            toast('Some error encountered!', { type: 'warning', position: toast.POSITION.BOTTOM_RIGHT, })
-            setAddModalModalOpen(false)
-
-        })
-    }
-
-
-    useEffect(() => {
+    const loadData = async () => {
         setLoadingProjects(true)
         const username = getUserName() || ''
 
@@ -126,7 +91,6 @@ const ProcurementManagerProjects = () => {
                         tempSubProjects = [...tempSubProjects, ...res]
                     })
 
-                    setSubProjects(tempSubProjects)
 
                 })
 
@@ -138,7 +102,6 @@ const ProcurementManagerProjects = () => {
                         tempTasks = [...tempTasks, ...res]
                     })
 
-                    setSubProjects(tempSubProjects)
                     let parsed = tempTasks.map(task => {
                         return {
                             allocatedBudget: +task.allocatedBudget,
@@ -170,6 +133,17 @@ const ProcurementManagerProjects = () => {
                 console.log(err)
                 setLoadingProjects(false)
             })
+    }
+
+
+    useEffect(() => {
+        loadData()
+
+        taskContract.events
+            .ChangeedTaskStatus({})
+            .on("data", (event) => {
+                loadData()
+            });
         // eslint-disable-next-line 
     }, [projectContract, mappingContract])
 
@@ -188,31 +162,6 @@ const ProcurementManagerProjects = () => {
         };
     }
 
-    const {
-        getRootProps,
-        getInputProps,
-        getListboxProps,
-        getOptionProps,
-        groupedOptions,
-        value: projectValue
-    } = useAutocomplete({
-        id: 'projects',
-        options: projects || [],
-        getOptionLabel: (option) => option.name,
-    });
-
-    const {
-        getRootProps: getRootPropsSubProject,
-        getInputProps: getInputPropsSubProject,
-        getListboxProps: getListboxPropsSubProject,
-        getOptionProps: getOptionPropsSubProject,
-        groupedOptions: groupedOptionsSubProject,
-        value: subProjectValue
-    } = useAutocomplete({
-        id: 'subprojects',
-        options: subProjects || [],
-        getOptionLabel: (option) => option.name,
-    });
 
     if (loadingProjects) {
         return <FullPageLoading />
@@ -280,7 +229,7 @@ const ProcurementManagerProjects = () => {
                         {
                             tasks.filter(task => task.status > 0 && task.status <= 2).map(t => {
                                 return (
-                                    <TaskDetailCardOngoing task={t}/>
+                                    <TaskDetailCardOngoing task={t} />
                                 )
                             })
                         }
@@ -315,7 +264,7 @@ const ProcurementManagerProjects = () => {
                                 return (
                                     <TaskDetailCardNeedApproval task={t} />
                                 )
-                                
+
                             })
                         }
                     </Grid>

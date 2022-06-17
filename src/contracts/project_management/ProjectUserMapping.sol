@@ -56,7 +56,7 @@ contract ProjectUserMapping {
         string memory externalAuditorUsername
     ) public {
         count += 1;
-        userProjectMappings[count] = MappingInfo(
+        userProjectMappings[projectId] = MappingInfo(
             projectId,
             financialOfficerUsername,
             projectManagerUsernmae,
@@ -175,6 +175,14 @@ contract ProjectUserMapping {
         returns (SubProject.SubProjectInfo[] memory)
     {
         return _subprojectAccessor.getSubProjectsListByProjectId(_projectId);
+    }
+
+    function getMappingById(uint256 _id)
+        public
+        view
+        returns (MappingInfo memory)
+    {
+        return userProjectMappings[_id];
     }
 
     /*

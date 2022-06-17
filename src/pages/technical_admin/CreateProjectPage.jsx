@@ -82,26 +82,34 @@ const CreateProjectsPage = () => {
 
                                         <Grid item lg={5} xs={12} sx={{ mx: 2 }}>
                                             <Typography sx={{ fontSize: 14, color: grey[400], my: 1 }}>Estimated Budget</Typography>
-                                            <input min={1} {...register('estimatedBudget', { required: true })} type="number" placeholder='Estimated Budget...'
+                                            <input min={1} {...register('estimatedBudget', { required: true, min: 1000 })} type="number" placeholder='Estimated Budget...'
                                                 style={{ width: "100%", outline: 'none', border: `1px solid ${mainColor}`, borderRadius: 5, padding: '8px 15px', color: '#444' }} />
-                                            {errors.estimatedBudget && <Typography sx={{ fontSize: 11.5, color: 'red', mb: 1, mt: 0.5 }}>Please enter budget.</Typography>}
+                                            {errors.estimatedBudget && <Typography sx={{ fontSize: 11.5, color: 'red', mb: 1, mt: 0.5 }}>Please check Estimated Budget.</Typography>}
 
                                         </Grid>
 
                                         <Grid item lg={5} xs={12} sx={{ mx: 2 }}>
                                             <Typography sx={{ fontSize: 14, color: grey[400], my: 1 }}>Estimated Completion Date</Typography>
-                                            <input {...register('estimatedDuration', { required: true })} type="date" placeholder='Estimated Completion Date...'
+                                            <input {...register('estimatedDuration', {
+                                                required: true, validate: {
+                                                    validDate: (date) => {
+                                                        let d = new Date(date)
+                                                        let last = new Date('01/01/2025')
+                                                        return d > (new Date()) && d < last
+                                                    }
+                                                }
+                                            })} type="date" placeholder='Estimated Completion Date'
                                                 style={{ width: "100%", outline: 'none', border: `1px solid ${mainColor}`, borderRadius: 5, padding: '8px 15px', color: '#444' }} />
 
-                                            {errors.estimatedDuration && <Typography sx={{ fontSize: 11.5, color: 'red', mb: 1, mt: 0.5 }}>Please enter estimated duration.</Typography>}
+                                            {errors.estimatedDuration && <Typography sx={{ fontSize: 11.5, color: 'red', mb: 1, mt: 0.5 }}>Please check completion page</Typography>}
 
                                         </Grid>
 
                                         <Grid item lg={5} xs={12} sx={{ mx: 2 }}>
                                             <Typography sx={{ fontSize: 14, color: grey[400], my: 1 }}>Account Number</Typography>
-                                            <input {...register('accountNumber', { required: true })} type="text" placeholder='Account Number...'
+                                            <input {...register('accountNumber', { required: true, minLength: 12 })} type="text" placeholder='Account Number...'
                                                 style={{ width: "100%", outline: 'none', border: `1px solid ${mainColor}`, borderRadius: 5, padding: '8px 15px', color: '#444' }} />
-                                            {errors.accountNumber && <Typography sx={{ fontSize: 11.5, color: 'red', mb: 1, mt: 0.5 }}>Please enter account number.</Typography>}
+                                            {errors.accountNumber && <Typography sx={{ fontSize: 11.5, color: 'red', mb: 1, mt: 0.5 }}>Please check account number.</Typography>}
 
                                         </Grid>
 
@@ -136,12 +144,12 @@ const CreateProjectsPage = () => {
 
                                         </Grid>
 
-                                        <Grid item lg={12} xs={12} sx={{ mx: 2, my: 2 }} >
+                                        {/* <Grid item lg={12} xs={12} sx={{ mx: 2, my: 2 }} >
                                             <label style={{ fontSize: 12, color: 'black' }} for='active'>Add Mapping Now ? </label>
 
                                             <input id='active' type="checkbox" placeholder='Active'
                                                 style={{ outline: 'none', border: `1px solid ${mainColor}`, borderRadius: 5, color: '#444' }} />
-                                        </Grid>
+                                        </Grid> */}
 
                                     </Grid>
 
