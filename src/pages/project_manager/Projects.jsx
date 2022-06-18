@@ -189,7 +189,7 @@ const ProjectPage = () => {
     useEffect(() => {
         loadData()
         taskContract.events
-            .ChangeedTaskStatus({})
+            .ChangedTaskStatus({})
             .on("data", (event) => {
                 loadData()
             });

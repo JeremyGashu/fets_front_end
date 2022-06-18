@@ -202,6 +202,14 @@ export const TaskDetailCardNeedApproval = ({ task = {} }) => {
     const [externalAuditorApproveOpen, setExternalAuditorApproveOpen] = useState(false)
     const [procurementManagerApproveOpen, setProcurementManagerApproveOpen] = useState(false)
 
+    const [projectManagerDeclineOpen, setProjectManagerDeclineOpen] = useState(false)
+    const [procurementManagerDeclineOpen, setProcurementManagerDeclineOpen] = useState(false)
+    const [externalAuditorDeclineOpen, setExternalAuditorDeclineOpen] = useState(false)
+
+    const { register: registerForDeclineByProjectManager, handleSubmit: handleSubmitForDeclineByPrjectManager, formState: { errors: declineByProjectManagerErrors } } = useForm()
+    const { register: registerForDeclineByExternalAuditor, handleSubmit: handleSubmitForDeclineByExternalAuditor, formState: { errors: declineByExternalAuditorErrors } } = useForm()
+    const { register: registerForDeclineByProcurementManager, handleSubmit: handleSubmitForDeclineByProcurementManager, formState: { errors: declineByProcurementManagerErrors } } = useForm()
+
     const { register: registerForFinancialManager, handleSubmit: handleSubmitForFinancialManager, formState: { errors: fmErrors } } = useForm()
     const { register: registerForProjectManager, handleSubmit: handleSubmitForProjectManager, formState: { errors: pmErrors } } = useForm()
     const { register: registerForProcurementManager, handleSubmit: handleSubmitForProcurementManager, formState: { errors: pmmErrors } } = useForm()
@@ -218,7 +226,8 @@ export const TaskDetailCardNeedApproval = ({ task = {} }) => {
             setFinancialManagerApproveOpen(false)
         })
             .catch(err => {
-
+                toast('Some error encountered!', { type: 'warning', position: toast.POSITION.BOTTOM_RIGHT, })
+                setFinancialManagerApproveOpen(false)
             })
     }
 
@@ -239,6 +248,9 @@ export const TaskDetailCardNeedApproval = ({ task = {} }) => {
             setProcurementManagerApproveOpen(false)
         })
             .catch(err => {
+                toast('Some error encountered!', { type: 'warning', position: toast.POSITION.BOTTOM_RIGHT, })
+                setProcurementManagerApproveOpen(false)
+
 
             })
     }
@@ -249,8 +261,54 @@ export const TaskDetailCardNeedApproval = ({ task = {} }) => {
             setExternalAuditorApproveOpen(false)
         })
             .catch(err => {
+                toast('Some error encountered!', { type: 'warning', position: toast.POSITION.BOTTOM_RIGHT, })
+                setExternalAuditorApproveOpen(false)
+
 
             })
+    }
+
+    const handleDeclineByProcurementManager = (data) => {
+        console.log(data)
+        taskContract.methods.budgetAndProcurementManagerDeclineTaskApproval(task.id, data.remark).send({ from: address }).then(res => {
+            toast('Declined task successfully!', { type: 'success', position: toast.POSITION.BOTTOM_RIGHT, })
+            setProjectManagerDeclineOpen(false)
+        })
+            .catch(err => {
+                toast('Some error encountered!', { type: 'warning', position: toast.POSITION.BOTTOM_RIGHT, })
+                setProjectManagerDeclineOpen(false)
+
+
+            })
+    }
+
+    const handleDeclineByExternalAuditor = (data) => {
+        console.log(data)
+        taskContract.methods.externalAuditorDeclinedTaskAllocation(task.id, data.remark).send({ from: address }).then(res => {
+            toast('Declined task successfully!', { type: 'success', position: toast.POSITION.BOTTOM_RIGHT, })
+            setExternalAuditorDeclineOpen(false)
+        })
+            .catch(err => {
+                toast('Some error encountered!', { type: 'warning', position: toast.POSITION.BOTTOM_RIGHT, })
+                setExternalAuditorDeclineOpen(false)
+
+
+            })
+    }
+
+    const handleDeclineByProjectManager = (data) => {
+        console.log(data)
+        taskContract.methods.projectManagerDeclineTaskApproval(task.id, data.remark).send({ from: address }).then(res => {
+            toast('Declined task successfully!', { type: 'success', position: toast.POSITION.BOTTOM_RIGHT, })
+            setProjectManagerDeclineOpen(false)
+        })
+            .catch(err => {
+                toast('Some error encountered!', { type: 'warning', position: toast.POSITION.BOTTOM_RIGHT, })
+                setProjectManagerDeclineOpen(false)
+
+
+            })
+
     }
 
     const [anchorEl, setAnchorEl] = useState(null);
@@ -270,6 +328,151 @@ export const TaskDetailCardNeedApproval = ({ task = {} }) => {
 
     return (
         <Box sx={{ p: 2, width: '100%', backgroundColor: 'white', minHeight: 220, my: 1, borderRadius: 3, boxShadow: `1px 1px 3px 5px  ${grey[100]}` }}>
+
+            <Dialog
+                onClose={() => {
+                    setExternalAuditorDeclineOpen(false)
+                }}
+                aria-labelledby="customized-dialog-title"
+                open={externalAuditorDeclineOpen}
+                sx={{ zIndex: 999999 }}
+            >
+                <DialogTitle id="customized-dialog-title" onClose={() => {
+                    setExternalAuditorDeclineOpen(false)
+                }}>
+                    <Typography>Decline Task Completion?</Typography>
+                </DialogTitle>
+                <DialogContent dividers>
+                    <form onSubmit={handleSubmitForDeclineByExternalAuditor(handleDeclineByExternalAuditor)} style={{ maxWidth: 400 }}>
+
+                        <textarea placeholder='Remark...' {...registerForDeclineByExternalAuditor('remark', { required: true })} type="text" style={{ width: '100%', marginBottom: 5, outline: 'none', border: `1px solid ${mainColor}`, borderRadius: 5, padding: '8px 15px', color: '#444' }} />
+                        {declineByExternalAuditorErrors.remark && <Typography sx={{ fontSize: 11.5, color: 'red', mb: 1, mt: 1, ml: 1 }}>Please enter valid remark.</Typography>}
+
+                        <DialogActions>
+
+                            <Button sx={{
+                                width: 150,
+                                color: grey[600]
+                            }} autoFocus onClick={() => {
+                                setExternalAuditorDeclineOpen(false)
+                            }}>
+                                Cancel
+                            </Button>
+
+                            <Button type='submit' sx={{
+                                width: 150, backgroundColor: mainColor, color: 'white', '&:hover': {
+                                    backgroundColor: mainColor
+                                }
+                            }} autoFocus onClick={() => {
+                                // e.stopPropagation()
+                                // mutate({ id })
+                                // console.log('Clicked')
+
+                            }}>
+                                Submit
+                            </Button>
+                        </DialogActions>
+                    </form>
+                </DialogContent>
+
+            </Dialog>
+
+            <Dialog
+                onClose={() => {
+                    setProjectManagerDeclineOpen(false)
+                }}
+                aria-labelledby="customized-dialog-title"
+                open={projectManagerDeclineOpen}
+                sx={{ zIndex: 999999 }}
+            >
+                <DialogTitle id="customized-dialog-title" onClose={() => {
+                    setProjectManagerDeclineOpen(false)
+                }}>
+                    <Typography>Decline Task Completion?</Typography>
+                </DialogTitle>
+                <DialogContent dividers>
+                    <form onSubmit={handleSubmitForDeclineByPrjectManager(handleDeclineByProjectManager)} style={{ maxWidth: 400 }}>
+
+                        <textarea placeholder='Remark...' {...registerForDeclineByProjectManager('remark', { required: true })} type="text" style={{ width: '100%', marginBottom: 5, outline: 'none', border: `1px solid ${mainColor}`, borderRadius: 5, padding: '8px 15px', color: '#444' }} />
+                        {declineByProjectManagerErrors.remark && <Typography sx={{ fontSize: 11.5, color: 'red', mb: 1, mt: 1, ml: 1 }}>Please enter valid remark.</Typography>}
+
+                        <DialogActions>
+
+                            <Button sx={{
+                                width: 150,
+                                color: grey[600]
+                            }} autoFocus onClick={() => {
+                                setProjectManagerDeclineOpen(false)
+                            }}>
+                                Cancel
+                            </Button>
+
+                            <Button type='submit' sx={{
+                                width: 150, backgroundColor: mainColor, color: 'white', '&:hover': {
+                                    backgroundColor: mainColor
+                                }
+                            }} autoFocus onClick={() => {
+                                // e.stopPropagation()
+                                // mutate({ id })
+                                // console.log('Clicked')
+
+                            }}>
+                                Submit
+                            </Button>
+                        </DialogActions>
+                    </form>
+                </DialogContent>
+
+            </Dialog>
+
+
+            <Dialog
+                onClose={() => {
+                    setProcurementManagerDeclineOpen(false)
+                }}
+                aria-labelledby="customized-dialog-title"
+                open={procurementManagerDeclineOpen}
+                sx={{ zIndex: 999999 }}
+            >
+                <DialogTitle id="customized-dialog-title" onClose={() => {
+                    setProcurementManagerDeclineOpen(false)
+                }}>
+                    <Typography>Decline Task Completion?</Typography>
+                </DialogTitle>
+                <DialogContent dividers>
+                    <form onSubmit={handleSubmitForDeclineByProcurementManager(handleDeclineByProcurementManager)} style={{ maxWidth: 400 }}>
+
+                        <textarea placeholder='Remark...' {...registerForDeclineByProcurementManager('remark', { required: true })} type="text" style={{ width: '100%', marginBottom: 5, outline: 'none', border: `1px solid ${mainColor}`, borderRadius: 5, padding: '8px 15px', color: '#444' }} />
+                        {declineByProcurementManagerErrors.remark && <Typography sx={{ fontSize: 11.5, color: 'red', mb: 1, mt: 1, ml: 1 }}>Please enter valid remark.</Typography>}
+
+                        <DialogActions>
+
+                            <Button sx={{
+                                width: 150,
+                                color: grey[600]
+                            }} autoFocus onClick={() => {
+                                setProcurementManagerDeclineOpen(false)
+                            }}>
+                                Cancel
+                            </Button>
+
+                            <Button type='submit' sx={{
+                                width: 150, backgroundColor: mainColor, color: 'white', '&:hover': {
+                                    backgroundColor: mainColor
+                                }
+                            }} autoFocus onClick={() => {
+                                // e.stopPropagation()
+                                // mutate({ id })
+                                // console.log('Clicked')
+
+                            }}>
+                                Submit
+                            </Button>
+                        </DialogActions>
+                    </form>
+                </DialogContent>
+
+            </Dialog>
 
             <Popover
                 id='pop-over-id'
@@ -541,34 +744,12 @@ export const TaskDetailCardNeedApproval = ({ task = {} }) => {
                                 setFinancialManagerApproveOpen(true)
                                 break;
                             case ROLES.BUDGET_AND_PROCUREMENT_MANAGER:
-                                // taskContract.methods.budgetAndProcurementManagerApproveTaskCompletion(task.id).send({ from: address }).then(res => {
-                                //     toast('Approved task completion successfully!', { type: 'success', position: toast.POSITION.BOTTOM_RIGHT, })
-
-                                // })
-                                //     .catch(err => {
-
-                                //     })
                                 setProcurementManagerApproveOpen(true)
                                 break;
                             case ROLES.PROJECT_MANAGER:
-                                // taskContract.methods.projectManagerApproveTaskCompletion(task.id).send({ from: address }).then(res => {
-                                //     toast('Approved task completion successfully!', { type: 'success', position: toast.POSITION.BOTTOM_RIGHT, })
-
-                                // })
-                                //     .catch(err => {
-
-                                //     })
                                 setProjectManagerApproveOpen(true)
                                 break;
                             case ROLES.EXTERNAL_AUDITOR:
-
-                                // taskContract.methods.externalAuditorApproveTaskCompletion(task.id).send({ from: address }).then(res => {
-                                //     toast('Approved task completion successfully!', { type: 'success', position: toast.POSITION.BOTTOM_RIGHT, })
-
-                                // })
-                                //     .catch(err => {
-
-                                //     })
                                 setExternalAuditorApproveOpen(true)
                                 break
                             default:
@@ -577,7 +758,26 @@ export const TaskDetailCardNeedApproval = ({ task = {} }) => {
                     }} sx={{ fontSize: 13, color: green[700] }}>Approve</Button>
                 </Grid>
                 <Grid item>
-                    <Button sx={{ fontSize: 13, color: red[700] }}>Decline</Button>
+                    {
+                        getUserType() !== ROLES.FINANCIAL_OFFICER ? <Button onClick={() => {
+                            let type = getUserType()
+                            switch (type) {
+
+                                case ROLES.BUDGET_AND_PROCUREMENT_MANAGER:
+                                    setProjectManagerDeclineOpen(true)
+                                    break;
+                                case ROLES.PROJECT_MANAGER:
+                                    setProjectManagerDeclineOpen(true)
+                                    break;
+                                case ROLES.EXTERNAL_AUDITOR:
+                                    console.log('Decline')
+                                    setExternalAuditorDeclineOpen(true)
+                                    break
+                                default:
+                                    break;
+                            }
+                        }} sx={{ fontSize: 13, color: red[700] }}>Decline</Button> : <></>
+                    }
                 </Grid>
             </Grid>
         </Box>

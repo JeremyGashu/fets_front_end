@@ -1,4 +1,4 @@
-import { Box, CircularProgress, Grid, Typography, LinearProgress, Button, IconButton } from "@mui/material"
+import { Box, CircularProgress, Grid, Typography, LinearProgress, Button, IconButton, Tooltip } from "@mui/material"
 import { DataGrid } from "@mui/x-data-grid"
 import DoughnutChart from "./DonutChartProject"
 import { mainColor } from "../../themes/color"
@@ -170,11 +170,13 @@ const ProjectOverview = ({ projects = [], tasks = [] }) => {
                 return (
                     <Grid container>
                         <Grid item>
-                            <IconButton onClick={() => {
-                                navigate(`project-detail/${cellValue['row']['id']}`)
-                            }}>
-                                <Visibility sx={{ color: mainColor, fontSize: 14 }} />
-                            </IconButton>
+                            <Tooltip title='Detail'>
+                                <IconButton onClick={() => {
+                                    navigate(`project-detail/${cellValue['row']['id']}`)
+                                }}>
+                                    <Visibility sx={{ color: mainColor, fontSize: 14 }} />
+                                </IconButton>
+                            </Tooltip>
                         </Grid>
                     </Grid>
                 )

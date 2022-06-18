@@ -12,7 +12,6 @@ import FeedDetailPage from './pages/feed/FeedDetailPage';
 import FinancialManagerSidebar from './pages/financial_manager/FinancialManager';
 import ProcurementManagerSidebar from './pages/procurement_manager/ProcurementManager';
 import ExternalAuditorSidebar from './pages/external_auditor/ExternalAuditor';
-import ProjectDetail from './pages/project/ProjectDetail';
 
 
 const App = () => {
@@ -38,6 +37,7 @@ const App = () => {
         <Route path='/external-auditor/*' element={<ExternalAuditorSidebar />} />
         <Route path='/feeds/*' element={<FeedsPage />} />
         <Route path='/feed-detail/:id' element={<FeedDetailPage />} />
+
 
       </Routes>
 

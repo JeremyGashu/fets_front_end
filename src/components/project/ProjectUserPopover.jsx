@@ -27,7 +27,7 @@ const ProjectUserPopover = ({ id }) => {
     const { mappingContract } = useSelector(state => state.contracts)
 
     useEffect(() => {
-        mappingContract.methods.getMappingById(id).call().then(res => {
+        mappingContract && mappingContract.methods.getMappingById(id).call().then(res => {
             let tempMapping = {
                 projectId: +res.projectId,
                 externalAuditorUsername: res.externalAuditorUsername,
@@ -41,7 +41,8 @@ const ProjectUserPopover = ({ id }) => {
             .catch(err => {
                 console.log(err)
             })
-    }, [])
+        // eslint-disable-next-line
+    }, [mappingContract])
 
     return (
         <Grid item>
@@ -69,21 +70,21 @@ const ProjectUserPopover = ({ id }) => {
                         <Box sx={{ px: 2, py: 3, borderRadius: 2 }}>
                             <Typography sx={{ fontSize: 12, my: 1 }}>Project Manager {mapping['projectManagerUsername'] ? <span onClick={() => {
                                 navigate(`user-project-detail/${mapping['projectManagerUsername']}`)
-                            }} style={{ color: mainColor, textDecoration: 'underline', cursor: 'pointer' }}>{mapping['projectManagerUsername']}</span> : <span style={{ color: 'black' }}>Not mapped</span>}
+                            }} style={{ color: mainColor, textDecoration: 'underline', cursor: 'pointer' }}>{mapping['projectManagerUsername']}</span> : <span style={{ color: 'black' }}>Not Assigned</span>}
                             </Typography>
 
                             <Typography sx={{ fontSize: 12, my: 1 }}>Budget &amp; Procurement Manager {mapping['budgetAndProcurementManagerUsername'] ? <span onClick={() => {
                                 navigate(`user-project-detail/${mapping['budgetAndProcurementManagerUsername']}`)
-                            }} style={{ color: mainColor, textDecoration: 'underline', cursor: 'pointer' }}>{mapping['budgetAndProcurementManagerUsername']}</span> : <span style={{ color: 'black' }}>Not mapped</span>}
+                            }} style={{ color: mainColor, textDecoration: 'underline', cursor: 'pointer' }}>{mapping['budgetAndProcurementManagerUsername']}</span> : <span style={{ color: 'black' }}>Not Assigned</span>}
                             </Typography>
 
                             <Typography sx={{ fontSize: 12, my: 1 }}>Financial Officer {mapping['financialOfficerUsername'] ? <span onClick={() => {
                                 navigate(`user-project-detail/${mapping['financialOfficerUsername']}`)
-                            }} style={{ color: mainColor, textDecoration: 'underline', cursor: 'pointer' }}>{mapping['financialOfficerUsername']}</span> : <span style={{ color: 'black' }}>Not mapped</span>}
+                            }} style={{ color: mainColor, textDecoration: 'underline', cursor: 'pointer' }}>{mapping['financialOfficerUsername']}</span> : <span style={{ color: 'black' }}>Not Assigned</span>}
                             </Typography>
                             <Typography sx={{ fontSize: 12, my: 1 }}>External Auditor {mapping['externalAuditorUsername'] ? <span onClick={() => {
                                 navigate(`user-project-detail/${mapping['externalAuditorUsername']}`)
-                            }} style={{ color: mainColor, textDecoration: 'underline', cursor: 'pointer' }}>{mapping['externalAuditorUsername']}</span> : <span style={{ color: 'black' }}>Not mapped</span>}
+                            }} style={{ color: mainColor, textDecoration: 'underline', cursor: 'pointer' }}>{mapping['externalAuditorUsername']}</span> : <span style={{ color: 'black' }}>Not Assigned</span>}
                             </Typography>
 
                         </Box>

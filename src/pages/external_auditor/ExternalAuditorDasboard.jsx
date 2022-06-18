@@ -1,18 +1,21 @@
-import { Check, LocalDiningOutlined, MoneyOutlined, PersonPin } from "@mui/icons-material"
-import { Box, Divider, Grid, LinearProgress, Typography } from "@mui/material"
+import { Check, DashboardOutlined, LocalDiningOutlined, MoneyOutlined, PersonPin } from "@mui/icons-material"
+import { Box, Divider, Grid, IconButton, LinearProgress, Tooltip, Typography } from "@mui/material"
 import { DataGrid } from "@mui/x-data-grid"
 import { useEffect } from "react"
 import { useState } from "react"
 import { useSelector } from "react-redux"
+import { useNavigate } from "react-router-dom"
 // import { useNavigate } from "react-router-dom"
 import FullPageLoading from "../../components/FullPageLoadingPage"
 import LineChart from "../../components/technical_admin/LineChartProject"
 import TechnicalAdminDashboardCard from "../../components/technical_admin/TechnicalAdminDashboardCard"
 import { getUserName } from "../../configs/localstorage_handler"
 import { getBackgroundColorFromStatus, getTextColorFromStatus } from "../../configs/statuses"
-import { dashboardColor1, dashboardColor2, dashboardColor3, dashboardColor4 } from "../../themes/color"
+import { dashboardColor1, dashboardColor2, dashboardColor3, dashboardColor4, mainColor } from "../../themes/color"
 
 const ExternalAuditorDashboard = () => {
+
+    const navigate = useNavigate()
 
     const [loadingProjects, setLoadingProjects] = useState(false)
     const [projects, setProjects] = useState()
@@ -161,6 +164,26 @@ const ExternalAuditorDashboard = () => {
             renderCell: (cellValue) => {
                 return (
                     <Typography sx={{ fontSize: 13, }}>{`${new Date(cellValue['row']['createdAt']).toLocaleDateString()}`}</Typography>
+
+                )
+            }
+        },
+
+        {
+            field: 'actions',
+            headerName: 'Action',
+            width: 130,
+            renderCell: (cellValue) => {
+                return (
+                    <Grid item>
+                        <Tooltip title='Dashboard'>
+                            <IconButton onClick={() => {
+                                navigate(`single-project-dashboard/${cellValue['row']['id']}`)
+                            }}>
+                                <DashboardOutlined sx={{ color: mainColor, fontSize: 14 }} />
+                            </IconButton>
+                        </Tooltip>
+                    </Grid>
 
                 )
             }

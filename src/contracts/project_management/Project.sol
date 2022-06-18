@@ -81,7 +81,7 @@ contract Project {
             estimatedBudget,
             0,
             estimatedDuration,
-            block.timestamp,
+            block.timestamp * 1000,
             companyId,
             accountNumber,
             ProjectStatus.PENDING
@@ -94,7 +94,7 @@ contract Project {
             estimatedBudget,
             estimatedDuration,
             0,
-            block.timestamp,
+            block.timestamp * 1000,
             companyId,
             accountNumber,
             ProjectStatus.PENDING

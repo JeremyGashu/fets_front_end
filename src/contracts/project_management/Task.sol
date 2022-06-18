@@ -45,7 +45,7 @@ contract Task {
         uint256 createdAt
     );
 
-    event ChangeedTaskStatus(
+    event ChangedTaskStatus(
         uint256 indexed taskid,
         TaskStatus from,
         TaskStatus to,
@@ -80,7 +80,7 @@ contract Task {
             TaskStatus.CREATED,
             0,
             '',
-            block.timestamp
+            block.timestamp * 1000
         );
         
         emit AddedTask(
@@ -92,7 +92,7 @@ contract Task {
             estimatedDuration,
             TaskStatus.CREATED,
             allocatedBudget,
-            block.timestamp
+            block.timestamp * 1000
         );
     }
 
@@ -106,7 +106,7 @@ contract Task {
         tasks[taskid].allocatedBudget = allocatedBudget;
         tasks[taskid].status = TaskStatus.ALLOCATED_BY_FINANCIAL_MANAGER;
         tasks[taskid].remark = remark;
-        emit ChangeedTaskStatus(taskid ,TaskStatus.CREATED, TaskStatus.ALLOCATED_BY_FINANCIAL_MANAGER, block.timestamp, msg.sender);
+        emit ChangedTaskStatus(taskid ,TaskStatus.CREATED, TaskStatus.ALLOCATED_BY_FINANCIAL_MANAGER, block.timestamp, msg.sender);
     }
 
     function budgetAndProcurementManagerApproveTaskCompletion(uint256 _taskId, string memory remark)
@@ -114,19 +114,39 @@ contract Task {
     {
         tasks[_taskId].status = TaskStatus.APPROVED_BY_BUDGET_AND_PROCUREMENT_MANAGER;
         tasks[_taskId].remark = remark;
-        emit ChangeedTaskStatus(_taskId ,TaskStatus.ALLOCATED_BY_FINANCIAL_MANAGER, TaskStatus.APPROVED_BY_BUDGET_AND_PROCUREMENT_MANAGER, block.timestamp, msg.sender);
+        emit ChangedTaskStatus(_taskId ,TaskStatus.ALLOCATED_BY_FINANCIAL_MANAGER, TaskStatus.APPROVED_BY_BUDGET_AND_PROCUREMENT_MANAGER, block.timestamp, msg.sender);
     }
 
     function projectManagerApproveTaskCompletion(uint256 _taskId, string memory remark) public {
         tasks[_taskId].status = TaskStatus.APPROVED_BY_PROJECT_MANAGER;
         tasks[_taskId].remark = remark;
-        emit ChangeedTaskStatus(_taskId ,TaskStatus.APPROVED_BY_BUDGET_AND_PROCUREMENT_MANAGER, TaskStatus.APPROVED_BY_PROJECT_MANAGER, block.timestamp, msg.sender);
+        emit ChangedTaskStatus(_taskId ,TaskStatus.APPROVED_BY_BUDGET_AND_PROCUREMENT_MANAGER, TaskStatus.APPROVED_BY_PROJECT_MANAGER, block.timestamp, msg.sender);
     }
 
     function externalAuditorApproveTaskCompletion(uint256 _taskId, string memory remark) public {
         tasks[_taskId].status = TaskStatus.APPROVED_BY_EXTERNAL_AUDITOR;
         tasks[_taskId].remark = remark;
-        emit ChangeedTaskStatus(_taskId ,TaskStatus.APPROVED_BY_PROJECT_MANAGER, TaskStatus.APPROVED_BY_EXTERNAL_AUDITOR, block.timestamp, msg.sender);
+        emit ChangedTaskStatus(_taskId ,TaskStatus.APPROVED_BY_PROJECT_MANAGER, TaskStatus.APPROVED_BY_EXTERNAL_AUDITOR, block.timestamp, msg.sender);
+    }
+
+    function budgetAndProcurementManagerDeclineTaskApproval(uint256 _taskId, string memory remark)
+        public
+    {
+        tasks[_taskId].status = TaskStatus.CREATED;
+        tasks[_taskId].remark = remark;
+        emit ChangedTaskStatus(_taskId ,TaskStatus.ALLOCATED_BY_FINANCIAL_MANAGER, TaskStatus.CREATED, block.timestamp, msg.sender);
+    }
+
+    function projectManagerDeclineTaskApproval(uint256 _taskId, string memory remark) public {
+        tasks[_taskId].status = TaskStatus.ALLOCATED_BY_FINANCIAL_MANAGER;
+        tasks[_taskId].remark = remark;
+        emit ChangedTaskStatus(_taskId ,TaskStatus.APPROVED_BY_BUDGET_AND_PROCUREMENT_MANAGER, TaskStatus.ALLOCATED_BY_FINANCIAL_MANAGER, block.timestamp, msg.sender);
+        }
+
+    function externalAuditorDeclinedTaskAllocation(uint256 _taskId, string memory remark) public {
+        tasks[_taskId].status = TaskStatus.APPROVED_BY_BUDGET_AND_PROCUREMENT_MANAGER;
+        tasks[_taskId].remark = remark;
+        emit ChangedTaskStatus(_taskId ,TaskStatus.APPROVED_BY_PROJECT_MANAGER, TaskStatus.APPROVED_BY_BUDGET_AND_PROCUREMENT_MANAGER, block.timestamp, msg.sender);
     }
 
     function deleteTask(uint256 _taskId) public {

@@ -12,7 +12,7 @@ import Toolbar from '@mui/material/Toolbar';
 import Typography from '@mui/material/Typography';
 import React, { useState } from 'react'
 import { Avatar, Badge, Divider, Grid, Menu, MenuItem, Tooltip } from '@mui/material';
-import { Dashboard, GraphicEqOutlined, Logout, Notifications, } from '@mui/icons-material';
+import { Dashboard, GraphicEqOutlined, Logout, Notifications, PersonOutlined, } from '@mui/icons-material';
 import { mainColor } from '../../themes/color';
 import company_logo from '../../assets/company_logo.png'
 import ProjectPage from './Projects';
@@ -21,6 +21,8 @@ import ProjectManagerDashboard from './ProjectManagerDashboard';
 import { logOut } from '../../controller/auth';
 import { Route, Routes, useNavigate } from 'react-router-dom';
 import ProjectDetail from '../project/ProjectDetail';
+import ProfilePageProjectManager from './ProfilePage';
+import SingleProjectDashbardProjectManager from './SingleProjectDashbard';
 
 
 const drawerWidth = 250;
@@ -59,6 +61,11 @@ const ProjectManagerSidebar = (props) => {
             name: 'Projects',
             component: <ProjectPage />,
             icon: <GraphicEqOutlined sx={{ color: selectedIndex === 1 ? 'white' : '#444' }} />
+        },
+        {
+            name: 'Profile',
+            component: <ProfilePageProjectManager />,
+            icon: <PersonOutlined sx={{ color: selectedIndex === 2 ? 'white' : '#444' }} />
         },
     ]
 
@@ -267,6 +274,8 @@ const ProjectManagerSidebar = (props) => {
                         <Routes>
                             <Route path='*' element={dashboardElement[selectedIndex]['component']} />
                             <Route path='project-detail/:id' element={<ProjectDetail />} />
+                            <Route path='single-project-dashboard/:id' element={<SingleProjectDashbardProjectManager />} />
+
                             {/* <Route path='assets/:departmentid' element={<AssetsComponent />} />
                             <Route path='associations/:departmentid' element={<AssociationComponent />} />
                             <Route path='association_members/:associationid' element={<AssociationMembersComponent />} />
