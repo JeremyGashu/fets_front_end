@@ -3,26 +3,34 @@
 pragma solidity ^0.8;
 pragma experimental ABIEncoderV2;
 
+import "../project_management/Project.sol";
+
 contract PaymentInformations {
-    uint256 count;
+    Project _projectAccessor;
+    uint256 private count;
+
+    constructor(address _projectAddress) {
+        count = 0;
+        _projectAccessor = Project(_projectAddress);
+    }
 
     struct PaymentInfo {
         string donorUsername;
-        string projectId;
+        uint256 projectId;
         uint256 amount;
         uint256 donatedAt;
     }
 
     event AddedPayment(
         string indexed donorUsername,
-        string indexed projectId,
+        uint256 indexed projectId,
         uint256 amount,
         uint256 donatedAt
     );
 
     event RefundedPayment(
         string indexed donorUsername,
-        string indexed projectId,
+        uint256 indexed projectId,
         uint256 amount,
         uint256 donatedAt
     );
@@ -32,17 +40,29 @@ contract PaymentInformations {
     //add only donor modifier
     function addPaymentInfo(
         string memory donorUsername,
-        string memory projectId,
+        uint256 projectId,
         uint256 amount,
         uint256 donatedAt
     ) external {
-        payments[++count] = PaymentInfo(
+        _projectAccessor.addPaymentInfo(projectId, amount, donorUsername);
+        count++;
+        payments[count] = PaymentInfo(
             donorUsername,
             projectId,
             amount,
             donatedAt
         );
         emit AddedPayment(donorUsername, projectId, amount, donatedAt);
+    }
+
+    function refundMoney(
+        string memory donorUsername,
+        uint256 projectId,
+        uint256 amount
+    ) external {
+        _projectAccessor.refundMoney(projectId, amount);
+        // count++;
+        emit RefundedPayment(donorUsername, projectId, amount, block.timestamp * 1000);
     }
 
     function deletePaymentInfo(uint256 id) external {
