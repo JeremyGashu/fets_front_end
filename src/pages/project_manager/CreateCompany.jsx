@@ -5,6 +5,7 @@ import { useMutation } from "react-query"
 import { useNavigate } from "react-router-dom"
 import { toast } from "react-toastify"
 import { queryClient } from "../.."
+import { validatePhoneNumber } from "../../configs/phone_validator"
 import { createCompany } from "../../controller/company"
 import { dashboardColor1, mainColor } from "../../themes/color"
 const CreateCompany = () => {
@@ -83,9 +84,17 @@ const CreateCompany = () => {
                                         {errors.address && <Typography sx={{ fontSize: 11.5, color: 'red', mb: 1, mt: 1, ml: 1 }}>Please enter address.</Typography>}
 
                                     </Grid>
+
+
                                     <Grid item lg={5} xs={12} sx={{ mx: 2 }}>
                                         <Typography sx={{ fontSize: 14, color: grey[400], my: 1 }}>Address</Typography>
-                                        <input {...register('phone', { required: true })} type="tel" placeholder='Phone'
+                                        <input {...register('phone', {
+                                            required: true, validate: {
+                                                validatePhoneNumber: (phone) => {
+                                                    return validatePhoneNumber(phone)
+                                                }
+                                            }
+                                        })} type="tel" placeholder='Phone'
                                             style={{ width: "100%", outline: 'none', border: `1px solid ${mainColor}`, borderRadius: 5, padding: '8px 15px', color: '#444' }} />
                                         {errors.phone && <Typography sx={{ fontSize: 11.5, color: 'red', mb: 1, mt: 1, ml: 1 }}>Please enter phone.</Typography>}
 

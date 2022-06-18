@@ -80,7 +80,7 @@ contract Task {
             TaskStatus.CREATED,
             0,
             '',
-            block.timestamp
+            block.timestamp * 1000
         );
         
         emit AddedTask(
@@ -92,7 +92,7 @@ contract Task {
             estimatedDuration,
             TaskStatus.CREATED,
             allocatedBudget,
-            block.timestamp
+            block.timestamp * 1000
         );
     }
 

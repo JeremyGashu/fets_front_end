@@ -12,7 +12,7 @@ import Toolbar from '@mui/material/Toolbar';
 import Typography from '@mui/material/Typography';
 import React, { useState } from 'react'
 import { Avatar, Badge, Divider, Grid, Menu, MenuItem, Tooltip } from '@mui/material';
-import { Dashboard, GraphicEqOutlined, Logout, Notifications, } from '@mui/icons-material';
+import { Dashboard, GraphicEqOutlined, Logout, Notifications, PersonOutlined, } from '@mui/icons-material';
 import { mainColor } from '../../themes/color';
 import company_logo from '../../assets/company_logo.png'
 import { logOut } from '../../controller/auth';
@@ -21,6 +21,7 @@ import { Route, Routes, useNavigate } from 'react-router-dom';
 import ExternalAuditorDashboard from './ExternalAuditorDasboard';
 import ExternalAuditorProjectsPage from './ExternalAuditorProjects';
 import ProjectDetail from '../project/ProjectDetail';
+import ProfilePageExternalAuditor from './ProfilePage';
 
 
 const drawerWidth = 250;
@@ -59,6 +60,11 @@ const ExternalAuditorSidebar = (props) => {
             name: 'Projects',
             component: <ExternalAuditorProjectsPage />,
             icon: <GraphicEqOutlined sx={{ color: selectedIndex === 1 ? 'white' : '#444' }} />
+        },
+        {
+            name: 'Profile',
+            component: <ProfilePageExternalAuditor />,
+            icon: <PersonOutlined sx={{ color: selectedIndex === 2 ? 'white' : '#444' }} />
         },
     ]
 

@@ -76,3 +76,23 @@ export const changeUserActivity = async (id, val) => {
     })
     return response.data
 }
+
+export const updateUser = async (data) => {
+    let response = await axios.patch(`${BASE_URL}/user/${data.id}`, data, {
+        headers: {
+            'Authorization': `Bearer ${await getToken()}`
+
+        }
+    })
+    return response.data
+}
+
+export const changeProfile = async (data) => {
+    let response = await axios.patch(`${BASE_URL}/user/profile/${data.id}`, data, {
+        headers: {
+            'Authorization': `Bearer ${await getToken()}`
+
+        }
+    })
+    return response.data
+}

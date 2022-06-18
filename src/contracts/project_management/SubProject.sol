@@ -41,7 +41,7 @@ contract SubProject {
             description,
             projectId,
             estimatedDuration,
-            block.timestamp
+            block.timestamp * 1000
         );
         
         emit AddedSubProject(
@@ -50,7 +50,7 @@ contract SubProject {
             description,
             projectId,
             estimatedDuration,
-            block.timestamp
+            block.timestamp * 1000
         );
     }
 

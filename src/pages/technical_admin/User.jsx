@@ -1,5 +1,5 @@
-import { Check, CreateOutlined, Delete, Visibility, Warning } from "@mui/icons-material"
-import { Box, Button, Grid, IconButton, Switch, Typography, Dialog } from "@mui/material"
+import { Check, CreateOutlined, Delete, EditOutlined, Visibility, Warning } from "@mui/icons-material"
+import { Box, Button, Grid, IconButton, Switch, Typography, Dialog, Tooltip } from "@mui/material"
 import { green, grey } from "@mui/material/colors"
 import { DataGrid } from "@mui/x-data-grid"
 import { useState } from "react"
@@ -65,7 +65,7 @@ const UserPage = () => {
         {
             field: 'name',
             headerName: 'Name',
-            width: 150,
+            width: 140,
             renderCell: (cellValue) => {
                 return (
                     <Typography sx={{ fontSize: 13, }}>{cellValue['row']['name']}</Typography>
@@ -77,7 +77,7 @@ const UserPage = () => {
         {
             field: 'email',
             headerName: 'Email',
-            width: 150,
+            width: 140,
             renderCell: (cellValue) => {
                 return (
                     <Typography sx={{ fontSize: 13, }}>{cellValue['row']['email']}</Typography>
@@ -89,7 +89,7 @@ const UserPage = () => {
         {
             field: 'status',
             headerName: 'Status',
-            width: 150,
+            width: 140,
             renderCell: (cellValue) => {
                 return (
                     <Grid container justifyContent='space-evenly' alignItems='center' sx={{ py: 1, borderRadius: 1 }}>
@@ -112,7 +112,7 @@ const UserPage = () => {
         {
             field: 'phone',
             headerName: 'Phone',
-            width: 130,
+            width: 120,
             renderCell: (cellValue) => {
                 return (
                     <Typography sx={{ fontSize: 13, }}>{cellValue['row']['phone']}</Typography>
@@ -123,7 +123,7 @@ const UserPage = () => {
         {
             field: 'company',
             headerName: 'Company',
-            width: 130,
+            width: 120,
             renderCell: (cellValue) => {
                 return (
                     <>
@@ -148,7 +148,7 @@ const UserPage = () => {
         {
             field: 'username',
             headerName: 'Username',
-            width: 130,
+            width: 120,
             renderCell: (cellValue) => {
                 return (
                     <Typography sx={{ fontSize: 13, }}>{cellValue['row']['username']}</Typography>
@@ -171,26 +171,41 @@ const UserPage = () => {
         {
             field: 'actions',
             headerName: 'Actions',
-            width: 100,
+            width: 200,
             renderCell: (cellValue) => {
                 return (
                     <Grid container direction='row'>
                         <Grid item>
-                            <IconButton>
-                                <Delete onClick={() => {
-                                    handleClickOpen()
-                                    setSelectedUser(cellValue['row'])
-                                }} sx={{ color: 'red', fontSize: 20 }} />
-                            </IconButton>
+                            <Tooltip title='Delete User'>
+                                <IconButton>
+                                    <Delete onClick={() => {
+                                        handleClickOpen()
+                                        setSelectedUser(cellValue['row'])
+                                    }} sx={{ color: 'red', fontSize: 18 }} />
+                                </IconButton>
+                            </Tooltip>
                         </Grid>
 
                         <Grid item>
-                            <IconButton onClick={() => {
-                                console.log()
-                                navigate(`user-project-detail/${cellValue['row']['username']}`)
-                            }}>
-                                <Visibility sx={{ fontSize: 20, color : mainColor }} />
-                            </IconButton>
+                            <Tooltip title='View Details'>
+                                <IconButton onClick={() => {
+                                    console.log()
+                                    navigate(`user-project-detail/${cellValue['row']['username']}`)
+                                }}>
+                                    <Visibility sx={{ fontSize: 18, color: mainColor }} />
+                                </IconButton>
+                            </Tooltip>
+                        </Grid>
+
+                        <Grid item>
+                            <Tooltip title='Edit User'>
+                                <IconButton onClick={() => {
+                                    console.log(cellValue['row']['id'])
+                                    navigate(`edit-user/${cellValue['row']['username']}`)
+                                }}>
+                                    <EditOutlined sx={{ fontSize: 18, color: mainColor }} />
+                                </IconButton>
+                            </Tooltip>
                         </Grid>
                     </Grid>
 
