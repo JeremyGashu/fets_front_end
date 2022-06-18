@@ -21,6 +21,7 @@ import FinancialOfficerDashboard from './FinancialOfficerDashboard';
 import FinancialOfficerProjectsPage from './Projects';
 import { Route, Routes, useNavigate } from 'react-router-dom';
 import ProjectDetail from '../project/ProjectDetail';
+import SingleProjectDashbardFinancialOfficer from './SingleProjectDashboard';
 
 
 const drawerWidth = 250;
@@ -267,6 +268,8 @@ const FinancialManagerSidebar = (props) => {
                         <Routes>
                             <Route path='*' element={dashboardElement[selectedIndex]['component']} />
                             <Route path='project-detail/:id' element={<ProjectDetail />} />
+                            <Route path='single-project-dashboard/:id' element={<SingleProjectDashbardFinancialOfficer />} />
+
                             {/* <Route path='assets/:departmentid' element={<AssetsComponent />} />
                             <Route path='associations/:departmentid' element={<AssociationComponent />} />
                             <Route path='association_members/:associationid' element={<AssociationMembersComponent />} />

@@ -22,6 +22,7 @@ import { logOut } from '../../controller/auth';
 import { Route, Routes, useNavigate } from 'react-router-dom';
 import ProjectDetail from '../project/ProjectDetail';
 import ProfilePageProjectManager from './ProfilePage';
+import SingleProjectDashbardProjectManager from './SingleProjectDashbard';
 
 
 const drawerWidth = 250;
@@ -273,6 +274,8 @@ const ProjectManagerSidebar = (props) => {
                         <Routes>
                             <Route path='*' element={dashboardElement[selectedIndex]['component']} />
                             <Route path='project-detail/:id' element={<ProjectDetail />} />
+                            <Route path='single-project-dashboard/:id' element={<SingleProjectDashbardProjectManager />} />
+
                             {/* <Route path='assets/:departmentid' element={<AssetsComponent />} />
                             <Route path='associations/:departmentid' element={<AssociationComponent />} />
                             <Route path='association_members/:associationid' element={<AssociationMembersComponent />} />

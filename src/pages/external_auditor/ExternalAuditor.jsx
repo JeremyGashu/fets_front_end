@@ -22,6 +22,7 @@ import ExternalAuditorDashboard from './ExternalAuditorDasboard';
 import ExternalAuditorProjectsPage from './ExternalAuditorProjects';
 import ProjectDetail from '../project/ProjectDetail';
 import ProfilePageExternalAuditor from './ProfilePage';
+import SingleProjectDashbardExternalAuditor from './SingleProjectDashBoard';
 
 
 const drawerWidth = 250;
@@ -273,6 +274,8 @@ const ExternalAuditorSidebar = (props) => {
                         <Routes>
                             <Route path='*' element={dashboardElement[selectedIndex]['component']} />
                             <Route path='project-detail/:id' element={<ProjectDetail />} />
+                            <Route path='single-project-dashboard/:id' element={<SingleProjectDashbardExternalAuditor />} />
+
                             {/* <Route path='assets/:departmentid' element={<AssetsComponent />} />
                             <Route path='associations/:departmentid' element={<AssociationComponent />} />
                             <Route path='association_members/:associationid' element={<AssociationMembersComponent />} />

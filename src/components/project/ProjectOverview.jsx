@@ -3,7 +3,7 @@ import { DataGrid } from "@mui/x-data-grid"
 import DoughnutChart from "./DonutChartProject"
 import { mainColor } from "../../themes/color"
 import { grey } from "@mui/material/colors"
-import { Check, DashboardOutlined, Visibility } from "@mui/icons-material"
+import { Check, Visibility } from "@mui/icons-material"
 import ProjectBarChart from "./BarChartProject"
 import { getBackgroundColorFromStatus, getTextColorFromStatus } from "../../configs/statuses"
 import { useNavigate } from "react-router-dom"
@@ -175,16 +175,6 @@ const ProjectOverview = ({ projects = [], tasks = [] }) => {
                                     navigate(`project-detail/${cellValue['row']['id']}`)
                                 }}>
                                     <Visibility sx={{ color: mainColor, fontSize: 14 }} />
-                                </IconButton>
-                            </Tooltip>
-                        </Grid>
-
-                        <Grid item>
-                            <Tooltip title='Dashboard'>
-                                <IconButton onClick={() => {
-                                    navigate(`dashboard/${cellValue['row']['id']}`)
-                                }}>
-                                    <DashboardOutlined sx={{ color: mainColor, fontSize: 14 }} />
                                 </IconButton>
                             </Tooltip>
                         </Grid>
