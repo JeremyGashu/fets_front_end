@@ -41,10 +41,10 @@ const web3 = new Web3(Web3.givenProvider || "https://ropsten.infura.io/v3/29935e
 web3.eth.requestAccounts().then(accounts => {
   console.log(accounts)
   //TODO save the address here
-  const mappingContract = new web3.eth.Contract(ProjectMappingABI.abi, ProjectMappingABI.networks[5777].address)
-  const projectContract = new web3.eth.Contract(ProjectABI.abi, ProjectABI.networks[5777].address)
-  const subProjectContract = new web3.eth.Contract(SubProjectABI.abi, SubProjectABI.networks[5777].address)
-  const taskContract = new web3.eth.Contract(TaskABI.abi, TaskABI.networks[5777].address)
+  const mappingContract = new web3.eth.Contract(ProjectMappingABI.abi, ProjectMappingABI.networks[3].address)
+  const projectContract = new web3.eth.Contract(ProjectABI.abi, ProjectABI.networks[3].address)
+  const subProjectContract = new web3.eth.Contract(SubProjectABI.abi, SubProjectABI.networks[3].address)
+  const taskContract = new web3.eth.Contract(TaskABI.abi, TaskABI.networks[3].address)
   //TODO save instance of each contract
 
   store.dispatch(setContractsActionCreator({ mappingContract, projectContract, subProjectContract, taskContract }))
