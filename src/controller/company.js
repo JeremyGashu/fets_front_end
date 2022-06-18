@@ -55,3 +55,14 @@ export const deleteCompany = async ({ id }) => {
 
     return response.data
 }
+
+export const updateCompany = async (data) => {
+    console.log(data)
+    let response = await axios.patch(`${BASE_URL}/company/${data.id}`, data, {
+        headers: {
+            'Authorization': `Bearer ${await getToken()}`
+
+        }
+    })
+    return response.data
+}

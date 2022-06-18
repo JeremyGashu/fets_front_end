@@ -1,9 +1,9 @@
-import { AddOutlined, } from "@mui/icons-material"
+import { AddOutlined, EditOutlined, } from "@mui/icons-material"
 import { Box, Divider, Grid, IconButton, Typography } from "@mui/material"
 import { grey } from "@mui/material/colors"
 import { useState } from "react"
 import { useQuery } from "react-query"
-import { Link } from "react-router-dom"
+import { Link, useNavigate } from "react-router-dom"
 import CompanyDescriptionComponent from "../../components/company/CompanyDescriptionComponent"
 import CompanyListItem from "../../components/company/CompanyListItem"
 import FullPageLoading from "../../components/FullPageLoadingPage"
@@ -11,11 +11,8 @@ import { getAllCompanies } from "../../controller/company"
 import { backgroundColor, mainColor } from "../../themes/color"
 
 const CompanyPage = () => {
-    const { isLoading, data, isError, isSuccess } = useQuery('company', getAllCompanies)
-    console.log(isLoading)
-    console.log(data)
-    console.log(isError)
-    console.log(isSuccess)
+    const { isLoading, data } = useQuery('company', getAllCompanies)
+    const navigate = useNavigate()
 
     const [selectedCompany, setSelectedCompany] = useState()
 
@@ -76,6 +73,12 @@ const CompanyPage = () => {
                             <Typography sx={{ fontSize: 32, color: grey[700] }}>{selectedCompany.name && selectedCompany.name[0]}</Typography>
 
                         </Box>
+
+                        <IconButton onClick={() => {
+                            navigate(`update-company/${selectedCompany.id}`)
+                        }}>
+                            <EditOutlined sx={{ color: mainColor }} />
+                        </IconButton>
 
                         <Divider sx={{ mx: 3, mb: 2 }} />
 

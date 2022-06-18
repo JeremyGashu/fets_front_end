@@ -18,7 +18,7 @@ import company_logo from '../../assets/company_logo.png'
 import DashboardPage from './Dashboard';
 import CompanyPage from './Company';
 import { Navigate, Route, Routes, useNavigate } from 'react-router-dom';
-import CreateCompany from '../project_manager/CreateCompany';
+import CreateCompany from './CreateCompany';
 import FeedsPage from '../feed/FeedsPage';
 import CreateFeed from '../feed/CreateFeed';
 import FeedDetailPage from '../feed/FeedDetailPage';
@@ -32,6 +32,7 @@ import SingleCompanyDetail from './SingleCompanyInfoPage';
 import UserProjectDetail from './UserProjectDetail';
 import ProjectDetail from '../project/ProjectDetail';
 import EditUserPage from './EditUserPage';
+import UpdateCompany from './UpdateCompany';
 
 
 
@@ -298,6 +299,7 @@ const TechnicalAdminSidebar = (props) => {
                             <Route path='user-project-detail/:username' element={<UserProjectDetail />} />
                             <Route path='project-detail/:id' element={<ProjectDetail />} />
                             <Route path='edit-user/:username' element={<EditUserPage />} />
+                            <Route path='update-company/:id' element={<UpdateCompany />} />
 
                             {/* <Route path='assets/:departmentid' element={<AssetsComponent />} />
                             <Route path='associations/:departmentid' element={<AssociationComponent />} />
