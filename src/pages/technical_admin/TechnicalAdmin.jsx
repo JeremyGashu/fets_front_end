@@ -96,7 +96,7 @@ const TechnicalAdminSidebar = (props) => {
         {
             name: 'History',
             component: <History />,
-            icon: <HistoryOutlined sx={{ color: selectedIndex === 4 ? 'white' : '#444' }} />
+            icon: <HistoryOutlined sx={{ color: selectedIndex === 5 ? 'white' : '#444' }} />
         },
     ]
 
