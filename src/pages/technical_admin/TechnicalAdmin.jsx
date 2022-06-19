@@ -12,7 +12,7 @@ import Toolbar from '@mui/material/Toolbar';
 import Typography from '@mui/material/Typography';
 import React, { useState } from 'react'
 import { Avatar, Badge, Divider, Grid, Menu, MenuItem, Tooltip } from '@mui/material';
-import { Dashboard, EditOutlined, GraphicEqOutlined, GroupOutlined, HouseOutlined, Logout, Notifications } from '@mui/icons-material';
+import { Dashboard, EditOutlined, GraphicEqOutlined, GroupOutlined, HistoryOutlined, HouseOutlined, Logout, Notifications } from '@mui/icons-material';
 import { mainColor } from '../../themes/color';
 import company_logo from '../../assets/company_logo.png'
 import DashboardPage from './Dashboard';
@@ -33,6 +33,7 @@ import UserProjectDetail from './UserProjectDetail';
 import ProjectDetail from '../project/ProjectDetail';
 import EditUserPage from './EditUserPage';
 import UpdateCompany from './UpdateCompany';
+import History from './History';
 
 
 
@@ -91,6 +92,11 @@ const TechnicalAdminSidebar = (props) => {
             name: 'Feeds',
             component: <FeedsPage />,
             icon: <EditOutlined sx={{ color: selectedIndex === 4 ? 'white' : '#444' }} />
+        },
+        {
+            name: 'History',
+            component: <History />,
+            icon: <HistoryOutlined sx={{ color: selectedIndex === 4 ? 'white' : '#444' }} />
         },
     ]
 

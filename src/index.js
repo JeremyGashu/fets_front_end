@@ -41,37 +41,16 @@ const web3 = new Web3(Web3.givenProvider || "https://ropsten.infura.io/v3/29935e
 web3.eth.requestAccounts().then(accounts => {
   console.log(accounts)
   //TODO save the address here
-  const mappingContract = new web3.eth.Contract(ProjectMappingABI.abi, ProjectMappingABI.networks[3].address)
-  const projectContract = new web3.eth.Contract(ProjectABI.abi, ProjectABI.networks[3].address)
-  const subProjectContract = new web3.eth.Contract(SubProjectABI.abi, SubProjectABI.networks[3].address)
-  const taskContract = new web3.eth.Contract(TaskABI.abi, TaskABI.networks[3].address)
+  const mappingContract = new web3.eth.Contract(ProjectMappingABI.abi, ProjectMappingABI.networks[5777].address)
+  const projectContract = new web3.eth.Contract(ProjectABI.abi, ProjectABI.networks[5777].address)
+  const subProjectContract = new web3.eth.Contract(SubProjectABI.abi, SubProjectABI.networks[5777].address)
+  const taskContract = new web3.eth.Contract(TaskABI.abi, TaskABI.networks[5777].address)
   //TODO save instance of each contract
 
   store.dispatch(setContractsActionCreator({ mappingContract, projectContract, subProjectContract, taskContract }))
   store.dispatch(saveContractAddress(accounts[0] || '0x0'))
-  projectContract.events
-    .AddedProject({})
-    .on("data", (event) => {
-      console.log('ADDED PROJECT', event);
-    });
 
-  // const todoList = new web3.eth.Contract(TODO_LIST_ABI, TODO_LIST_ADDRESS)
-
-  // this.setState({ todoList })
-  // const taskCount = await todoList.methods.taskCount().call()
-  // setInfo({ taskCount })
-  // for (var i = 1; i <= taskCount; i++) {
-  //   const task = await todoList.methods.tasks(i).call()
-  //   this.setState({
-  //     tasks: [...this.state.tasks, task]
-  //   })
-  // }
 })
-
-
-// store.dispatch(getCryptos())
-// store.dispatch(fetchTransactions())
-
 
 ReactDOM.render(
   <Provider store={store}>

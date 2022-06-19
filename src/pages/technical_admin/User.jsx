@@ -22,6 +22,8 @@ const UserPage = () => {
     const navigate = useNavigate()
     const { data, isLoading } = useQuery('users', getAllUsers)
     const [selectdUser, setSelectedUser] = useState()
+    const [searching, setSearching] = useState(false)
+    const [result, setResult] = useState([])
     // const navigate = useNavigate()
 
     const { mutate } = useMutation(deleteUser, {
@@ -270,6 +272,22 @@ const UserPage = () => {
                     <Grid item>
                         <Typography sx={{ fontSize: 24, fontWeight: 'bold' }}>Users</Typography>
                     </Grid>
+                    <Grid item sx={{ justifySelf: 'flex-end' }}>
+                        <input onChange={e => {
+                            let val = e.target.value
+                            if (val === '') {
+                                setSearching(false)
+                                setResult([])
+                                return
+                            }
+                            setSearching(true)
+                            let res = (data && filterUserByType(data)) || []
+                            let filtered = res.filter(r => r.name.toLowerCase().includes(val.toLowerCase()))
+                            setResult(filtered)
+
+                        }} type="text" placeholder='Search here...'
+                            style={{ width: "100%", outline: 'none', border: `0.5px solid ${mainColor}`, borderRadius: 7, padding: '8px 15px', color: '#444' }} />
+                    </Grid>
                     <Grid item>
                         <Button startIcon={<CreateOutlined />} size='medium' sx={{
                             backgroundColor: mainColor, color: 'white', '&:hover': {
@@ -281,6 +299,10 @@ const UserPage = () => {
                         }}>Add User</Button>
                     </Grid>
                 </Grid>
+
+
+
+
 
                 <Box sx={{ p: 2, backgroundColor: 'white', height: '100%' }}>
                     <Grid container sx={{ mx: 5 }} justifyContent='flex-start'>
@@ -318,7 +340,7 @@ const UserPage = () => {
                     <Box sx={{ height: 380, mt: 4 }}>
                         <DataGrid
                             disableSelectionOnClick={true}
-                            rows={(data && filterUserByType(data)) || []}
+                            rows={searching ? result : (data && filterUserByType(data)) || []}
                             columns={columns}
                             pageSize={5}
                             rowsPerPageOptions={[5]}

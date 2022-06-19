@@ -12,7 +12,7 @@ import Toolbar from '@mui/material/Toolbar';
 import Typography from '@mui/material/Typography';
 import React, { useState } from 'react'
 import { Avatar, Badge, Divider, Grid, Menu, MenuItem, Tooltip } from '@mui/material';
-import { Dashboard, GraphicEqOutlined, Logout, Notifications, PersonOutlined, } from '@mui/icons-material';
+import { Dashboard, GraphicEqOutlined, HistoryOutlined, Logout, Notifications, PersonOutlined, } from '@mui/icons-material';
 import { mainColor } from '../../themes/color';
 import company_logo from '../../assets/company_logo.png'
 import { logOut } from '../../controller/auth';
@@ -23,6 +23,7 @@ import ExternalAuditorProjectsPage from './ExternalAuditorProjects';
 import ProjectDetail from '../project/ProjectDetail';
 import ProfilePageExternalAuditor from './ProfilePage';
 import SingleProjectDashbardExternalAuditor from './SingleProjectDashBoard';
+import HistoryExternalAuditor from './History';
 
 
 const drawerWidth = 250;
@@ -63,9 +64,14 @@ const ExternalAuditorSidebar = (props) => {
             icon: <GraphicEqOutlined sx={{ color: selectedIndex === 1 ? 'white' : '#444' }} />
         },
         {
+            name: 'History',
+            component: <HistoryExternalAuditor />,
+            icon: <HistoryOutlined sx={{ color: selectedIndex === 2 ? 'white' : '#444' }} />
+        },
+        {
             name: 'Profile',
             component: <ProfilePageExternalAuditor />,
-            icon: <PersonOutlined sx={{ color: selectedIndex === 2 ? 'white' : '#444' }} />
+            icon: <PersonOutlined sx={{ color: selectedIndex === 3 ? 'white' : '#444' }} />
         },
     ]
 

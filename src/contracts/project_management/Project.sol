@@ -4,6 +4,7 @@ pragma solidity ^0.8;
 
 contract Project {
     uint256 private count;
+    mapping(string => uint256[]) private donorProjectMappings;
 
     constructor() {
         count = 0;
@@ -29,6 +30,7 @@ contract Project {
         string companyId;
         string accountNumber;
         ProjectStatus status;
+        string[] donors;
     }
 
     event AddedProject(
@@ -61,6 +63,22 @@ contract Project {
 
     mapping(uint256 => ProjectInfo) private projects;
 
+    function getDonatedProjectsByUsername(string memory _username)
+        public
+        view
+        returns (ProjectInfo[] memory)
+    {
+        uint256 length = donorProjectMappings[_username].length;
+        ProjectInfo[] memory projectInfo = new ProjectInfo[](count);
+
+        uint256 c = 0;
+        for (uint256 index = 0; index < length; index++) {
+            projectInfo[c] = projects[donorProjectMappings[_username][index]];
+            c++;
+        }
+        return projectInfo;
+    }
+
     // add onlyTechnicalAdmin modifier to it
     function addProject(
         string memory name,
@@ -73,6 +91,8 @@ contract Project {
     ) public {
         count++;
 
+        string[] memory emptyList;
+
         projects[count] = ProjectInfo(
             count,
             name,
@@ -84,7 +104,8 @@ contract Project {
             block.timestamp * 1000,
             companyId,
             accountNumber,
-            ProjectStatus.PENDING
+            ProjectStatus.PENDING,
+            emptyList
         );
         emit AddedProject(
             count,
@@ -101,23 +122,48 @@ contract Project {
         );
     }
 
+    function getPatientByDonorName(string memory _donorUsername) public {}
+
+    function addPaymentInfo(
+        uint256 _projectId,
+        uint256 _amount,
+        string memory _donorUsername
+    ) public {
+        projects[_projectId].fundedMoney += _amount;
+        projects[_projectId].donors.push(_donorUsername);
+        donorProjectMappings[_donorUsername].push(_projectId);
+    }
+
+    function refundMoney(
+        uint256 _projectId,
+        uint256 _amount
+    ) public {
+        projects[_projectId].fundedMoney -= _amount;
+        // projects[_projectId].donors.push(_donorUsername);
+        // donorProjectMappings[_donorUsername].push(_projectId);
+    }
+
     function deleteProject(uint256 _id) public {
         delete projects[_id];
     }
 
     //TODO - when a user asks for projects return subproject and tasks tied
-    function getProjectById(uint256 _id) public view returns (ProjectInfo memory){
-            return projects[_id];
+    function getProjectById(uint256 _id)
+        public
+        view
+        returns (ProjectInfo memory)
+    {
+        return projects[_id];
     }
 
-         /*
+    /*
     This function returns array of subprojects so we can iterate over them
     */
-    function getAllProjects() public view returns(ProjectInfo[] memory) {
+    function getAllProjects() public view returns (ProjectInfo[] memory) {
         uint256 length;
         for (uint256 index = 0; index < count + 1; index++) {
-            if(projects[index].id != 0) {
-                    length++;
+            if (projects[index].id != 0) {
+                length++;
             }
         }
         ProjectInfo[] memory sp = new ProjectInfo[](length);
