@@ -49,29 +49,8 @@ web3.eth.requestAccounts().then(accounts => {
 
   store.dispatch(setContractsActionCreator({ mappingContract, projectContract, subProjectContract, taskContract }))
   store.dispatch(saveContractAddress(accounts[0] || '0x0'))
-  projectContract.events
-    .AddedProject({})
-    .on("data", (event) => {
-      console.log('ADDED PROJECT', event);
-    });
 
-  // const todoList = new web3.eth.Contract(TODO_LIST_ABI, TODO_LIST_ADDRESS)
-
-  // this.setState({ todoList })
-  // const taskCount = await todoList.methods.taskCount().call()
-  // setInfo({ taskCount })
-  // for (var i = 1; i <= taskCount; i++) {
-  //   const task = await todoList.methods.tasks(i).call()
-  //   this.setState({
-  //     tasks: [...this.state.tasks, task]
-  //   })
-  // }
 })
-
-
-// store.dispatch(getCryptos())
-// store.dispatch(fetchTransactions())
-
 
 ReactDOM.render(
   <Provider store={store}>

@@ -1,0 +1,544 @@
+{
+	"compiler": {
+		"version": "0.8.7+commit.e28d00a7"
+	},
+	"language": "Solidity",
+	"output": {
+		"abi": [
+			{
+				"inputs": [],
+				"stateMutability": "nonpayable",
+				"type": "constructor"
+			},
+			{
+				"anonymous": false,
+				"inputs": [
+					{
+						"indexed": true,
+						"internalType": "uint256",
+						"name": "id",
+						"type": "uint256"
+					},
+					{
+						"indexed": true,
+						"internalType": "string",
+						"name": "name",
+						"type": "string"
+					},
+					{
+						"indexed": false,
+						"internalType": "string",
+						"name": "description",
+						"type": "string"
+					},
+					{
+						"indexed": false,
+						"internalType": "string",
+						"name": "location",
+						"type": "string"
+					},
+					{
+						"indexed": false,
+						"internalType": "uint256",
+						"name": "estimatedBudget",
+						"type": "uint256"
+					},
+					{
+						"indexed": false,
+						"internalType": "uint256",
+						"name": "estimatedDuration",
+						"type": "uint256"
+					},
+					{
+						"indexed": false,
+						"internalType": "uint256",
+						"name": "fundedMoney",
+						"type": "uint256"
+					},
+					{
+						"indexed": false,
+						"internalType": "uint256",
+						"name": "createdAt",
+						"type": "uint256"
+					},
+					{
+						"indexed": true,
+						"internalType": "string",
+						"name": "companyId",
+						"type": "string"
+					},
+					{
+						"indexed": false,
+						"internalType": "string",
+						"name": "accountNumber",
+						"type": "string"
+					},
+					{
+						"indexed": false,
+						"internalType": "enum Project.ProjectStatus",
+						"name": "status",
+						"type": "uint8"
+					}
+				],
+				"name": "AddedProject",
+				"type": "event"
+			},
+			{
+				"anonymous": false,
+				"inputs": [
+					{
+						"indexed": true,
+						"internalType": "uint256",
+						"name": "id",
+						"type": "uint256"
+					},
+					{
+						"indexed": true,
+						"internalType": "string",
+						"name": "name",
+						"type": "string"
+					},
+					{
+						"indexed": false,
+						"internalType": "string",
+						"name": "description",
+						"type": "string"
+					},
+					{
+						"indexed": false,
+						"internalType": "string",
+						"name": "location",
+						"type": "string"
+					},
+					{
+						"indexed": false,
+						"internalType": "uint256",
+						"name": "estimatedBudget",
+						"type": "uint256"
+					},
+					{
+						"indexed": false,
+						"internalType": "uint256",
+						"name": "estimatedDuration",
+						"type": "uint256"
+					},
+					{
+						"indexed": false,
+						"internalType": "uint256",
+						"name": "fundedMoney",
+						"type": "uint256"
+					},
+					{
+						"indexed": false,
+						"internalType": "uint256",
+						"name": "createdAt",
+						"type": "uint256"
+					},
+					{
+						"indexed": true,
+						"internalType": "string",
+						"name": "companyId",
+						"type": "string"
+					},
+					{
+						"indexed": false,
+						"internalType": "string",
+						"name": "accountNumber",
+						"type": "string"
+					},
+					{
+						"indexed": false,
+						"internalType": "enum Project.ProjectStatus",
+						"name": "status",
+						"type": "uint8"
+					}
+				],
+				"name": "DeletedProject",
+				"type": "event"
+			},
+			{
+				"inputs": [
+					{
+						"internalType": "uint256",
+						"name": "_projectId",
+						"type": "uint256"
+					},
+					{
+						"internalType": "uint256",
+						"name": "_amount",
+						"type": "uint256"
+					},
+					{
+						"internalType": "string",
+						"name": "_donorUsername",
+						"type": "string"
+					}
+				],
+				"name": "addPaymentInfo",
+				"outputs": [],
+				"stateMutability": "nonpayable",
+				"type": "function"
+			},
+			{
+				"inputs": [
+					{
+						"internalType": "string",
+						"name": "name",
+						"type": "string"
+					},
+					{
+						"internalType": "string",
+						"name": "description",
+						"type": "string"
+					},
+					{
+						"internalType": "string",
+						"name": "location",
+						"type": "string"
+					},
+					{
+						"internalType": "uint256",
+						"name": "estimatedBudget",
+						"type": "uint256"
+					},
+					{
+						"internalType": "uint256",
+						"name": "estimatedDuration",
+						"type": "uint256"
+					},
+					{
+						"internalType": "string",
+						"name": "companyId",
+						"type": "string"
+					},
+					{
+						"internalType": "string",
+						"name": "accountNumber",
+						"type": "string"
+					}
+				],
+				"name": "addProject",
+				"outputs": [],
+				"stateMutability": "nonpayable",
+				"type": "function"
+			},
+			{
+				"inputs": [
+					{
+						"internalType": "uint256",
+						"name": "_id",
+						"type": "uint256"
+					}
+				],
+				"name": "deleteProject",
+				"outputs": [],
+				"stateMutability": "nonpayable",
+				"type": "function"
+			},
+			{
+				"inputs": [],
+				"name": "getAllProjects",
+				"outputs": [
+					{
+						"components": [
+							{
+								"internalType": "uint256",
+								"name": "id",
+								"type": "uint256"
+							},
+							{
+								"internalType": "string",
+								"name": "name",
+								"type": "string"
+							},
+							{
+								"internalType": "string",
+								"name": "description",
+								"type": "string"
+							},
+							{
+								"internalType": "string",
+								"name": "location",
+								"type": "string"
+							},
+							{
+								"internalType": "uint256",
+								"name": "estimatedBudget",
+								"type": "uint256"
+							},
+							{
+								"internalType": "uint256",
+								"name": "fundedMoney",
+								"type": "uint256"
+							},
+							{
+								"internalType": "uint256",
+								"name": "estimatedDuration",
+								"type": "uint256"
+							},
+							{
+								"internalType": "uint256",
+								"name": "createdAt",
+								"type": "uint256"
+							},
+							{
+								"internalType": "string",
+								"name": "companyId",
+								"type": "string"
+							},
+							{
+								"internalType": "string",
+								"name": "accountNumber",
+								"type": "string"
+							},
+							{
+								"internalType": "enum Project.ProjectStatus",
+								"name": "status",
+								"type": "uint8"
+							},
+							{
+								"internalType": "string[]",
+								"name": "donors",
+								"type": "string[]"
+							}
+						],
+						"internalType": "struct Project.ProjectInfo[]",
+						"name": "",
+						"type": "tuple[]"
+					}
+				],
+				"stateMutability": "view",
+				"type": "function"
+			},
+			{
+				"inputs": [
+					{
+						"internalType": "string",
+						"name": "_username",
+						"type": "string"
+					}
+				],
+				"name": "getDonatedProjectsByUsername",
+				"outputs": [
+					{
+						"components": [
+							{
+								"internalType": "uint256",
+								"name": "id",
+								"type": "uint256"
+							},
+							{
+								"internalType": "string",
+								"name": "name",
+								"type": "string"
+							},
+							{
+								"internalType": "string",
+								"name": "description",
+								"type": "string"
+							},
+							{
+								"internalType": "string",
+								"name": "location",
+								"type": "string"
+							},
+							{
+								"internalType": "uint256",
+								"name": "estimatedBudget",
+								"type": "uint256"
+							},
+							{
+								"internalType": "uint256",
+								"name": "fundedMoney",
+								"type": "uint256"
+							},
+							{
+								"internalType": "uint256",
+								"name": "estimatedDuration",
+								"type": "uint256"
+							},
+							{
+								"internalType": "uint256",
+								"name": "createdAt",
+								"type": "uint256"
+							},
+							{
+								"internalType": "string",
+								"name": "companyId",
+								"type": "string"
+							},
+							{
+								"internalType": "string",
+								"name": "accountNumber",
+								"type": "string"
+							},
+							{
+								"internalType": "enum Project.ProjectStatus",
+								"name": "status",
+								"type": "uint8"
+							},
+							{
+								"internalType": "string[]",
+								"name": "donors",
+								"type": "string[]"
+							}
+						],
+						"internalType": "struct Project.ProjectInfo[]",
+						"name": "",
+						"type": "tuple[]"
+					}
+				],
+				"stateMutability": "view",
+				"type": "function"
+			},
+			{
+				"inputs": [
+					{
+						"internalType": "string",
+						"name": "_donorUsername",
+						"type": "string"
+					}
+				],
+				"name": "getPatientByDonorName",
+				"outputs": [],
+				"stateMutability": "nonpayable",
+				"type": "function"
+			},
+			{
+				"inputs": [
+					{
+						"internalType": "uint256",
+						"name": "_id",
+						"type": "uint256"
+					}
+				],
+				"name": "getProjectById",
+				"outputs": [
+					{
+						"components": [
+							{
+								"internalType": "uint256",
+								"name": "id",
+								"type": "uint256"
+							},
+							{
+								"internalType": "string",
+								"name": "name",
+								"type": "string"
+							},
+							{
+								"internalType": "string",
+								"name": "description",
+								"type": "string"
+							},
+							{
+								"internalType": "string",
+								"name": "location",
+								"type": "string"
+							},
+							{
+								"internalType": "uint256",
+								"name": "estimatedBudget",
+								"type": "uint256"
+							},
+							{
+								"internalType": "uint256",
+								"name": "fundedMoney",
+								"type": "uint256"
+							},
+							{
+								"internalType": "uint256",
+								"name": "estimatedDuration",
+								"type": "uint256"
+							},
+							{
+								"internalType": "uint256",
+								"name": "createdAt",
+								"type": "uint256"
+							},
+							{
+								"internalType": "string",
+								"name": "companyId",
+								"type": "string"
+							},
+							{
+								"internalType": "string",
+								"name": "accountNumber",
+								"type": "string"
+							},
+							{
+								"internalType": "enum Project.ProjectStatus",
+								"name": "status",
+								"type": "uint8"
+							},
+							{
+								"internalType": "string[]",
+								"name": "donors",
+								"type": "string[]"
+							}
+						],
+						"internalType": "struct Project.ProjectInfo",
+						"name": "",
+						"type": "tuple"
+					}
+				],
+				"stateMutability": "view",
+				"type": "function"
+			},
+			{
+				"inputs": [
+					{
+						"internalType": "uint256",
+						"name": "_projectId",
+						"type": "uint256"
+					},
+					{
+						"internalType": "uint256",
+						"name": "_amount",
+						"type": "uint256"
+					}
+				],
+				"name": "refundMoney",
+				"outputs": [],
+				"stateMutability": "nonpayable",
+				"type": "function"
+			}
+		],
+		"devdoc": {
+			"kind": "dev",
+			"methods": {},
+			"version": 1
+		},
+		"userdoc": {
+			"kind": "user",
+			"methods": {},
+			"version": 1
+		}
+	},
+	"settings": {
+		"compilationTarget": {
+			"project_management/Project.sol": "Project"
+		},
+		"evmVersion": "london",
+		"libraries": {},
+		"metadata": {
+			"bytecodeHash": "ipfs"
+		},
+		"optimizer": {
+			"enabled": false,
+			"runs": 200
+		},
+		"remappings": []
+	},
+	"sources": {
+		"project_management/Project.sol": {
+			"keccak256": "0x73fd84896716947c23d04fec162f26bda3f441d2ff7c8ed20f326a8a3a5434db",
+			"license": "MIT",
+			"urls": [
+				"bzz-raw://447b2bbdff322fa000d150a4800b40e18a8d51a6ef54dd62f97b849d3b47851a",
+				"dweb:/ipfs/Qmc723thfstkijsb35sQaya8xExhwng4QCNuj7cMexPxcp"
+			]
+		}
+	},
+	"version": 1
+}

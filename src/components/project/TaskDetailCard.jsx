@@ -5,7 +5,7 @@ import { useState } from "react"
 import { useForm } from "react-hook-form"
 import { useSelector } from "react-redux"
 import { toast } from "react-toastify"
-import { getUserType } from "../../configs/localstorage_handler"
+import { getUserName, getUserType } from "../../configs/localstorage_handler"
 import { ROLES } from "../../configs/roles"
 import { mainColor } from "../../themes/color"
 export const TaskDetailCardCompleted = ({ task = {} }) => {
@@ -221,7 +221,7 @@ export const TaskDetailCardNeedApproval = ({ task = {} }) => {
     // const { register, handleSubmit, formState: { errors } } = useForm()
 
     const handleAFinancialManagerSubmitBudgetAllocation = (data) => {
-        taskContract.methods.financialManagerSubmitBudgetAllocation(task.id, +data.amount, data.remark).send({ from: address }).then(res => {
+        taskContract.methods.financialManagerSubmitBudgetAllocation(task.id, +data.amount, data.remark, getUserName(), task.projectId).send({ from: address }).then(res => {
             toast('Approved task completion successfully!', { type: 'success', position: toast.POSITION.BOTTOM_RIGHT, })
             setFinancialManagerApproveOpen(false)
         })
@@ -232,7 +232,7 @@ export const TaskDetailCardNeedApproval = ({ task = {} }) => {
     }
 
     const handleProjectManagerApproveTaskCompletion = (data) => {
-        taskContract.methods.projectManagerApproveTaskCompletion(task.id, data.remark).send({ from: address }).then(res => {
+        taskContract.methods.projectManagerApproveTaskCompletion(task.id, data.remark, getUserName(), task.projectId).send({ from: address }).then(res => {
             toast('Approved task completion successfully!', { type: 'success', position: toast.POSITION.BOTTOM_RIGHT, })
             setProjectManagerApproveOpen(false)
         })
@@ -243,7 +243,7 @@ export const TaskDetailCardNeedApproval = ({ task = {} }) => {
 
     const handleProcurementManagerApproveTaskCompletion = (data) => {
         console.log(data)
-        taskContract.methods.budgetAndProcurementManagerApproveTaskCompletion(task.id, data.remark).send({ from: address }).then(res => {
+        taskContract.methods.budgetAndProcurementManagerApproveTaskCompletion(task.id, data.remark, getUserName(), task.projectId).send({ from: address }).then(res => {
             toast('Approved task completion successfully!', { type: 'success', position: toast.POSITION.BOTTOM_RIGHT, })
             setProcurementManagerApproveOpen(false)
         })
@@ -256,7 +256,7 @@ export const TaskDetailCardNeedApproval = ({ task = {} }) => {
     }
 
     const handleExternalAuditorApproveTaskCompletion = (data) => {
-        taskContract.methods.externalAuditorApproveTaskCompletion(task.id, data.remark).send({ from: address }).then(res => {
+        taskContract.methods.externalAuditorApproveTaskCompletion(task.id, data.remark, getUserName(), task.projectId).send({ from: address }).then(res => {
             toast('Approved task completion successfully!', { type: 'success', position: toast.POSITION.BOTTOM_RIGHT, })
             setExternalAuditorApproveOpen(false)
         })
@@ -270,7 +270,7 @@ export const TaskDetailCardNeedApproval = ({ task = {} }) => {
 
     const handleDeclineByProcurementManager = (data) => {
         console.log(data)
-        taskContract.methods.budgetAndProcurementManagerDeclineTaskApproval(task.id, data.remark).send({ from: address }).then(res => {
+        taskContract.methods.budgetAndProcurementManagerDeclineTaskApproval(task.id, data.remark, getUserName(), task.projectId).send({ from: address }).then(res => {
             toast('Declined task successfully!', { type: 'success', position: toast.POSITION.BOTTOM_RIGHT, })
             setProjectManagerDeclineOpen(false)
         })
@@ -284,7 +284,7 @@ export const TaskDetailCardNeedApproval = ({ task = {} }) => {
 
     const handleDeclineByExternalAuditor = (data) => {
         console.log(data)
-        taskContract.methods.externalAuditorDeclinedTaskAllocation(task.id, data.remark).send({ from: address }).then(res => {
+        taskContract.methods.externalAuditorDeclinedTaskAllocation(task.id, data.remark, getUserName(), task.projectId).send({ from: address }).then(res => {
             toast('Declined task successfully!', { type: 'success', position: toast.POSITION.BOTTOM_RIGHT, })
             setExternalAuditorDeclineOpen(false)
         })
@@ -298,7 +298,7 @@ export const TaskDetailCardNeedApproval = ({ task = {} }) => {
 
     const handleDeclineByProjectManager = (data) => {
         console.log(data)
-        taskContract.methods.projectManagerDeclineTaskApproval(task.id, data.remark).send({ from: address }).then(res => {
+        taskContract.methods.projectManagerDeclineTaskApproval(task.id, data.remark, getUserName(), task.projectId).send({ from: address }).then(res => {
             toast('Declined task successfully!', { type: 'success', position: toast.POSITION.BOTTOM_RIGHT, })
             setProjectManagerDeclineOpen(false)
         })
