@@ -18,7 +18,7 @@ const DashboardPage = () => {
     const [projects, setProjects] = useState()
     const { projectContract, mappingContract } = useSelector(state => state.contracts)
     const navigate = useNavigate()
-    const [anchorEl, setAnchorEl] = useState(null);
+    // const [anchorEl, setAnchorEl] = useState(null);
 
 
     useEffect(() => {
