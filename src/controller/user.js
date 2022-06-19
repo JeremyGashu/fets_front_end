@@ -96,3 +96,13 @@ export const changeProfile = async (data) => {
     })
     return response.data
 }
+
+export const getDonorsCount = async () => {
+    let response = await axios.get(`${BASE_URL}/user/donor-count`, {
+        headers: {
+            'Authorization': `Bearer ${await getToken()}`
+
+        }
+    })
+    return response.data && response.data.count
+}

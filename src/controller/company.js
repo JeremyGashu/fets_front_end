@@ -66,3 +66,13 @@ export const updateCompany = async (data) => {
     })
     return response.data
 }
+
+export const getCompaniesCount = async () => {
+    let response = await axios.get(`${BASE_URL}/company/count`, {
+        headers: {
+            'Authorization': `Bearer ${await getToken()}`
+
+        }
+    })
+    return response.data && response.data.count
+}

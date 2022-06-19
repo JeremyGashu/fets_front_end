@@ -35,7 +35,7 @@ contract PaymentInformations {
         uint256 donatedAt
     );
 
-    mapping(uint256 => PaymentInfo) public payments;
+    mapping(uint256 => PaymentInfo) private payments;
 
     //add only donor modifier
     function addPaymentInfo(
@@ -55,6 +55,19 @@ contract PaymentInformations {
         emit AddedPayment(donorUsername, projectId, amount, donatedAt);
     }
 
+    function getOverallDonation() public returns (uint256) {
+        return count;
+    }
+
+    function getTodaysDonationsAmount() public returns (uint256) {
+        uint256 today = block.timestamp - 86400;
+        uint256 amount = 0;
+        for (uint256 index = 0; index < count; index++) {
+            amount += payments[index].amount;
+        }
+        return amount;
+    }
+
     function refundMoney(
         string memory donorUsername,
         uint256 projectId,
@@ -62,7 +75,12 @@ contract PaymentInformations {
     ) external {
         _projectAccessor.refundMoney(projectId, amount);
         // count++;
-        emit RefundedPayment(donorUsername, projectId, amount, block.timestamp * 1000);
+        emit RefundedPayment(
+            donorUsername,
+            projectId,
+            amount,
+            block.timestamp * 1000
+        );
     }
 
     function deletePaymentInfo(uint256 id) external {

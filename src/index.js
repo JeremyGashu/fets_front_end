@@ -11,6 +11,7 @@ import ProjectMappingABI from './abis/ProjectUserMapping.json'
 import ProjectABI from './abis/Project.json'
 import SubProjectABI from './abis/SubProject.json'
 import TaskABI from './abis/Task.json'
+import PaymentInfoABI from './abis/PaymentInformations.json'
 
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
@@ -45,9 +46,10 @@ web3.eth.requestAccounts().then(accounts => {
   const projectContract = new web3.eth.Contract(ProjectABI.abi, ProjectABI.networks[5777].address)
   const subProjectContract = new web3.eth.Contract(SubProjectABI.abi, SubProjectABI.networks[5777].address)
   const taskContract = new web3.eth.Contract(TaskABI.abi, TaskABI.networks[5777].address)
-  //TODO save instance of each contract
+  const paymentInfoContract = new web3.eth.Contract(PaymentInfoABI.abi, PaymentInfoABI.networks[5777].address)
+  console.log(projectContract)
 
-  store.dispatch(setContractsActionCreator({ mappingContract, projectContract, subProjectContract, taskContract }))
+  store.dispatch(setContractsActionCreator({ mappingContract, projectContract, subProjectContract, taskContract, paymentInfoContract }))
   store.dispatch(saveContractAddress(accounts[0] || '0x0'))
 
 })
