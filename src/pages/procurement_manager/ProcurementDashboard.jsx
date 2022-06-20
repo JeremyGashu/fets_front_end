@@ -59,6 +59,13 @@ const ProcurementManagerDashboard = () => {
     useEffect(() => {
         getOverAllData()
         setLoadingProjects(true)
+
+        projectContract.events
+            .AddedProject({})
+            .on("data", (event) => {
+                getOverAllData()
+            });
+
         const username = getUserName() || ''
 
         mappingContract && mappingContract.methods.getProjectsListByUsername(username).call().then(res => {

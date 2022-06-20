@@ -19,7 +19,7 @@ import { logOut } from '../../controller/auth';
 import { grey } from '@mui/material/colors';
 import FinancialOfficerDashboard from './FinancialOfficerDashboard';
 import FinancialOfficerProjectsPage from './Projects';
-import { Route, Routes, useNavigate } from 'react-router-dom';
+import { Navigate, Route, Routes, useNavigate } from 'react-router-dom';
 import ProjectDetail from '../project/ProjectDetail';
 import SingleProjectDashbardFinancialOfficer from './SingleProjectDashboard';
 import HistoryFinancialManager from './History';
@@ -134,6 +134,10 @@ const FinancialManagerSidebar = (props) => {
     )
 
     const container = window !== undefined ? () => window().document.body : undefined
+
+    if (!localStorage.getItem('authData')) {
+        return <Navigate to='/login' />
+    }
 
 
     return (

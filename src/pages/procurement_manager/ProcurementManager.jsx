@@ -19,7 +19,7 @@ import { grey } from '@mui/material/colors';
 import ProcurementManagerProjects from './ProcurementProjects';
 import ProcurementManagerDashboard from './ProcurementDashboard';
 import { logOut } from '../../controller/auth';
-import { Route, Routes, useNavigate } from 'react-router-dom';
+import { Navigate, Route, Routes, useNavigate } from 'react-router-dom';
 import ProjectDetail from '../project/ProjectDetail';
 import ProfilePageProcurementManager from './profilePage';
 import SingleProjectDashbardProcurementManager from './SingleProjectDashboard';
@@ -134,6 +134,9 @@ const ProcurementManagerSidebar = (props) => {
     )
 
     const container = window !== undefined ? () => window().document.body : undefined
+    if (!localStorage.getItem('authData')) {
+        return <Navigate to='/login' />
+    }
 
 
     return (

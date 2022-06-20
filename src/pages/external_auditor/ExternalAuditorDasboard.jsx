@@ -61,6 +61,12 @@ const ExternalAuditorDashboard = () => {
         getOverAllData()
         setLoadingProjects(true)
         const username = getUserName() || ''
+        // projectContract.events
+        projectContract.events
+            .AddedProject({})
+            .on("data", (event) => {
+                getOverAllData()
+            });
 
         mappingContract && mappingContract.methods.getProjectsListByUsername(username).call().then(res => {
             console.log(res)

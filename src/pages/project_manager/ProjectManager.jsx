@@ -19,7 +19,7 @@ import ProjectPage from './Projects';
 import { grey } from '@mui/material/colors';
 import ProjectManagerDashboard from './ProjectManagerDashboard';
 import { logOut } from '../../controller/auth';
-import { Route, Routes, useNavigate } from 'react-router-dom';
+import { Navigate, Route, Routes, useNavigate } from 'react-router-dom';
 import ProjectDetail from '../project/ProjectDetail';
 import ProfilePageProjectManager from './ProfilePage';
 import SingleProjectDashbardProjectManager from './SingleProjectDashbard';
@@ -134,6 +134,10 @@ const ProjectManagerSidebar = (props) => {
     )
 
     const container = window !== undefined ? () => window().document.body : undefined
+
+    if (!localStorage.getItem('authData')) {
+        return <Navigate to='/login' />
+    }
 
 
     return (

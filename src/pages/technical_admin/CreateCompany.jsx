@@ -15,9 +15,9 @@ const CreateCompany = () => {
 
     const { mutate } = useMutation(createCompany, {
         onError: (error, variables, context) => {
-            console.log(error)
-            console.log(variables)
-            console.log(context)
+            error.response.data && error.response.data.errors && error.response.data.errors.forEach(error => {
+                toast(error, { type: 'error', position: toast.POSITION.BOTTOM_RIGHT, })
+            })
         },
         onSuccess: (data, variables, context) => {
             toast('Added company successfully!', { type: 'success', position: toast.POSITION.BOTTOM_RIGHT, })

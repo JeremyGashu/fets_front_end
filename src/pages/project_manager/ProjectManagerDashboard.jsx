@@ -117,6 +117,12 @@ const ProjectManagerDashboard = () => {
         getOverAllData()
         loadProjectsAndSubProject()
 
+        projectContract.events
+            .AddedProject({})
+            .on("data", (event) => {
+                getOverAllData()
+            });
+
         taskContract && taskContract.events
             .AddedTask({})
             .on("data", (event) => {
