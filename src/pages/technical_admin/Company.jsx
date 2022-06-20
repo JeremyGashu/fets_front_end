@@ -15,6 +15,7 @@ const CompanyPage = () => {
     const navigate = useNavigate()
 
     const [selectedCompany, setSelectedCompany] = useState()
+    console.log('rendering')
 
     if (isLoading) {
         return <FullPageLoading />

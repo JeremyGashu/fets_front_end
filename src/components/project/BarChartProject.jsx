@@ -5,8 +5,8 @@ import { useEffect } from "react";
 import { grey } from "@mui/material/colors";
 
 const ProjectBarChart = ({ projects = [] }) => {
-    let raisedMnoey = '#F06292';
-    let estimatedBudget = '#4DB6AC';
+    let raisedMnoey = '#4DB6AC';
+    let estimatedBudget = '#F06292';
     let chartRef = useRef();
 
     useEffect(() => {
@@ -21,7 +21,7 @@ const ProjectBarChart = ({ projects = [] }) => {
 
         let fundedMonetData = {
             label: "Raised Budget",
-            data: projects.map(p => p.fundedMoney + 100),
+            data: projects.map(p => p.fundedMoney),
             backgroundColor: raisedMnoey,
             yAxisID: "y-axis-gravity"
         };

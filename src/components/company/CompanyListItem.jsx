@@ -103,8 +103,9 @@ const CompanyListItem = ({ name, location, id }) => {
 
                 <Grid lg={1} item sx={{ mr: 3 }}>
                     <IconButton onClick={(e) => {
-                        handleClickOpen()
                         e.stopPropagation()
+                        handleClickOpen()
+
                     }}>
                         <Close fontSize='small' sx={{ color: 'red' }} />
                     </IconButton>

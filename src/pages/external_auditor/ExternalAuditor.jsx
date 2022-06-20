@@ -17,7 +17,7 @@ import { mainColor } from '../../themes/color';
 import company_logo from '../../assets/company_logo.png'
 import { logOut } from '../../controller/auth';
 import { grey } from '@mui/material/colors';
-import { Route, Routes, useNavigate } from 'react-router-dom';
+import { Navigate, Route, Routes, useNavigate } from 'react-router-dom';
 import ExternalAuditorDashboard from './ExternalAuditorDasboard';
 import ExternalAuditorProjectsPage from './ExternalAuditorProjects';
 import ProjectDetail from '../project/ProjectDetail';
@@ -134,6 +134,10 @@ const ExternalAuditorSidebar = (props) => {
     )
 
     const container = window !== undefined ? () => window().document.body : undefined
+
+    if (!localStorage.getItem('authData')) {
+        return <Navigate to='/login' />
+    }
 
 
     return (
