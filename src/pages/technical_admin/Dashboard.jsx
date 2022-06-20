@@ -20,9 +20,6 @@ const DashboardPage = () => {
     const [projects, setProjects] = useState()
     const { projectContract, mappingContract, paymentInfoContract } = useSelector(state => state.contracts)
     const navigate = useNavigate()
-<<<<<<< HEAD
-    // const [anchorEl, setAnchorEl] = useState(null);
-=======
 
     const [donorsCount, setDonorsCount] = useState(0)
     const [companiesCount, setCompaniesCount] = useState(0)
@@ -56,7 +53,6 @@ const DashboardPage = () => {
             setCompaniesCount(res)
         })
     }
->>>>>>> feature_testing
 
 
     useEffect(() => {
