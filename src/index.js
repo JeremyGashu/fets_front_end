@@ -11,6 +11,7 @@ import ProjectMappingABI from './abis/ProjectUserMapping.json'
 import ProjectABI from './abis/Project.json'
 import SubProjectABI from './abis/SubProject.json'
 import TaskABI from './abis/Task.json'
+import PaymentInfoABI from './abis/PaymentInformations.json'
 
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
@@ -41,13 +42,15 @@ const web3 = new Web3(Web3.givenProvider || "https://ropsten.infura.io/v3/29935e
 web3.eth.requestAccounts().then(accounts => {
   console.log(accounts)
   //TODO save the address here
-  const mappingContract = new web3.eth.Contract(ProjectMappingABI.abi, ProjectMappingABI.networks[3].address)
-  const projectContract = new web3.eth.Contract(ProjectABI.abi, ProjectABI.networks[3].address)
-  const subProjectContract = new web3.eth.Contract(SubProjectABI.abi, SubProjectABI.networks[3].address)
-  const taskContract = new web3.eth.Contract(TaskABI.abi, TaskABI.networks[3].address)
+  let network = 3
+  const mappingContract = new web3.eth.Contract(ProjectMappingABI.abi, ProjectMappingABI.networks[network].address)
+  const projectContract = new web3.eth.Contract(ProjectABI.abi, ProjectABI.networks[network].address)
+  const subProjectContract = new web3.eth.Contract(SubProjectABI.abi, SubProjectABI.networks[network].address)
+  const taskContract = new web3.eth.Contract(TaskABI.abi, TaskABI.networks[network].address)
+  const paymentInfoContract = new web3.eth.Contract(PaymentInfoABI.abi, PaymentInfoABI.networks[network].address)
   //TODO save instance of each contract
 
-  store.dispatch(setContractsActionCreator({ mappingContract, projectContract, subProjectContract, taskContract }))
+  store.dispatch(setContractsActionCreator({ mappingContract, projectContract, subProjectContract, taskContract, paymentInfoContract }))
   store.dispatch(saveContractAddress(accounts[0] || '0x0'))
 
 })

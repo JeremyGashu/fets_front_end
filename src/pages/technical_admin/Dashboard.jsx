@@ -6,22 +6,58 @@ import { useState } from "react"
 import { useSelector } from "react-redux"
 import { useNavigate } from "react-router-dom"
 import FullPageLoading from "../../components/FullPageLoadingPage"
+import PieChart from "../../components/project/PieChart"
 import ProjectUserPopover from "../../components/project/ProjectUserPopover"
-import LineChart from "../../components/technical_admin/LineChartProject"
 import TechnicalAdminDashboardCard from "../../components/technical_admin/TechnicalAdminDashboardCard"
 import { getBackgroundColorFromStatus, getTextColorFromStatus } from "../../configs/statuses"
+import { getCompaniesCount } from "../../controller/company"
+import { getDonorsCount } from "../../controller/user"
 import { dashboardColor1, dashboardColor2, dashboardColor3, dashboardColor4, mainColor } from "../../themes/color"
 
 const DashboardPage = () => {
 
     const [loadingProjects, setLoadingProjects] = useState(false)
     const [projects, setProjects] = useState()
-    const { projectContract, mappingContract } = useSelector(state => state.contracts)
+    const { projectContract, mappingContract, paymentInfoContract } = useSelector(state => state.contracts)
     const navigate = useNavigate()
+
+    const [donorsCount, setDonorsCount] = useState(0)
+    const [companiesCount, setCompaniesCount] = useState(0)
+    const [overallDonated, setOverallDonated] = useState(0)
+    const [todayDonation, setTodayDonation] = useState(0)
+    const [projectsCount, setProjectsCount] = useState(0)
+    const [totalDonated, setTotalDonated] = useState(0)
+    const [totalNeeded, setTotalNeeded] = useState(0)
     // const [anchorEl, setAnchorEl] = useState(null);
+    const getOverAllData = async () => {
+        paymentInfoContract.methods.getOverallDonation().call().then(res => {
+            setOverallDonated(res)
+        })
+        paymentInfoContract.methods.getTodaysDonationsAmount().call().then(res => {
+            setTodayDonation(res)
+        })
+        projectContract.methods.getProjectsCount().call().then(res => {
+            setProjectsCount(res)
+        })
+
+        projectContract.methods.getProjectStatus().call().then(res => {
+            setTotalDonated(res && res['donated'])
+            setTotalNeeded(res && res['needed'])
+        })
+
+
+        getDonorsCount().then(res => {
+            setDonorsCount(res)
+        })
+        getCompaniesCount().then(res => {
+            setCompaniesCount(res)
+        })
+    }
 
 
     useEffect(() => {
+        getOverAllData()
+
         setLoadingProjects(true)
 
 
@@ -211,21 +247,23 @@ const DashboardPage = () => {
             <Grid container>
                 <Grid item lg={5}>
                     <Typography sx={{ pl: 1, color: '#444', fontSize: 13 }}>Donations</Typography>
-                    <Typography sx={{ p: 1, fontWeight: 'bold', fontSize: 25 }}>32,000,000 ETB</Typography>
+                    <Typography sx={{ p: 1, fontWeight: 'bold', fontSize: 25 }}>{`${overallDonated} USD`}</Typography>
 
-                    <LineChart />
+                    <Box sx={{ width: 250 }}>
+                        <PieChart totalDonated={totalDonated + 1 || 1} totalNeeded={totalNeeded + 1 || 1} />
+                    </Box>
                 </Grid>
 
                 <Grid item lg={7} >
                     <Grid container rowGap={2} columnGap={2} alignItems='center' justifyContent='center'>
 
-                        <TechnicalAdminDashboardCard backgroundColor={dashboardColor1} title='Donated Today' icon={<MoneyOutlined sx={{ color: 'white', fontSize: 35 }} />} text='45,000 ETB' />
+                        <TechnicalAdminDashboardCard backgroundColor={dashboardColor1} title='Donated Today' icon={<MoneyOutlined sx={{ color: 'white', fontSize: 35 }} />} text={`${todayDonation} USD`} />
 
-                        <TechnicalAdminDashboardCard backgroundColor={dashboardColor2} title='Projects Completed' icon={<Check sx={{ color: 'white', fontSize: 35 }} />} text={8} />
+                        <TechnicalAdminDashboardCard backgroundColor={dashboardColor2} title='Projects' icon={<Check sx={{ color: 'white', fontSize: 35 }} />} text={projectsCount} />
 
-                        <TechnicalAdminDashboardCard backgroundColor={dashboardColor3} title='In Progress' icon={<LocalDiningOutlined sx={{ color: 'white', fontSize: 35 }} />} text={112} />
+                        <TechnicalAdminDashboardCard backgroundColor={dashboardColor3} title='Companies' icon={<LocalDiningOutlined sx={{ color: 'white', fontSize: 35 }} />} text={companiesCount || 0} />
 
-                        <TechnicalAdminDashboardCard backgroundColor={dashboardColor4} title='Donors' icon={<PersonPin sx={{ color: 'white', fontSize: 35 }} />} text={112} />
+                        <TechnicalAdminDashboardCard backgroundColor={dashboardColor4} title='Donors' icon={<PersonPin sx={{ color: 'white', fontSize: 35 }} />} text={donorsCount || 0} />
 
                     </Grid>
                 </Grid>

@@ -29,12 +29,14 @@ export const getCompanyById = async (id) => {
 }
 
 export const createCompany = async (data) => {
+    
     const { name, email, phone, address, description } = data
     let response = await axios.post(`${BASE_URL}/company`, { name, email, phone, address, description }, {
         headers: {
             'Authorization': `Bearer ${await getToken()}`
         }
     })
+    
     if (response.status === 200 && !response.data.error) {
     }
     else {
@@ -65,4 +67,14 @@ export const updateCompany = async (data) => {
         }
     })
     return response.data
+}
+
+export const getCompaniesCount = async () => {
+    let response = await axios.get(`${BASE_URL}/company/count`, {
+        headers: {
+            'Authorization': `Bearer ${await getToken()}`
+
+        }
+    })
+    return response.data && response.data.count
 }

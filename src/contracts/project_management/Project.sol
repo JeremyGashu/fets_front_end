@@ -63,6 +63,10 @@ contract Project {
 
     mapping(uint256 => ProjectInfo) private projects;
 
+    function getProjectsCount() public view returns (uint256) {
+        return count;
+    }
+
     function getDonatedProjectsByUsername(string memory _username)
         public
         view
@@ -77,6 +81,17 @@ contract Project {
             c++;
         }
         return projectInfo;
+    }
+
+    function getProjectStatus()
+        public
+        view
+        returns (uint256 donated, uint256 needed)
+    {
+        for (uint256 index = 0; index < count; index++) {
+            donated += projects[index].fundedMoney;
+            needed += projects[index].estimatedBudget;
+        }
     }
 
     // add onlyTechnicalAdmin modifier to it
@@ -134,10 +149,7 @@ contract Project {
         donorProjectMappings[_donorUsername].push(_projectId);
     }
 
-    function refundMoney(
-        uint256 _projectId,
-        uint256 _amount
-    ) public {
+    function refundMoney(uint256 _projectId, uint256 _amount) public {
         projects[_projectId].fundedMoney -= _amount;
         // projects[_projectId].donors.push(_donorUsername);
         // donorProjectMappings[_donorUsername].push(_projectId);
