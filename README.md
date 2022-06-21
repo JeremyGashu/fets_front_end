@@ -1,70 +1,35 @@
-# Getting Started with Create React App
+# Financial expenditure tracking Website Application
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+Betsegaw Gizaw		  atr/1332/10       
+Biniyam Demissew	atr/7840/10     
+Ebsa Teklu			        atr/0373/10     
+Ermiyas Gashu		    atr/2227/10     
+Yididiya Kebede		    atr/4056/10     
 
-## Available Scripts
+Advisor : Yoseph Abate
 
-In the project directory, you can run:
+FETS Web application is an application that registered users can use to interact with the system to modify tasks and projects. Four types of users can login and use the system based on their roles. Four types of users are Technical Admin(The user who have highest previlege and is in charge of adding users, blogs and projects on the system), Project Manager(A User that is registered on the system under a company to manage projects that are under the company), The Budget and Procurement manager, and Financial Officer(Who is in charge of allocation money to tasks that are completed). All users will do some task approveal based on their previlege hierarchy. The hierarchy in order of increasing previlege looks like Project Manager -> Budget and Procurement Manager -> Financial Officer.
+Their is also an entity that is called BLOGS that re written by the Technical Admin which will contain general information and statistice about some kind of information.
 
-### `npm start`
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+# Tools used for the web application
+React for the UI development
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+Web3 to connect to blockchain platform that runs on the ledger
 
-### `npm test`
+# Installation process        
+1, Run npm i in the project directory
+2, Run npm run start to run the web app.
+3, Or if we want to build the app to deployable file we can run command npm run build. Then the app will be saved in the ./build directory.
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
 
-### `npm run build`
+# References:
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+Youtube channels Dapp University, Eat th block and Solidity Official documentation
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+http://solidity-by-example.org/
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+https://www.youtube.com/channel/UCJWh7F3AFyQ_x01VKzr9eyA
 
-### `npm run eject`
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
-
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
-
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
-
-### Code Splitting
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
-
-### Analyzing the Bundle Size
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
